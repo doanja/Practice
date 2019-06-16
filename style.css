@@ -61,17 +61,17 @@ h1 {
 }
 
 #myContainer{
-    background-color: #ddd;
+    background-color: red;
     min-height: 800px;
 }
 
 #sMenu {
     float: left;
-    width: 28%;
+    width: 29%;
     border: 1% solid #555;
     background-color: #ddd;
     padding: 1%;
-    height: 400px;
+    height: 600px;
 }
 
 #sMenu h1{
