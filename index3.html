@@ -1,19 +1,28 @@
-<div id="output" class="oput">nothing</div>
+<div id="output" class="oput">nothing sent yet</div>
+<br>
+<input type="text" id="myText" value="" placeholder="name">
+<br>
+<input type="number" id="myAge" value="" placeholder="age">
+<br>
 <button type="button" id="myBtn">Get Data</button>
-
+<br>
 <script>
     var myContainer = "";
     document.getElementById("myBtn").addEventListener("click", myFun);
 
     function myFun() {
+        var myTxt = document.getElementById("myText").value; // grabs text from the input
+        var myAge = document.getElementsByID("myAge").value;
         var a = new XMLHttpRequest();
-        a.open("GET", "data.txt", true);
+        
         a.onreadystatechange = function () { 
             if(a.readyState == 4 && a.status == 200){
-                console.log(this.responseText);
+                document.getElementById("output").innerHTML = (this.responseText);
             }
         }
-        a.send();
+        a.open("POST", "data.php", true);
+        a.setRequestHeader("Content-type","application/x-www-form-urlencoded"); // to post to the server (data.php)
+        a.send("name=" + myTxt + "&age" + myAge);
     }
 
 
