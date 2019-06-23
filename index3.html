@@ -1,0 +1,20 @@
+<div id="output" class="oput">nothing</div>
+<button type="button" id="myBtn">Get Data</button>
+
+<script>
+    var myContainer = "";
+    document.getElementById("myBtn").addEventListener("click", myFun);
+
+    function myFun() {
+        var a = new XMLHttpRequest();
+        a.open("GET", "data.txt", true);
+        a.onreadystatechange = function () { 
+            if(a.readyState == 4 && a.status == 200){
+                console.log(this.responseText);
+            }
+        }
+        a.send();
+    }
+
+
+</script>
