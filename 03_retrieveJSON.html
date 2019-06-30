@@ -6,7 +6,6 @@
     var a = new XMLHttpRequest();
     a.open("GET", "https://api.myjson.com/bins/uygx5", true);
     a.onreadystatechange = function(){
-        
         if(this.readyState == 4){
             var obj = JSON.parse(this.responseText);
             for(i=0;i<obj.length;i++){

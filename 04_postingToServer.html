@@ -1,0 +1,25 @@
+<div id="output" class="oput">nothing sent yet</div>
+<br>
+<input type="text" id="myText" value="" placeholder="name">
+<br>
+<input type="number" id="myAge" value="" placeholder="age">
+<br>
+<button type="button" id="myBtn">Get Data</button>
+<br>
+<script>
+       var test = "I'm global";
+
+function testScope() {
+        test = "I'm local";
+
+    console.log(test);
+  }
+
+  console.log(test);     // output: I'm global
+
+  testScope();           // output: I'm local
+
+  console.log(test);     // output: I'm local (the global variable is reassigned)
+
+
+</script>

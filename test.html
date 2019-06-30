@@ -1,0 +1,16 @@
+<script>
+  var test = "I'm global";
+  var num = 1;
+
+  function testScope() {
+    test = "I'm local";
+    num = 5;
+    console.log(num);
+  }
+
+  console.log(num);     // output: I'm global
+
+  testScope();           // output: I'm local
+
+  console.log(num);     // output: I'm local (the global variable is reassigned)
+</script>
