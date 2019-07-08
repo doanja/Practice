@@ -28,10 +28,10 @@
     
 
     // posting data
-    document.getElementById("postedData").addEventListener("click", postData);
+    document.getElementById("submit").addEventListener("click", postData);
 
     function postData(){
-        var name = document.getElementById("text").value;
+        var name = document.getElementById("name").value;
         var age = document.getElementById("age").value;
 
         var JSONRequest = new XMLHttpRequest();
@@ -43,6 +43,6 @@
         }
         JSONRequest.open("POST", "data.php",true);
         JSONRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        JSONRequest("name=" + name + "&age" + myAge);
+        JSONRequest("name=" + name + "&age" + age);
     }
 </script>
