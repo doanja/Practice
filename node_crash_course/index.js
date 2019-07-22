@@ -75,8 +75,20 @@ const server = http.createServer((request, response) => {
     fs.readFile(filePath, (err, content) => {
         if(err) {
             if(err.code == 'ENOENT'){
-                //https://youtu.be/fBNz5xF-Kx4?list=WL&t=4680
+                // page not found
+                fs.readFile(path.join(__dirname, 'public', '404.html'), (err,content) => {
+                    response.writeHead(200, {'Content-Type' : 'text/html'});
+                    response.end(content, 'utf8');
+                })
+            } else { // if different error code (not enoent)
+                // some server error
+                response.writeHead(500);
+                response.end(`Server Error: ${err.code}`);
             }
+        } else {
+            // success
+            response.writeHead(200, {'Content-Type' : contentType});
+            response.end(content, 'utf8');
         }
     })
 });
