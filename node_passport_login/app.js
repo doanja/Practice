@@ -4,8 +4,12 @@ const mongoose = require("mongoose");
 const flash = require('connect-flash');
 const session = require('express-session');
 const db = require("./config/keys").MongoURI; // db config
+const passport = require('passport');
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// passport config
+require('./config/passport')(passport);
 
 // database
 mongoose
@@ -19,6 +23,10 @@ app.set("view engine", "ejs");
 
 // bodyparser
 app.use(express.urlencoded({ extended : false}));
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // express session middleware
 app.use(session({
@@ -34,6 +42,7 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
     next();
 })
 
