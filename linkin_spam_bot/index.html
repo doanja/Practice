@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button class='test'>
+        <span>
+            button 1
+        </span>
+    </button>
+    <button class='test'>
+        <span>
+            button 2
+        </span>
+    </button>
+    <button class='test'>
+        <span>
+            button 5
+        </span>
+    </button>
+
+    <script>
+        const log = () => {
+            console.log('button pressed');
+        }
+
+        const buttons = document.getElementsByClassName("test");
+
+        for(let i = 0; i < buttons.length; i++){
+            buttons[i].addEventListener("click", log);
+        }
+    </script>
+    
+</body>
+
+</html>
