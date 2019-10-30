@@ -36,11 +36,14 @@ class App extends React.Component {
     });
   };
 
+  deleteTodo = id => {
+    this.setState({ todos: [...this.state.todos.filter(todo => todo.id != id)] });
+  };
+
   render() {
-    // console.log(this.state.todos);
     return (
       <div className='App'>
-        <Todos todo={this.state.todos} markComplete={this.markComplete}></Todos>
+        <Todos todo={this.state.todos} markComplete={this.markComplete} deleteTodo={this.deleteTodo}></Todos>
       </div>
     );
   }

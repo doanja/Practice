@@ -12,12 +12,21 @@ export default class TodoItem extends Component {
     };
   };
 
+  buttonStyle = () => {
+    return {
+      float: 'right'
+    };
+  };
+
   render() {
     const { id, title } = this.props.todo;
 
     return (
       <div style={this.getStyle()}>
         <input type='checkbox' onChange={() => this.props.markComplete(id)} /> {this.props.todo.title}
+        <button style={this.buttonStyle()} onClick={() => this.props.deleteTodo(id)}>
+          X
+        </button>
       </div>
     );
   }

@@ -4,6 +4,8 @@ import TodoItem from './TodoItem';
 
 export default class Todos extends Component {
   render() {
-    return this.props.todo.map(element => <TodoItem key={element.id} todo={element} markComplete={this.props.markComplete}></TodoItem>);
+    return this.props.todo.map(element => (
+      <TodoItem key={element.id} todo={element} markComplete={this.props.markComplete} deleteTodo={this.props.deleteTodo} />
+    ));
   }
 }
