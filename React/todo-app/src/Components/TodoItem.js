@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "./node_modules/react";
 
 export default class TodoItem extends Component {
   getStyle = () => {
     return {
-      background: '#f4f4f4',
-      padding: '10px',
-      borderBottom: '1px #ccc dotted',
-      textDecoration: this.props.todo.completed ? 'line-through' : 'none'
+      background: "#f4f4f4",
+      padding: "10px",
+      borderBottom: "1px #ccc dotted",
+      textDecoration: this.props.todo.completed ? "line-through" : "none"
     };
   };
 
   buttonStyle = () => {
     return {
-      float: 'right'
+      float: "right"
     };
   };
 
@@ -21,9 +21,12 @@ export default class TodoItem extends Component {
 
     return (
       <div style={this.getStyle()}>
-        <input type='checkbox' onChange={() => this.props.toggleCheckbox(id)} />
+        <input type="checkbox" onChange={() => this.props.toggleCheckbox(id)} />
         {title}
-        <button style={this.buttonStyle()} onClick={() => this.props.deleteButton(id)}>
+        <button
+          style={this.buttonStyle()}
+          onClick={() => this.props.deleteButton(id)}
+        >
           delete
         </button>
       </div>
