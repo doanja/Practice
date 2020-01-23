@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchPosts } from '../actions/postActions';
 
-export default class Posts extends Component {
-  state = {
-    posts: []
-  };
-
+class Posts extends Component {
   componentWillMount() {
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        this.setState({ posts: res.data });
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
+    this.props.fetchPosts();
   }
 
   render() {
     return (
       <div>
         <h1>Posts</h1>
-        {this.state.posts.map(post => {
+        {this.props.posts.map(post => {
           return (
             <div key={post.id}>
               <h3>{post.title}</h3>
@@ -33,3 +23,9 @@ export default class Posts extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  posts: state.posts.items
+});
+
+export default connect(mapStateToProps, { fetchPosts })(Posts);
