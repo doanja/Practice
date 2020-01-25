@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/postActions';
+import { fetchPosts, deletePost } from '../actions/postActions';
 
 class Posts extends Component {
   componentWillMount() {
@@ -14,6 +14,10 @@ class Posts extends Component {
     }
   }
 
+  delete = id => {
+    this.props.turtle(id);
+  };
+
   render() {
     return (
       <div>
@@ -23,6 +27,9 @@ class Posts extends Component {
             <div key={post.id}>
               <h3>{post.title}</h3>
               <p>{post.body}</p>
+              <div className='btn btn-danger' onClick={() => this.delete(post.id)}>
+                delete
+              </div>
             </div>
           );
         })}
@@ -33,6 +40,7 @@ class Posts extends Component {
 
 Posts.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
+  turtle: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
   newPost: PropTypes.object
 };
@@ -42,4 +50,4 @@ const mapStateToProps = state => ({
   newPost: state.posts.item
 });
 
-export default connect(mapStateToProps, { fetchPosts })(Posts);
+export default connect(mapStateToProps, { fetchPosts, turtle: deletePost })(Posts);

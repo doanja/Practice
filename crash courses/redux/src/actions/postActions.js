@@ -1,4 +1,4 @@
-import { FETCH_POSTS, NEW_POST } from './types';
+import { FETCH_POSTS, NEW_POST, DELETE_POST } from './types';
 import axios from 'axios';
 
 export const fetchPosts = () => dispatch => {
@@ -27,4 +27,12 @@ export const createPost = postData => dispatch => {
     .catch(err => {
       console.log('err', err);
     });
+};
+
+export const deletePost = postId => dispatch => {
+  console.log('postId', postId);
+  dispatch({
+    type: DELETE_POST,
+    payload: postId
+  });
 };
