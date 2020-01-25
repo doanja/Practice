@@ -1,4 +1,3 @@
-import { FETCH_POSTS, NEW_POST, DELETE_POST } from './types';
 import axios from 'axios';
 
 export const fetchPosts = () => dispatch => {
@@ -6,7 +5,7 @@ export const fetchPosts = () => dispatch => {
     .get('https://jsonplaceholder.typicode.com/posts')
     .then(res => {
       dispatch({
-        type: FETCH_POSTS,
+        type: 'FETCH_POSTS',
         payload: res.data
       });
     })
@@ -20,7 +19,7 @@ export const createPost = postData => dispatch => {
     .post('https://jsonplaceholder.typicode.com/posts', { postData })
     .then(res => {
       dispatch({
-        type: NEW_POST,
+        type: 'NEW_POST',
         payload: res.data
       });
     })
@@ -32,7 +31,7 @@ export const createPost = postData => dispatch => {
 export const deletePost = postId => dispatch => {
   console.log('postId', postId);
   dispatch({
-    type: DELETE_POST,
+    type: 'DELETE_POST',
     payload: postId
   });
 };

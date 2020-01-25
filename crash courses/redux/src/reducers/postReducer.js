@@ -1,5 +1,3 @@
-import { FETCH_POSTS, NEW_POST, DELETE_POST } from '../actions/types';
-
 const initialState = {
   items: [],
   item: {}
@@ -7,17 +5,17 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case FETCH_POSTS:
+    case 'FETCH_POSTS':
       return {
         ...state,
         items: action.payload
       };
-    case NEW_POST:
+    case 'NEW_POST':
       return {
         ...state,
         item: action.payload
       };
-    case DELETE_POST:
+    case 'DELETE_POST':
       // return state.items.filter(({ id }) => id === action.payload);
       return {
         ...state,
