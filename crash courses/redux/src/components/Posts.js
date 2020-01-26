@@ -15,7 +15,7 @@ class Posts extends Component {
   }
 
   delete = id => {
-    this.props.turtle(id);
+    this.props.deletePost(id);
   };
 
   render() {
@@ -40,7 +40,7 @@ class Posts extends Component {
 
 Posts.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
-  turtle: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
   newPost: PropTypes.object
 };
@@ -50,4 +50,4 @@ const mapStateToProps = state => ({
   newPost: state.posts.item
 });
 
-export default connect(mapStateToProps, { fetchPosts, turtle: deletePost })(Posts);
+export default connect(mapStateToProps, { fetchPosts, deletePost })(Posts);

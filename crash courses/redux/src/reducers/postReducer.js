@@ -18,7 +18,6 @@ export default function(state = initialState, action) {
         item: action.payload
       };
     case DELETE_POST:
-      // return state.items.filter(({ id }) => id === action.payload);
       return {
         ...state,
         items: state.items.filter(({ id }) => id !== action.payload)
