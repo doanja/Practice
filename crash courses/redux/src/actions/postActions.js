@@ -30,7 +30,6 @@ export const createPost = postData => dispatch => {
 };
 
 export const deletePost = postId => dispatch => {
-  console.log('postId', postId);
   dispatch({
     type: DELETE_POST,
     payload: postId

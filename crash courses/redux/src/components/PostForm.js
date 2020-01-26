@@ -16,6 +16,7 @@ class PostForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const post = { title: this.state.title, body: this.state.body };
+
     // call createPosts from postActions.js
     this.props.createPost(post);
   };
