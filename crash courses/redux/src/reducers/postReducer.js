@@ -8,6 +8,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case FETCH_POSTS:
+      // return the previous state with thew action.payload as items as an addition
       return {
         ...state,
         items: action.payload
