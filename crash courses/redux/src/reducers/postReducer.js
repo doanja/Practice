@@ -14,11 +14,13 @@ export default function(state = initialState, action) {
         items: action.payload
       };
     case NEW_POST:
+      // return the previous state with thew action.payload as items as an addition
       return {
         ...state,
         item: action.payload
       };
     case DELETE_POST:
+      // return the previous state with thew action.payload as items as an addition
       return {
         ...state,
         items: state.items.filter(({ id }) => id !== action.payload)
