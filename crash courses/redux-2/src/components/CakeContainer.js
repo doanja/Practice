@@ -15,7 +15,7 @@ function CakeContainer(props) {
 const mapStateToProps = state => {
   return {
     // maps numOfCakes from redux to numOfCake
-    numOfCakes: state.numOfCakes
+    numOfCakes: state.cake.numOfCakes
   };
 };
 
