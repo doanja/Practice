@@ -14,7 +14,7 @@ function IceCreamContainer(props) {
 // needed to access state from redux
 const mapStateToProps = state => {
   return {
-    // maps numOfIceCreams from redux to numOfIceCream
+    // maps numOfIceCreamss from redux to numOfIceCreams
     numOfIceCreams: state.iceCream.numOfIceCreams
   };
 };
