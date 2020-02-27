@@ -1,23 +1,54 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-export default function Header(props) {
+export default function AddItem({addItem}) {
+  const [input, setInput] = useState('');
+
+  const onChange = text => setInput(text);
+
+  const onSubmit = () => {
+    addItem(input);
+    setInput('');
+  };
+
   return (
-    <View style={styles.header}>
-      <Text style={styles.text}>{props.title}</Text>
+    <View>
+      <TextInput
+        placeholder="add item..."
+        style={styles.input}
+        value={input}
+        onChangeText={onChange}
+      />
+      <TouchableOpacity style={styles.btn} onPress={onSubmit}>
+        <Text style={styles.btnText}>
+          <Icon name="plus" size={20} /> Add Item
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
+  input: {
     height: 60,
-    padding: 15,
-    backgroundColor: 'darkslateblue',
+    padding: 8,
+    margin: 5,
   },
-  text: {
-    color: '#fff',
-    fontSize: 23,
+  btn: {
+    backgroundColor: '#c2bad8',
+    padding: 9,
+    margin: 5,
+  },
+  btnText: {
+    color: 'darkslateblue',
+    fontSize: 20,
     textAlign: 'center',
   },
 });
