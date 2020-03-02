@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  Alert,
+  View,
+  FlatList,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import Header from './components/Header';
 import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
+import Sandbox from './components/Sandbox';
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -18,25 +26,34 @@ export default function App() {
   };
 
   const addTodo = text => {
-    setTodos(prev => {
-      return [{ text, key: Math.random().toString() }, ...prev];
-    });
+    if (text.length > 3) {
+      setTodos(prev => {
+        return [{ text, key: Math.random().toString() }, ...prev];
+      });
+    } else {
+      Alert.alert('Ooops', 'Todos must be 3 characters long', [
+        { text: 'ok', onPress: () => console.log('alert closed') }
+      ]);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <Header />
+    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    //   <View style={styles.container}>
+    //     <Header />
 
-      <View style={styles.content}>
-        <AddTodo addTodo={addTodo} />
-        <View style={styles.list}>
-          <FlatList
-            data={todos}
-            renderItem={({ item }) => <TodoItem item={item} deleteItem={deleteItem} />}
-          />
-        </View>
-      </View>
-    </View>
+    //     <View style={styles.content}>
+    //       <AddTodo addTodo={addTodo} />
+    //       <View style={styles.list}>
+    //         <FlatList
+    //           data={todos}
+    //           renderItem={({ item }) => <TodoItem item={item} deleteItem={deleteItem} />}
+    //         />
+    //       </View>
+    //     </View>
+    //   </View>
+    // </TouchableWithoutFeedback>
+    <Sandbox />
   );
 }
 
