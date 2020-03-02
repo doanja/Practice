@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Quoth the Giphy</title>
+</head>
+
+<body>
+  <div id="buttons">
+    <button data-person="arnold schwarzenegger">
+      I'll be back
+    </button>
+    <button data-person="michael j fox">
+      My happiness grows in direct proportion to my acceptance,
+      and in inverse proportion to my expectations.
+    </button>
+
+    <!-- STEP ONE: Open this file in the browser and click on the buttons. Watch what happens -->
+
+    <!-- STEP TWO: between the dashed lines below
+            * add three more buttons
+            * add a data-person attribute of famous people you know
+            * with a quote said by them -->
+
+    <!-- **************************************** -->
+
+    <!-- YOUR BUTTONS GO HERE!!!!!! Delete this comment and put your buttons here.  -->
+    <button id="button1" data-person="Colonel Sanders">Button 1</button>
+    <button id="button2" data-person="Jack Black">Button 2</button>
+    <button id="button3" data-person="Donald Trump">Button 3</button>
+    <!-- **************************************** -->
+
+
+    <!-- STEP THREE: open this file in the browser and click on your buttons. If they don't work, then fix your buttons -->
+
+    <!-- STEP FOUR: go over the JavaScript with your partners, and explain the lines of code to each other. -->
+
+  </div>
+
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    // butotn click listener
+    $("button").on("click", function () {
+      var person = $(this).attr("data-person"); // stores data-person base on what butotn clicked into variable person
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + // set up request url
+        person + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+
+      $.ajax({ // ajax request
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function (response) { // ajax request returns a promise
+          var results = response.data; // assign reponse.data to variable results
+
+          for (var i = 0; i < results.length; i++) { // loop through all results
+            var gifDiv = $("<div>"); // create a div
+
+            var rating = results[i].rating; // assign the raiting of the response into variable rating
+
+            var p = $("<p>").text("Rating: " + rating); // create a p element and set the text to the rating
+
+            var personImage = $("<img>"); // create img element
+            personImage.attr("src", results[i].images.fixed_height.url); // update the src of the img element to the result's image url
+
+            gifDiv.prepend(p); // prepend the paragraph to gifdiv
+            gifDiv.prepend(personImage); // prepend the person image
+
+            $("#gifs-appear-here").prepend(gifDiv);
+          }
+        });
+    });
+  </script>
+</body>
+
+</html>

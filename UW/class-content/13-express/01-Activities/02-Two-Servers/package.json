@@ -1,0 +1,13 @@
+{
+  "name": "02-Two-Servers",
+  "version": "1.0.0",
+  "description": "* Using the previous example as a guide, create an app that has two web servers: one that listens on port 7000 and one that listens on port 7500.",
+  "main": "two.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "starwars-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server2.js",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "author": "",
+  "license": "ISC"
+}

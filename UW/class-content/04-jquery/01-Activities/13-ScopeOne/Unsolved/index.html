@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Scope Activity #1</title>
+</head>
+
+<body>
+  <h1>Scope Activity #1</h1>
+  <h2>✨Open the console to see the magic!✨</h2>
+
+  <script>
+
+    function outside() {
+      // what is the scope of this variable? function scope
+      var x = 1;
+
+
+      // what is the scope of this function and the scope of y? // global, global
+      function inside(y) {
+
+        console.log(x + y);
+      }
+
+      return inside;
+    }
+
+    // what is happening here? // insideOut is equal to the function outside()
+    // insideOut gains access to outside()'s variables
+    var insideOut = outside();
+
+    // What does this return? 3
+    insideOut(2);
+
+    // Uncaught ReferenceError: x is not defined.
+    // How does insideOut have access to x? x is enclosed in the function outside()
+    console.log("The value of 'x' outside 'outside()' is: " + x);
+
+  </script>
+
+</body>
+
+</html>

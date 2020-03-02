@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="Search Term">
+        <p>Search Term:</p>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <input type="text" class="form-control" aria-label="Search Term" aria-describedby="basic-addon1"
+            id="search-term">
+    </div>
+    <!-- -------------- -->
+    <div class="Retrieve">
+        <p>Number of Records to Retrieve:</p>
+    </div>
+    <div class="input-group mb-3">
+        <select class="custom-select" id="inputGroupSelect01">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <!-- -------------- -->
+    <div class="Start Term">
+        <p>Start Year (Optional):</p>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <input type="text" class="form-control" id='start-year' aria-label="Search Term"
+            aria-describedby="basic-addon1">
+    </div>
+    <!-- -------------- -->
+    <div class="Search Term">
+        <p>End Year Optional:</p>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <input type="text" class="form-control" aria-label="Search Term" aria-describedby="basic-addon1">
+    </div>
+    <!-- -------------- -->
+    <button type="button" class="btn btn-light">Search</button>
+    <button type="button" class="btn btn-light">Clear Results</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="keys.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors Part 1</title>
+</head>
+<style>
+  p {
+    display: inline;
+  }
+</style>
+
+<body>
+
+  <div id="game">
+    <p>Player Guessed: <p id="Player_Guess_Field"></p>
+    </p> <br>
+    <p> Enemy Guessed: <p id="CPU_Guess_Field"></p>
+    </p>
+    <hr>
+    <p>
+      Wins: <p id="win">0</p>
+    </p> <br>
+    <p>
+      Loses: <p id="lose">0</p>
+    </p> <br>
+    <p>
+      Ties: <p id="ties">0</p>
+    </p>
+
+  </div>
+
+  <script type="text/javascript">
+    let winCounter = 0; // counter to keep track of wins
+    let loseCounter = 0; // counter to keep track of loses
+    let tieCounter = 0; // counter to keep track of ties
+
+    const choices = ['r', 'p', 's']; // array to store choices for the opponent
+
+    const Player_Guess_Field = document.getElementById('Player_Guess_Field'); // reference to html element
+    const CPU_Guess_Field = document.getElementById('CPU_Guess_Field'); // reference to html element
+
+    const win = document.getElementById('win'); // reference to html element
+    const loses = document.getElementById('lose'); // reference to html element
+    const ties = document.getElementById('ties'); // reference to html element
+
+    // Whenever a key is pressed, alert "pressed a button".
+    document.onkeyup = function (event) {
+
+      const playerGuess = event.key; // grab the user input and store it into a variable
+      const cpuGuess = choices[Math.floor(Math.random() * choices.length)]; // randomly choses a value from the array "choices"
+
+      Player_Guess_Field.textContent = playerGuess; // updates the html to show what the player guessed
+      CPU_Guess_Field.textContent = cpuGuess; // updates the html to show what the opponent guessed
+
+      // when user presses the wrong key (!= means "not equal", && means "and") so if the player does not press "r", "s", or "p", display an error
+      if (playerGuess !== 'r' && playerGuess !== 'p' && playerGuess !== 's') {
+        alert('enter a valid key'); // alert the user
+      }
+
+      // when the player presses a valid key:
+
+      else {
+        // win condition: when the player beats the enemey (&& means "and", || means "or", theres three possible choices to win so I used || (or))
+        if ((playerGuess === 'r' && cpuGuess === 's') || // if the player guessed rock and the enmey guessed scissors or...
+          (playerGuess === 'p' && cpuGuess === 'r') || // if the player guessed paper and the enemy guessed rock or...
+          (playerGuess === 's' && cpuGuess === 'p')) { // if the player guessed scissors and the enemy guessed paper
+          win.textContent = winCounter++; // update the win counter for the html
+        }
+        // lose conditioin: when the player loses to the enemy:
+        else if ((playerGuess === 'r' && cpuGuess === 'p') ||
+          (playerGuess === 'p' && cpuGuess === 's') ||
+          (playerGuess === 's' && cpuGuess === 'r')) {
+          loses.textContent = loseCounter++;
+        }
+        else {  // the only choices left is when the player and the enemey chooses the same choice (rock rock, scissor scissor, or paper paper)
+          // we do not need to specify this because logically, there are no other ways they can reach this without choosing the same thing
+          ties.textContent = tieCounter++; // update the tie counter
+        }
+      }
+    };
+  </script>
+
+</body>
+
+</html>

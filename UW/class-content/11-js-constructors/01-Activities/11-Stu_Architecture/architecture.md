@@ -1,0 +1,7 @@
+- get command line arguments
+- switch statement, and base condition on process.argv[2]
+- parse the rest of the arguments into a string
+- have check for invalid arguments ...
+- have two functions using axios.get to call the api (one for the show, one for the actor)
+- both functions should parse the json and display it like the gif
+- in both functions, it will append to file after handling the response

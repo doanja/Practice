@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // const fizz = () => {
+        //     for (let i = 1; i <= 100; i++) {
+        //         console.log(((i % 5 === 0) && (i % 3 === 0)) ? 'fizz buzz' : (i % 5 === 0) ? 'buzz' : (i % 3 === 0) ? 'fizz' : i);
+        //     }
+        // }
+
+        // fizz();
+
+        const isPrime = (num) => {
+            let arr = [];
+
+            // determines of num if its a prime by dividing from 2 to 9
+            for (let i = 2; i <= 9; i++) {
+                if (num % i !== 0) {
+                    arr.push(1);
+                }
+                else {
+                    arr.push(0);
+                }
+            }
+            console.log('arr :', arr);
+            return !arr.includes(1);
+        }
+
+        console.log('isPrime() :', isPrime(52));
+    </script>
+</body>
+
+</html>
