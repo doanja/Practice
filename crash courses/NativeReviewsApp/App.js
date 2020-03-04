@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import * as Font from 'expo-font';
-import { StyleSheet, Text, View } from 'react-native';
-import Home from './screens/Home';
 import { AppLoading } from 'expo';
-import Navigator from './routes/HomeStack';
+import Navigator from './routes/Drawer';
 
 const getFonts = () =>
   Font.loadAsync({
@@ -20,12 +18,3 @@ export default function App() {
     return <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});

@@ -1,14 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/Home';
-import ReviewDetails from '../screens/ReviewDetails';
+import About from '../screens/About';
 
-const HomeStack = createStackNavigator();
+const AboutStack = createStackNavigator();
 
 export default Navigator = () => {
   return (
-    <HomeStack.Navigator
+    <AboutStack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: 'lightblue'
@@ -18,20 +17,13 @@ export default Navigator = () => {
           fontWeight: 'bold'
         }
       }}>
-      <HomeStack.Screen
-        name='Home'
-        component={Home}
+      <AboutStack.Screen
+        name='About'
+        component={About}
         options={{
-          title: 'Game Zone'
+          title: 'About Game Zone'
         }}
       />
-      <HomeStack.Screen
-        name='ReviewDetails'
-        component={ReviewDetails}
-        options={{
-          title: 'Review Details'
-        }}
-      />
-    </HomeStack.Navigator>
+    </AboutStack.Navigator>
   );
 };
