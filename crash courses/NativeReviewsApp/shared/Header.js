@@ -2,15 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Header({ navigation }) {
+export default function Header({ navigation, title }) {
   const openMenu = () => {
-    console.log('hi');
     navigation.openDrawer();
   };
 
   return (
     <View styles={styles.header}>
-      <Text style={styles.headerText}>GameZone</Text>
+      <Text style={styles.headerText}>{title}</Text>
       <MaterialIcons name='menu' size={30} onPress={() => openMenu()} style={styles.icon} />
     </View>
   );

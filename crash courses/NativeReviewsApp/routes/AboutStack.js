@@ -22,7 +22,7 @@ export default Navigator = ({ navigation }) => {
       <AboutStack.Screen
         name='About'
         component={About}
-        options={{ headerTitle: () => <Header navigation={navigation} /> }}
+        options={{ headerTitle: () => <Header navigation={navigation} title='About GameZone' /> }}
       />
     </AboutStack.Navigator>
   );

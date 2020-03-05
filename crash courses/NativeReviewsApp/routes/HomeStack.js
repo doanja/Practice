@@ -21,7 +21,7 @@ export default Navigator = ({ navigation }) => {
       <HomeStack.Screen
         name='Home'
         component={Home}
-        options={{ headerTitle: () => <Header navigation={navigation} /> }}
+        options={{ headerTitle: () => <Header navigation={navigation} title='GameZone' /> }}
       />
       <HomeStack.Screen
         name='ReviewDetails'
