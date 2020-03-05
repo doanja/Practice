@@ -6,7 +6,7 @@ import Header from '../shared/Header';
 
 const HomeStack = createStackNavigator();
 
-export default Navigator = () => {
+export default Navigator = ({ navigation }) => {
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -21,7 +21,7 @@ export default Navigator = () => {
       <HomeStack.Screen
         name='Home'
         component={Home}
-        options={{ headerTitle: props => <Header {...props} /> }}
+        options={{ headerTitle: () => <Header navigation={navigation} /> }}
       />
       <HomeStack.Screen
         name='ReviewDetails'
