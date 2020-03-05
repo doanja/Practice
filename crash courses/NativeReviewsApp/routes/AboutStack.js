@@ -7,7 +7,7 @@ const AboutStack = createStackNavigator();
 import ReviewDetails from '../screens/ReviewDetails';
 import Header from '../shared/Header';
 
-export default Navigator = () => {
+export default Navigator = ({ navigation }) => {
   return (
     <AboutStack.Navigator
       screenOptions={{
@@ -22,7 +22,7 @@ export default Navigator = () => {
       <AboutStack.Screen
         name='About'
         component={About}
-        options={{ headerTitle: () => <Header /> }}
+        options={{ headerTitle: () => <Header navigation={navigation} /> }}
       />
     </AboutStack.Navigator>
   );
