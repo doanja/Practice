@@ -5,9 +5,9 @@ import Card from '../shared/Card';
 
 export default function Home({ navigation }) {
   const [reviews, setReviews] = useState([
-    { title: 'final fantasy 6', rating: 5, body: 'lorem ipsum', key: 1 },
-    { title: 'disgaea', rating: 4, body: 'lorem ipsum', key: 2 },
-    { title: 'dragon quest', rating: 3, body: 'lorem ipsum', key: 3 }
+    { title: 'final fantasy 6', rating: 5, body: 'lorem ipsum', key: '1' },
+    { title: 'disgaea', rating: 4, body: 'lorem ipsum', key: '2' },
+    { title: 'dragon quest', rating: 3, body: 'lorem ipsum', key: '3' }
   ]);
 
   return (
