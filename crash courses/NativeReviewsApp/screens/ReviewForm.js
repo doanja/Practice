@@ -48,6 +48,8 @@ export default function ReviewForm({ addReview }) {
               onChangeText={props.handleChange('body')}
               value={props.values.body}
               onBlur={props.handleBlur('body')}
+              multiline
+              minHeight={60}
             />
             <Text style={globalStyles.errorText}>{props.touched.body && props.errors.body}</Text>
             <TextInput
