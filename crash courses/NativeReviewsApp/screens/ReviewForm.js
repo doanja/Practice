@@ -1,25 +1,19 @@
 import React from 'react';
-import { StyleSheet, Button, TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text } from 'react-native';
 import { globalStyles } from '../styles/global.js';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import FlatButton from '../shared/FlatButton.js';
 
 const reviewSchema = yup.object({
-  title: yup
-    .string()
-    .required()
-    .min(4),
-  body: yup
-    .string()
-    .required()
-    .min(8),
+  title: yup.string().required().min(4),
+  body: yup.string().required().min(8),
   rating: yup
     .string()
     .required()
     .test('is-num-1-5', 'Rating must be a number 1 - 5', val => {
       return parseInt(val) < 6 && parseInt(val) > 0;
-    })
+    }),
 });
 
 export default function ReviewForm({ addReview }) {
