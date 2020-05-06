@@ -1,0 +1,13 @@
+var myString;
+var myNum;
+var myBool;
+var myVar;
+var strArr;
+var numArr;
+myString = 'i smell good';
+myNum = 22;
+myBool = true;
+myVar = true;
+strArr = ['hello', 'world'];
+numArr = [1, 2, 3];
+console.log(strArr);
