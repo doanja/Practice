@@ -1,0 +1,28 @@
+"use strict";
+exports.__esModule = true;
+var message = 'hello world';
+console.log(message);
+var x = 10;
+var y = 20;
+var sum;
+var title = 'codevolution';
+var isBeginner = true;
+var total = 0;
+var name = 'john';
+var sentence = "my name is " + name;
+console.log('sentence', sentence);
+var n = null;
+var u = undefined;
+var isNEw = null;
+var myName = undefined;
+var list1 = [1, 2, 23, 4, 5];
+var list2 = [1, 2, 3, 4];
+var person1 = ['chris', 22];
+var Color;
+(function (Color) {
+    Color[Color["Red"] = 5] = "Red";
+    Color[Color["Green"] = 6] = "Green";
+    Color[Color["Blue"] = 7] = "Blue";
+})(Color || (Color = {}));
+var c = Color.Green;
+console.log(c);
