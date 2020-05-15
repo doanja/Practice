@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
 
 interface TodoItems {
@@ -6,21 +6,15 @@ interface TodoItems {
   completed: false;
 }
 
-// interface TodoListProps {
-//   todos: Array<TodoItems>;
-// }
+const initialTodos: Array<TodoItems> = [
+  { text: 'wash car', completed: false },
+  { text: 'buy soap', completed: false },
+];
 
 const App: React.FC = () => {
-  const todos: Array<TodoItems> = [
-    { text: 'wash car', completed: false },
-    { text: 'buy soap', completed: false },
-  ];
+  const [todos, setTodos] = useState(initialTodos);
 
-  return (
-    <h1>
-      <TodoList todos={todos} />
-    </h1>
-  );
+  return <TodoList todos={todos} />;
 };
 
 export default App;
