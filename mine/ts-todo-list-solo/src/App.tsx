@@ -13,11 +13,8 @@ const App: React.FC = () => {
 
   const toggleTodo: ToggleTodo = selectedTodo => {
     const newTodos = todos.map(todo => {
-      if (todo === selectedTodo) {
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
+      if (todo.id === selectedTodo.id) {
+        todo.completed = !todo.completed;
       }
       return todo;
     });
