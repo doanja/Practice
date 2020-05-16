@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TodoList } from './components/TodoList';
+import { Addtodo } from './components/Addtodo';
 
 const initialTodos: Array<TodoItems> = [
   { text: 'wash car', completed: false },
@@ -23,7 +24,16 @@ const App: React.FC = () => {
     setTodos(newTodos);
   };
 
-  return <TodoList todos={todos} toggleTodo={toggleTodo} />;
+  const addTodo: AddTodo = text => {
+    setTodos([...todos, { text, completed: false }]);
+  };
+
+  return (
+    <React.Fragment>
+      <TodoList todos={todos} toggleTodo={toggleTodo} />
+      <Addtodo addTodo={addTodo} />
+    </React.Fragment>
+  );
 };
 
 export default App;
