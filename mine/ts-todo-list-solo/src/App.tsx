@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { uuid } from 'uuidv4';
 import { TodoList } from './components/TodoList';
 import { Addtodo } from './components/Addtodo';
 
 const initialTodos: Array<TodoItems> = [
-  { text: 'wash car', completed: false },
-  { text: 'buy soap', completed: false },
+  { id: uuid(), text: 'wash car', completed: false },
+  { id: uuid(), text: 'buy soap', completed: false },
 ];
 
 const App: React.FC = () => {
@@ -25,12 +26,16 @@ const App: React.FC = () => {
   };
 
   const addTodo: AddTodo = text => {
-    setTodos([...todos, { text, completed: false }]);
+    setTodos([...todos, { id: uuid(), text, completed: false }]);
+  };
+
+  const deleteTodo: DeleteTodo = id => {
+    setTodos(todos.filter(todo => todo.id !== id));
   };
 
   return (
     <React.Fragment>
-      <TodoList todos={todos} toggleTodo={toggleTodo} />
+      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
       <Addtodo addTodo={addTodo} />
     </React.Fragment>
   );
