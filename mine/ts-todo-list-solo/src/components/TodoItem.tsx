@@ -1,19 +1,18 @@
 import React from 'react';
-
-interface TodoItems {
-  text: string;
-  completed: false;
-}
+import '../index.css';
 
 interface TodoItemProps {
   todo: TodoItems;
+  toggleTodo: ToggleTodo;
 }
 
-export const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+export const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo }) => {
   return (
     <li>
-      <input type='checkbox' checked={todo.completed} />
-      {todo.text}
+      <label className={todo.completed ? 'complete' : undefined}>
+        <input type='checkbox' checked={todo.completed} onChange={() => toggleTodo(todo)} />
+        {todo.text}
+      </label>
     </li>
   );
 };
