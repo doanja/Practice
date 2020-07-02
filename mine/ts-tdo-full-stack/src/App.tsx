@@ -13,13 +13,7 @@ const App: React.FC = ({}) => {
     { id: uuid(), text: 'wash wash dishes', done: false },
   ]);
 
-  const deleteTodo: DeleteTodo = id => {
-    // console.log(id);
-    setTodos(todos.filter(todo => todo.id !== id));
-    // let a = todos.filter(todo => todo.id !== id);
-
-    // setTodos(a);
-  };
+  const deleteTodo: DeleteTodo = id => setTodos(todos.filter(todo => todo.id !== id));
 
   const toggleTodo: ToggleTodo = id => {
     setTodos(

@@ -4,6 +4,7 @@
 
 .icon:hover {
   color: red;
+  cursor: pointer;
 }
 
 .todo:hover {
