@@ -4,18 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface TodoProps {
-  id: string;
   todo: Todo;
   deleteTodo: DeleteTodo;
+  toggleTodo: ToggleTodo;
 }
 
-const Todo: React.FC<TodoProps> = ({ todo, deleteTodo }) => {
+const Todo: React.FC<TodoProps> = ({ todo, deleteTodo, toggleTodo }) => {
   return (
-    <ListGroup.Item>
-      {todo.text}{' '}
+    <ListGroup.Item className={todo.done ? 'todo done' : 'todo'} onClick={() => toggleTodo(todo.id)}>
+      <p className='d-inline'>{todo.text}</p>
       <span>
-        {' '}
-        <FontAwesomeIcon icon={faTimes} size='1x' className='float-right' onClick={() => deleteTodo(todo.id)} />
+        <FontAwesomeIcon icon={faTimes} size='1x' className='float-right icon' onClick={() => deleteTodo(todo.id)} />
       </span>
     </ListGroup.Item>
   );

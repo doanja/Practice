@@ -1,0 +1,12 @@
+.done {
+  text-decoration: line-through;
+}
+
+.icon:hover {
+  color: red;
+}
+
+.todo:hover {
+  cursor: pointer;
+  background-color: #eee;
+}

@@ -6,13 +6,14 @@ import Todo from './Todo';
 interface TodoListProps {
   todos: Todo[];
   deleteTodo: DeleteTodo;
+  toggleTodo: ToggleTodo;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, deleteTodo }) => {
+const TodoList: React.FC<TodoListProps> = ({ todos, deleteTodo, toggleTodo }) => {
   return (
     <ListGroup>
       {todos.map(todo => (
-        <Todo id={todo.id} todo={todo} deleteTodo={deleteTodo} />
+        <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
       ))}
     </ListGroup>
   );
