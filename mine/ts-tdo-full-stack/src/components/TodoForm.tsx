@@ -24,7 +24,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
         <Form.Control type='text' placeholder='Enter a todo' value={text} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)} />
         <InputGroup.Append>
           <Button variant='dark' type='submit' onClick={handleSubmit}>
-            Search
+            Add Todo
           </Button>
         </InputGroup.Append>
       </InputGroup>

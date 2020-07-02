@@ -10,15 +10,16 @@ const App: React.FC = ({}) => {
   const [todos, setTodos] = useState([
     { id: uuid(), text: 'wash car', done: false },
     { id: uuid(), text: 'wash clothes', done: false },
+    { id: uuid(), text: 'wash wash dishes', done: false },
   ]);
 
-  const deleteTodo: DeleteTodo = id =>
-    setTodos(
-      todos.filter(todo => {
-        console.log(id);
-        return todo.id !== id;
-      })
-    );
+  const deleteTodo: DeleteTodo = id => {
+    // console.log(id);
+    setTodos(todos.filter(todo => todo.id !== id));
+    // let a = todos.filter(todo => todo.id !== id);
+
+    // setTodos(a);
+  };
 
   const toggleTodo: ToggleTodo = id => {
     setTodos(
@@ -26,7 +27,6 @@ const App: React.FC = ({}) => {
         if (todo.id === id) {
           todo.done = !todo.done;
         }
-
         return todo;
       })
     );
