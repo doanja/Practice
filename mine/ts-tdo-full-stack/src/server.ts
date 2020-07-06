@@ -32,7 +32,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 // Send every other request to the React app
 // Define any API routes before this runs
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/build/index.html')));
+app.get('*', (req: Request, res: Response, next: NextFunction) => res.sendFile(path.join(__dirname, './client/build/index.html')));
 
 // start the server
 app.listen(PORT, () => console.log(`Server started on port ${port}. Visit http://localhost:${port}/`));
