@@ -1,11 +1,20 @@
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
 import todoController from '../../controllers/todo.controller';
 
-//  matches '/api/todos
-router.route('/').get(todoController.findAll).post(todoController.create);
+// class Todo {
+//   public router = Router();
 
-// matches '/api/todos/:id'
-router.route('/:id').put(todoController.update).delete(todoController.delete);
+//   constructor() {
+//     this.initializeRoutes();
+//   }
 
-export default router;
+//   public initializeRoutes() {
+//     //  matches '/api/todos
+//     this.router.route('/').get(todoController.findAll).post(todoController.create);
+
+//     // matches '/api/todos/:id'
+//     this.router.route('/:id').put(todoController.update).delete(todoController.delete);
+//   }
+// }
+
+export default Todo;

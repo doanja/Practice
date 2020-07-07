@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
 
 interface MongoConfig {
   MONGODB_URI: string | undefined;
@@ -36,8 +37,16 @@ class App {
 
   private initializeControllers(controllers: any) {
     if (typeof controllers === 'undefined') return;
-    console.log('controllers', controllers);
+
+    // console.log('controllers', controllers);
+
+    // TODO: add routes
+    this.app.get('/', (req, res) => res.send('this is home'));
+
     controllers.forEach((controller: any) => this.app.use('/', controller.router));
+
+    // Send every other request to the React app (Define any API routes before this runs)
+    this.app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/build/index.html')));
   }
 
   private initializeMongoConnection() {
