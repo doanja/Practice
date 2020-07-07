@@ -3,9 +3,9 @@ import path from 'path';
 import App from './app';
 import todoController from '../controllers/todo.controller';
 
-const { NODE_ENV, MONGODB_URI, MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
+const { NODE_ENV, MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_PATH } = process.env;
 
-const MONGO_INFO = { MONGODB_URI, MONGO_USER, MONGO_PASSWORD, MONGO_PATH };
+const MONGO_INFO = { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_PATH };
 
 // // TODO: add routes
 // app.get('/', (req: Request, res: Response, next: NextFunction) => {
@@ -16,6 +16,6 @@ const MONGO_INFO = { MONGODB_URI, MONGO_USER, MONGO_PASSWORD, MONGO_PATH };
 // // Define any API routes before this runs
 // app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/build/index.html')));
 
-const app = new App(3000, MONGO_INFO);
+const app = new App(3000, MONGO_INFO, todoController);
 
 app.listen();

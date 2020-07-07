@@ -1,23 +1,23 @@
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 
-interface MongoInfo {
-  MONGODB_URI: string;
-  MONGODB_USER: string;
-  MONGODB_PASSWORD: string;
-  MONGODB_PATH: string;
+interface MongoConfig {
+  MONGODB_URI: string | undefined;
+  MONGODB_USER: string | undefined;
+  MONGODB_PASSWORD: string | undefined;
+  MONGODB_PATH: string | undefined;
 }
 
 class App {
   public app: Application;
   public port: number;
-  public mongo: MongoInfo;
+  public mongoConfig: MongoConfig;
   public NODE_ENV?: string;
 
-  constructor(port: number, mongo: MongoInfo, controllers?: any, NODE_ENV?: string) {
+  constructor(port: number, mongoConfig: MongoConfig, controllers?: any, NODE_ENV?: string) {
     this.app = express();
     this.port = port;
-    this.mongo = mongo;
+    this.mongoConfig = mongoConfig;
     this.NODE_ENV = NODE_ENV;
 
     this.initializeMiddlewares();
@@ -35,11 +35,13 @@ class App {
   }
 
   private initializeControllers(controllers: any) {
+    if (typeof controllers === 'undefined') return;
+    console.log('controllers', controllers);
     controllers.forEach((controller: any) => this.app.use('/', controller.router));
   }
 
   private initializeMongoConnection() {
-    const { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_PATH } = this.mongo;
+    const { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_PATH } = this.mongoConfig;
     // connect to Mongo DB
     mongoose
       .connect(MONGODB_URI || `mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}${MONGODB_PATH}`, {
