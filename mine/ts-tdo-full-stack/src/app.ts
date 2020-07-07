@@ -56,6 +56,7 @@ class App {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
+        useCreateIndex: true,
       })
       .then(res => console.log('db connected'))
       .catch(err => console.log(err));
