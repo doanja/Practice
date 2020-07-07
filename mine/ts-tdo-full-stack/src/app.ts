@@ -37,8 +37,6 @@ class App {
   private initializeControllers(controllers: any) {
     if (typeof controllers === 'undefined') return;
 
-    // console.log('controllers', controllers);
-
     // TODO: add routes
     this.app.get('/', (req, res) => res.send('this is home'));
 
