@@ -1,10 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose';
-// import { ITodo } from './Todo';
 
 export interface IUser extends Document {
   email: string;
   password: string;
-  //   todos: ITodo['_id'];
 }
 
 const UserSchema: Schema = new Schema({
@@ -21,7 +19,6 @@ const UserSchema: Schema = new Schema({
     minlength: 8,
     required: true,
   },
-  todos: [{ type: Schema.Types.ObjectId }],
 });
 
 export default mongoose.model<IUser>('User', UserSchema);
