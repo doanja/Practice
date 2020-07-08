@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import db from '../models';
 
-class TodoController {
+export default class TodoController {
   public router = Router();
 
   constructor() {
@@ -41,5 +41,3 @@ class TodoController {
       .catch(err => res.status(422).json(err));
   };
 }
-
-export default TodoController;
