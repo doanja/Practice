@@ -1,21 +1,15 @@
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
-
-interface MongoConfig {
-  MONGODB_URI: string | undefined;
-  MONGODB_USER: string | undefined;
-  MONGODB_PASSWORD: string | undefined;
-  MONGODB_PATH: string | undefined;
-}
+import { MongoConfig, Controller } from '../constants/interfaces';
 
 class App {
   public app: Application;
   public port: number;
   public mongoConfig: MongoConfig;
-  public NODE_ENV?: string;
+  public NODE_ENV: string | undefined;
 
-  constructor(port: number, mongoConfig: MongoConfig, controllers?: any, NODE_ENV?: string) {
+  constructor(port: number, mongoConfig: MongoConfig, controllers: Controller[], NODE_ENV?: string) {
     this.app = express();
     this.port = port;
     this.mongoConfig = mongoConfig;
@@ -23,32 +17,31 @@ class App {
 
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
-    this.initializeMongoConnection();
+    this.initialzeDBConnection();
   }
 
   private initializeMiddlewares() {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
 
-    // serve up static assets (usually on heroku)
+    // serve up static assets (heroku)
     if (this.NODE_ENV === 'production') this.app.use(express.static('client/build'));
   }
 
-  private initializeControllers(controllers: any) {
-    if (typeof controllers === 'undefined') return;
-
-    // TODO: add routes
+  private initializeControllers(controllers: Controller[]) {
+    // TODO: add routes and then remove this
     this.app.get('/', (req, res) => res.send('this is home'));
 
-    controllers.forEach((controller: any) => this.app.use('/', controller.router));
+    // API routes
+    controllers.forEach((controller: Controller) => this.app.use('/', controller.router));
 
     // Send every other request to the React app (Define any API routes before this runs)
     this.app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/build/index.html')));
   }
 
-  private initializeMongoConnection() {
+  private initialzeDBConnection() {
     const { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_PATH } = this.mongoConfig;
-    // connect to Mongo DB
+
     mongoose
       .connect(MONGODB_URI || `mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}${MONGODB_PATH}`, {
         useNewUrlParser: true,
@@ -56,8 +49,8 @@ class App {
         useFindAndModify: false,
         useCreateIndex: true,
       })
-      .then(res => console.log('db connected'))
-      .catch(err => console.log(err));
+      .then(res => console.log('DATABASE CONNECTED'))
+      .catch(err => console.log('ERROR CONNECTING TO DATABASE:', err));
   }
 
   public listen() {

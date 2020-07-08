@@ -18,26 +18,26 @@ class TodoController {
   getTodo = (req: Request, res: Response) => {
     db.Todo.find(req.query)
       .find(req.query)
-      .then(dbModel => res.json(dbModel))
+      .then(todos => res.json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   createTodo = (req: Request, res: Response) => {
     db.Todo.create(req.body)
-      .then(dbModel => res.json(dbModel))
+      .then(todos => res.json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   updateTodo = (req: Request, res: Response) => {
     db.Todo.findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then(dbModel => res.json(dbModel))
+      .then(todos => res.json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   deleteTodo = (req: Request, res: Response) => {
     db.Todo.findById({ _id: req.params.id })
-      .then(dbModel => dbModel?.remove())
-      .then(dbModel => res.json(dbModel))
+      .then(todos => todos?.remove())
+      .then(todos => res.json(todos))
       .catch(err => res.status(422).json(err));
   };
 }
