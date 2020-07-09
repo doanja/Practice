@@ -1,19 +1,20 @@
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
+import passport from 'passport';
 import { MongoConfig, Controller } from '../constants/interfaces';
 
 class App {
   public app: Application;
   public port: number;
   public mongoConfig: MongoConfig;
-  public NODE_ENV: string | undefined;
+  public environment: string | undefined;
 
-  constructor(port: number, mongoConfig: MongoConfig, controllers: Controller[], NODE_ENV?: string) {
+  constructor(port: number, mongoConfig: MongoConfig, controllers: Controller[], environment?: string) {
     this.app = express();
     this.port = port;
     this.mongoConfig = mongoConfig;
-    this.NODE_ENV = NODE_ENV;
+    this.environment = environment;
 
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
@@ -23,9 +24,10 @@ class App {
   private initializeMiddlewares() {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
+    this.app.use(passport.initialize());
 
     // serve up static assets (heroku)
-    if (this.NODE_ENV === 'production') this.app.use(express.static('client/build'));
+    if (this.environment === 'production') this.app.use(express.static('client/build'));
   }
 
   private initializeControllers(controllers: Controller[]) {

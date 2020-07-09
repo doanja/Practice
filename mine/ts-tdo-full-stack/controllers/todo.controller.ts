@@ -23,6 +23,7 @@ export default class TodoController {
   };
 
   createTodo = (req: Request, res: Response) => {
+    console.log('req.body', req.body);
     db.Todo.create(req.body)
       .then(todos => res.json(todos))
       .catch(err => res.status(422).json(err));
