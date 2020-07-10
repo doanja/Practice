@@ -19,6 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.21",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
@@ -27,9 +28,8 @@
     "@types/mongoose": "^5.7.30",
     "@types/node": "^14.0.14",
     "@types/passport": "^1.0.4",
-    "@types/passport-jwt": "^3.0.3",
+    "@types/passport-local": "^1.0.33",
     "nodemon": "^2.0.4",
-    "passport-jwt": "^4.0.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6"
   }
