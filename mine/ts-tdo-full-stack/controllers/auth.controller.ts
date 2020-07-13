@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Request, Response, NextFunction, Router } from 'express';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
@@ -14,23 +14,24 @@ export default class AuthController {
   }
 
   public initializeStrategies = () => {
+    passport.use('local-signup', this.initSignupStrategy());
     passport.use('local-login', this.initLoginStrategy());
-    passport.use('local-login', this.initSignupStrategy());
+
     return passport.initialize();
   };
 
   public initializeRoutes() {
-    // this.router.post('/signup', this.signup);
+    this.router.post('/signup', this.signup);
     // this.router.post('/login', this.login);
   }
 
-  // signup = (req: Request, res: Response) => {
-  //   res.send('signup');
-  //   // db.Todo.find(req.query)
-  //   //   .find(req.query)
-  //   //   .then(todos => res.json(todos))
-  //   //   .catch(err => res.status(422).json(err));
-  // };
+  signup = (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate('local-signup', { session: false }, (err, user, info) => {
+      if (!user || err) return res.status(400).json({ error: info });
+
+      return res.status(200).json(user);
+    })(req, res, next);
+  };
 
   // login = (req: Request, res: Response) => {
   //   res.send('login');
@@ -43,15 +44,18 @@ export default class AuthController {
   private initSignupStrategy = (): Strategy => {
     return new Strategy({ usernameField: 'email' }, (email, password, done) => {
       db.User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
+        // if there are any errors, return the error
         if (err) return done(err);
 
-        if (!user) return done(null, false, { message: 'Email already in use.' });
+        // check to see if theres already a user with that email
+        if (user) return done(null, false, { message: 'That email is already taken.' });
+        // create the user
         else {
-          // create user
-          db.User.create({ email, password: this.hashPassword(password) });
-        }
+          const newUser = { email, password: this.hashPassword(password) };
+          db.User.create(newUser);
 
-        return done(undefined, false, { message: 'Error signing up with email or password.' });
+          return done(null, newUser);
+        }
       });
     });
   };
