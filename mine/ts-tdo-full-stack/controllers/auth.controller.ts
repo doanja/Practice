@@ -22,7 +22,7 @@ export default class AuthController {
 
   public initializeRoutes() {
     this.router.post('/signup', this.signup);
-    // this.router.post('/login', this.login);
+    this.router.post('/login', this.login);
   }
 
   signup = (req: Request, res: Response, next: NextFunction) => {
@@ -33,23 +33,28 @@ export default class AuthController {
     })(req, res, next);
   };
 
-  // login = (req: Request, res: Response) => {
-  //   res.send('login');
-  //   // db.Todo.find(req.query)
-  //   //   .find(req.query)
-  //   //   .then(todos => res.json(todos))
-  //   //   .catch(err => res.status(422).json(err));
-  // };
+  login = (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate('local-login', { session: false }, (err, user, info) => {
+      // redirect if there was an issue with the login
+      if (!user || err) return res.status(403).json({ error: info });
+
+      // logging in the user
+      req.login(user, { session: false }, err => {
+        if (err) res.status(400).json({ error: err });
+
+        // generate a signed son web token with the contents of user object and return it in the response
+        // jwt.sign({ _id: user._id }, secret, (err, token) => res.status(200).json({ token }));
+        return res.status(200).json(user); // TODO: get rid of this line when JWT is added
+      });
+    })(req, res, next);
+  };
 
   private initSignupStrategy = (): Strategy => {
     return new Strategy({ usernameField: 'email' }, (email, password, done) => {
       db.User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
-        // if there are any errors, return the error
         if (err) return done(err);
 
-        // check to see if theres already a user with that email
         if (user) return done(null, false, { message: 'That email is already taken.' });
-        // create the user
         else {
           const newUser = { email, password: this.hashPassword(password) };
           db.User.create(newUser);
@@ -65,16 +70,16 @@ export default class AuthController {
       db.User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
         if (err) return done(err);
 
-        if (!user) return done(null, false, { message: 'Incorrect email.' });
+        if (!user) return done(null, false, { message: 'That email is not found.' });
 
-        if (!this.validPassword(password, user.password)) return done(null, false, { message: 'Incorrect password.' });
+        if (!this.validPassword(password, user.password)) return done(null, false, { message: 'The password is incorrect.' });
 
-        return done(undefined, false, { message: 'Invalid email or password.' });
+        return done(null, user);
       });
     });
   };
 
-  private validPassword = (password: string, hashPassword: string) => bcrypt.compareSync(hashPassword, password);
+  private validPassword = (password: string, hashPassword: string) => bcrypt.compareSync(password, hashPassword);
 
   private hashPassword = (password: string) => bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 }
