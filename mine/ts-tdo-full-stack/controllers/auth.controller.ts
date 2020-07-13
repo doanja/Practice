@@ -23,6 +23,7 @@ export default class AuthController {
   public initializeRoutes() {
     this.router.post('/signup', this.signup);
     this.router.post('/login', this.login);
+    this.router.get('/logout', this.logout);
   }
 
   signup = (req: Request, res: Response, next: NextFunction) => {
@@ -47,6 +48,11 @@ export default class AuthController {
         return res.status(200).json(user); // TODO: get rid of this line when JWT is added
       });
     })(req, res, next);
+  };
+
+  logout = (req: Request, res: Response) => {
+    req.logout();
+    res.status(200).json({ data: 'Logout sucessful' });
   };
 
   private initSignupStrategy = (): Strategy => {
