@@ -77,5 +77,5 @@ export default class AuthController {
 
   private hashPassword = (password: string): string => hashSync(password, genSaltSync(8));
 
-  private generateJwt = (userId: string) => sign({ _id: userId }, 'secret');
+  private generateJwt = (userId: string): string => sign({ _id: userId }, 'secret', { expiresIn: '1h' });
 }
