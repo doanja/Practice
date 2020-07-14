@@ -24,7 +24,6 @@ export default class AuthController {
   public initializeRoutes() {
     this.router.post('/signup', this.signup);
     this.router.post('/login', this.login);
-    this.router.get('/logout', this.logout);
   }
 
   signup = (req: Request, res: Response, next: NextFunction) => {
@@ -37,22 +36,11 @@ export default class AuthController {
 
   login = (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('local-login', { session: false }, (err, user, info) => {
-      // redirect if there was an issue with the login
-      if (!user || err) return res.status(403).json({ error: info });
+      if (!user || err) return res.status(400).json({ error: info });
 
-      // logging in the user
-      req.login(user, { session: false }, err => {
-        if (err) res.status(400).json({ error: err });
-
-        // generate a signed son web token with the contents of user object and return it in the response
-        sign({ _id: user._id }, 'secret', (err: any, token: any) => res.status(200).json({ token }));
-      });
+      // generate a signed son web token with the contents of user _id and return it in the response
+      req.login(user, { session: false }, () => res.status(200).json({ token: this.generateJwt(user._id) }));
     })(req, res, next);
-  };
-
-  logout = (req: Request, res: Response) => {
-    req.logout();
-    res.status(200).json({ data: 'Logout sucessful' });
   };
 
   private initSignupStrategy = (): Strategy => {
@@ -85,7 +73,9 @@ export default class AuthController {
     });
   };
 
-  private validPassword = (password: string, hashPassword: string) => compareSync(password, hashPassword);
+  private validPassword = (password: string, hashPassword: string): boolean => compareSync(password, hashPassword);
 
-  private hashPassword = (password: string) => hashSync(password, genSaltSync(8));
+  private hashPassword = (password: string): string => hashSync(password, genSaltSync(8));
+
+  private generateJwt = (userId: string) => sign({ _id: userId }, 'secret');
 }
