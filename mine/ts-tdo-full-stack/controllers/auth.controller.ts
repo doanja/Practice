@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import bcrypt from 'bcryptjs';
+import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 import db from '../models';
 import { IUser } from '../models/User';
 
@@ -44,8 +45,7 @@ export default class AuthController {
         if (err) res.status(400).json({ error: err });
 
         // generate a signed son web token with the contents of user object and return it in the response
-        // jwt.sign({ _id: user._id }, secret, (err, token) => res.status(200).json({ token }));
-        return res.status(200).json(user); // TODO: get rid of this line when JWT is added
+        sign({ _id: user._id }, 'secret', (err: any, token: any) => res.status(200).json({ token }));
       });
     })(req, res, next);
   };
@@ -85,7 +85,7 @@ export default class AuthController {
     });
   };
 
-  private validPassword = (password: string, hashPassword: string) => bcrypt.compareSync(password, hashPassword);
+  private validPassword = (password: string, hashPassword: string) => compareSync(password, hashPassword);
 
-  private hashPassword = (password: string) => bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+  private hashPassword = (password: string) => hashSync(password, genSaltSync(8));
 }
