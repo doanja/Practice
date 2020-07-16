@@ -1,18 +1,16 @@
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import db from '../models';
-import checkJwt from '../middleware/verifyToken';
-import { verify } from 'jsonwebtoken';
+import { checkJwt } from '../middleware/verifyToken';
 
 export default class UserController {
   public router = Router();
 
   constructor() {
-    this.router.put('/user/password', this.updatePassword);
+    this.router.put('/user/password', checkJwt, this.updatePassword);
     this.router.put('/user/email', this.updateEmail);
   }
 
   updatePassword = (req: Request, res: Response) => {
-    console.log('checkJwt', checkJwt);
     res.send('update password');
 
     //     db.Todo.find(req.query)
