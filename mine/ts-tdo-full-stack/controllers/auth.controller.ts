@@ -39,7 +39,9 @@ export default class AuthController {
       if (!user || err) return res.status(400).json({ error: info });
 
       // generate a signed son web token with the contents of user _id and return it in the response
-      req.login(user, { session: false }, () => res.status(200).json({ token: this.generateJwt(user._id) }));
+      req.login(user, { session: false }, () => {
+        return res.status(200).json({ token: sign({ _id: user._id }, 'secret', { expiresIn: '1h' }) });
+      });
     })(req, res, next);
   };
 
@@ -50,7 +52,7 @@ export default class AuthController {
 
         if (user) return done(null, false, { message: 'That email is already taken.' });
         else {
-          const newUser = { email, password: this.hashPassword(password) };
+          const newUser = { email, password: hashSync(password, genSaltSync(8)) };
           db.User.create(newUser);
 
           return done(null, newUser);
@@ -66,16 +68,10 @@ export default class AuthController {
 
         if (!user) return done(null, false, { message: 'That email is not found.' });
 
-        if (!this.validPassword(password, user.password)) return done(null, false, { message: 'The password is incorrect.' });
+        if (!compareSync(password, user.password)) return done(null, false, { message: 'The password is incorrect.' });
 
         return done(null, user);
       });
     });
   };
-
-  private validPassword = (password: string, hashPassword: string): boolean => compareSync(password, hashPassword);
-
-  private hashPassword = (password: string): string => hashSync(password, genSaltSync(8));
-
-  private generateJwt = (userId: string): string => sign({ _id: userId }, 'secret', { expiresIn: '1h' });
 }

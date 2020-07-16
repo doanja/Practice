@@ -18,27 +18,26 @@ export default class TodoController {
   getTodo = (req: Request, res: Response) => {
     db.Todo.find(req.query)
       .find(req.query)
-      .then(todos => res.json(todos))
+      .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   createTodo = (req: Request, res: Response) => {
-    console.log('req.body', req.body);
     db.Todo.create(req.body)
-      .then(todos => res.json(todos))
+      .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   updateTodo = (req: Request, res: Response) => {
     db.Todo.findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then(todos => res.json(todos))
+      .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   deleteTodo = (req: Request, res: Response) => {
     db.Todo.findById({ _id: req.params.id })
       .then(todos => todos?.remove())
-      .then(todos => res.json(todos))
+      .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };
 }
