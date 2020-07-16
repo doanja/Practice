@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
 import passport from 'passport';
-import { MongoConfig, Controller } from '../constants/interfaces';
+import { MongoConfig, Controller } from './constants/interfaces';
 
 class App {
   public app: Application;
