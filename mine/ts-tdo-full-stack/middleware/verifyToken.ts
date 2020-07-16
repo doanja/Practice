@@ -22,9 +22,9 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   }
 
   // refresh the token on every request by setting another 1h
-  const { _id } = decoded;
-  const newToken = sign({ _id }, 'secret', { expiresIn: '1h' });
+  const newToken = sign({ _id: decoded._id }, 'secret', { expiresIn: '1h' });
   res.setHeader('Authorization', 'Bearer ' + newToken);
+  req.token = decoded;
 
   next();
 };
