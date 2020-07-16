@@ -6,25 +6,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const models_1 = __importDefault(require("../models"));
 const verifyToken_1 = require("../middleware/verifyToken");
+const bcryptjs_1 = require("bcryptjs");
 class UserController {
     constructor() {
         this.router = express_1.Router();
         this.updatePassword = (req, res) => {
             var _a;
             const { password, newPassword } = req.body;
-            models_1.default.User.findById({ _id: (_a = req.token) === null || _a === void 0 ? void 0 : _a._id })
-                .then(user => {
-                console.log('user', user);
-                // const {password} = user;
-                // // decrypt password from DB and compare it with the entered password
-                // if (!compareSync(user.password, password)) return res.status(400).json({ error: 'Password incorrect.' });
-                // // update the password
-                // else
-                //   db.User.findOneAndUpdate({ _id: req.token?._id }, { password: hashSync(newPassword) })
-                //     .then(user => res.status(200).json({ message: 'Password updated.' }))
-                //     .catch(err => res.status(400).json({ error: 'Password cannot be updated.' }));
-            })
-                .catch(err => res.status(400).json({ error: 'Cannot find user.' }));
+            models_1.default.User.findById({ _id: (_a = req.token) === null || _a === void 0 ? void 0 : _a._id }).then(user => {
+                var _a;
+                if (!user)
+                    res.status(400).json({ error: 'Cannot find user.' });
+                // decrypt password from DB and compare it with the entered password
+                else if (!bcryptjs_1.compareSync(password, user.password))
+                    res.status(400).json({ error: 'Password incorrect.' });
+                // update the password
+                else
+                    models_1.default.User.findOneAndUpdate({ _id: (_a = req.token) === null || _a === void 0 ? void 0 : _a._id }, { password: bcryptjs_1.hashSync(newPassword) })
+                        // TODO: check if password is valid
+                        .then(user => res.status(200).json({ message: 'Password updated.' }))
+                        .catch(err => res.status(400).json({ error: 'Password cannot be updated.' }));
+            });
         };
         this.updateEmail = (req, res) => {
             res.send('update email');

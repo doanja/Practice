@@ -17,7 +17,6 @@ export default class TodoController {
 
   getTodo = (req: Request, res: Response) => {
     db.Todo.find(req.query)
-      .find(req.query)
       .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };

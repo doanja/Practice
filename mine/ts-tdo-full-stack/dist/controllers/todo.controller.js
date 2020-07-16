@@ -10,7 +10,6 @@ class TodoController {
         this.router = express_1.Router();
         this.getTodo = (req, res) => {
             models_1.default.Todo.find(req.query)
-                .find(req.query)
                 .then(todos => res.status(200).json(todos))
                 .catch(err => res.status(422).json(err));
         };
