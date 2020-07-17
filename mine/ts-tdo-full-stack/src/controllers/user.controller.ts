@@ -15,8 +15,9 @@ export default class UserController {
     const { password, newPassword } = req.body;
 
     db.User.findById({ _id: req.token?._id }).then(user => {
+      // finding user _id fails
       if (!user) res.status(400).json({ error: 'Cannot find user.' });
-      // decrypt password from DB and compare it with the entered password
+      // decrypt password fails
       else if (!compareSync(password, user.password)) res.status(400).json({ error: 'Password incorrect.' });
       // update the password
       else
