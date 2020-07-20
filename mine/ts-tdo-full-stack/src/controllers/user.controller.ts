@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import db from '../models';
-import Validator from '../constants/validator';
+import Validator from '../middleware/validator';
 import { checkJwt } from '../middleware/verifyToken';
 import { compareSync, hashSync } from 'bcryptjs';
 
@@ -9,8 +9,8 @@ export default class UserController {
   private validator = new Validator();
 
   constructor() {
-    this.router.put('/user/password', [checkJwt, this.validator.validatePassword], this.updatePassword);
-    this.router.put('/user/email', [checkJwt, this.validator.validateEmail], this.updateEmail);
+    this.router.put('/user/password', [checkJwt, this.validator.validateNewPassword], this.updatePassword);
+    this.router.put('/user/email', [checkJwt, this.validator.validateNewEmail], this.updateEmail);
   }
 
   private updatePassword = (req: Request, res: Response) => {

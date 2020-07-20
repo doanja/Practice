@@ -14,10 +14,28 @@ export default class Validator {
 
   private initEmailSchema = () => string().required().email();
 
-  public validatePassword = async (req: Request, res: Response, next: NextFunction) => {
+  public validateNewPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.passwordSchema.validate(req.body.newPassword);
-      console.log('validate pw success');
+      next();
+    } catch (err) {
+      return res.status(400).json({ error: `${err.name}: ${err.message}.` });
+    }
+  };
+
+  public validateNewEmail = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.emailSchema.validate(req.body.newEmail);
+      next();
+    } catch (err) {
+      return res.status(400).json({ error: `${err.name}: ${err.message}.` });
+    }
+  };
+
+  public validatePassword = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this.passwordSchema.validate(req.body.password);
+      console.log('validate password success');
       next();
     } catch (err) {
       return res.status(400).json({ error: `${err.name}: ${err.message}.` });
@@ -26,8 +44,8 @@ export default class Validator {
 
   public validateEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await this.emailSchema.validate(req.body.newEmail);
-      console.log('validate email success');
+      await this.emailSchema.validate(req.body.email);
+      console.log('validate email');
       next();
     } catch (err) {
       return res.status(400).json({ error: `${err.name}: ${err.message}.` });
