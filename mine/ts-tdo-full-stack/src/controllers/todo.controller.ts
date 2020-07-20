@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import db from '../models';
+import { checkJwt } from '../middleware/verifyToken';
 
 export default class TodoController {
   public router = Router();
@@ -9,20 +10,22 @@ export default class TodoController {
   }
 
   public initializeRoutes() {
-    this.router.get('/todo', this.getTodo);
-    this.router.post('/todo', this.createTodo);
-    this.router.put('/todo/:id', this.updateTodo);
-    this.router.delete('/todo/:id', this.deleteTodo);
+    this.router.get('/todo', [checkJwt], this.getTodo);
+    this.router.post('/todo', [checkJwt], this.createTodo);
+    this.router.put('/todo/:id', [checkJwt], this.updateTodo);
+    this.router.delete('/todo/:id', [checkJwt], this.deleteTodo);
   }
 
   getTodo = (req: Request, res: Response) => {
-    db.Todo.find(req.query)
+    db.Todo.find({ user: req.token?._id })
       .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };
 
   createTodo = (req: Request, res: Response) => {
-    db.Todo.create(req.body)
+    const newTodo = { text: req.body.text, done: false, user: req.token?._id };
+
+    db.Todo.create(newTodo)
       .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };
@@ -34,8 +37,7 @@ export default class TodoController {
   };
 
   deleteTodo = (req: Request, res: Response) => {
-    db.Todo.findById({ _id: req.params.id })
-      .then(todos => todos?.remove())
+    db.Todo.deleteOne({ _id: req.params.id })
       .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };

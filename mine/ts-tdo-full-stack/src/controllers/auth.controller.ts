@@ -4,8 +4,8 @@ import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import db from '../models';
-import { IUser } from '../models/User';
 import Validator from '../middleware/validator';
+import { IUser } from '../models/User';
 
 export default class AuthController {
   public router = Router();
