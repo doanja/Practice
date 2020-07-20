@@ -5,9 +5,11 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import db from '../models';
 import { IUser } from '../models/User';
+import Validator from '../constants/validator';
 
 export default class AuthController {
   public router = Router();
+  private validator = new Validator();
 
   constructor() {
     this.initializeRoutes();
@@ -47,6 +49,9 @@ export default class AuthController {
 
   private initSignupStrategy = (): Strategy => {
     return new Strategy({ usernameField: 'email' }, (email, password, done) => {
+      // validate email, password
+      console.log('email', email);
+      console.log('password', password);
       db.User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
         if (err) return done(err);
 
