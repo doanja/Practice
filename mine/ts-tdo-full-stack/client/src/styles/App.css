@@ -1,0 +1,16 @@
+.done {
+  text-decoration: line-through;
+}
+
+.icon:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.todo:hover {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #eee;
+}
