@@ -4,7 +4,7 @@ import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import db from '../models';
-import Validator from '../middleware/validator';
+import Validator from '../middleware/verifyUser';
 import { IUser } from '../models/User';
 
 export default class AuthController {

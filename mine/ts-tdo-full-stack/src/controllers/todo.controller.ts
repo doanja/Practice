@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import db from '../models';
-import { checkJwt } from '../middleware/verifyToken';
+import { verifyJwt } from '../middleware/verifyToken';
 
 export default class TodoController {
   public router = Router();
@@ -10,10 +10,10 @@ export default class TodoController {
   }
 
   public initializeRoutes() {
-    this.router.get('/todo', [checkJwt], this.getTodo);
-    this.router.post('/todo', [checkJwt], this.createTodo);
-    this.router.put('/todo/:id', [checkJwt], this.updateTodo);
-    this.router.delete('/todo/:id', [checkJwt], this.deleteTodo);
+    this.router.get('/todo', [verifyJwt], this.getTodo);
+    this.router.post('/todo', [verifyJwt], this.createTodo);
+    this.router.put('/todo/:id', [verifyJwt], this.updateTodo);
+    this.router.delete('/todo/:id', [verifyJwt], this.deleteTodo);
   }
 
   getTodo = (req: Request, res: Response) => {
@@ -31,7 +31,7 @@ export default class TodoController {
   };
 
   updateTodo = (req: Request, res: Response) => {
-    db.Todo.findOneAndUpdate({ _id: req.params.id }, req.body)
+    db.Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then(todos => res.status(200).json(todos))
       .catch(err => res.status(422).json(err));
   };

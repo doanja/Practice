@@ -35,7 +35,7 @@ export default class Validator {
   public validatePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.passwordSchema.validate(req.body.password);
-      console.log('validate password success');
+
       next();
     } catch (err) {
       return res.status(400).json({ error: `${err.name}: ${err.message}.` });
@@ -45,7 +45,6 @@ export default class Validator {
   public validateEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.emailSchema.validate(req.body.email);
-      console.log('validate email');
       next();
     } catch (err) {
       return res.status(400).json({ error: `${err.name}: ${err.message}.` });
