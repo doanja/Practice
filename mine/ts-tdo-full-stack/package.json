@@ -4,9 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node dist/server.js",
     "dev": "nodemon --exec ts-node -T src/server.ts",
-    "build": "tsc -p ."
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node dist/server.js",
+    "start:dev": "concurrently \"nodemon --exec ts-node -T src/server.ts --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && npm install",
+    "build": "tsc -p . && cd client && npm run build",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",
