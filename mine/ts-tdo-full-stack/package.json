@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node -T src/server.ts",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "node dist/server.js",
     "start:dev": "concurrently \"nodemon --exec ts-node -T src/server.ts --ignore 'client/*'\" \"npm run client\"",
