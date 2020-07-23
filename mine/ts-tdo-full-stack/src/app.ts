@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
 import passport from 'passport';
-import { MongoConfig, Controller } from './constants/interfaces';
+import { MongoConfig, Route } from './constants/interfaces';
 
 class App {
   public app: Application;
@@ -10,14 +10,14 @@ class App {
   public mongoConfig: MongoConfig;
   public environment: string | undefined;
 
-  constructor(port: number, mongoConfig: MongoConfig, controllers: Controller[], environment?: string) {
+  constructor(port: number, mongoConfig: MongoConfig, routes: Route[], environment?: string) {
     this.app = express();
     this.port = port;
     this.mongoConfig = mongoConfig;
     this.environment = environment;
 
     this.initializeMiddlewares();
-    this.initializeControllers(controllers);
+    this.initializeRoutes(routes);
     this.initialzeDBConnection();
   }
 
@@ -30,12 +30,12 @@ class App {
     if (this.environment === 'production') this.app.use(express.static('client/build'));
   }
 
-  private initializeControllers(controllers: Controller[]) {
+  private initializeRoutes(routes: Route[]) {
     // TODO: add routes and then remove this
     // this.app.get('/', (req, res) => res.send('this is home'));
 
     // API routes
-    controllers.forEach((controller: Controller) => this.app.use('/', controller.router));
+    routes.forEach((route: Route) => this.app.use('/', route.router));
 
     // Send every other request to the React app (Define any API routes before this runs)
     this.app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/build/index.html')));

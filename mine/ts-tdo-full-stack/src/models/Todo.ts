@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { ITodo } from '../types/todo';
+import { ITodo } from '../types';
 
 const TodoSchema: Schema = new Schema(
   {
