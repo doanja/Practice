@@ -1,11 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { IUser } from './User';
-
-export interface ITodo extends Document {
-  text: string;
-  done: boolean;
-  user: IUser['_id'];
-}
+import { Schema, model } from 'mongoose';
+import { ITodo } from '../types/todo';
 
 const TodoSchema: Schema = new Schema({
   text: { type: String, trim: true, required: true },
@@ -13,4 +7,4 @@ const TodoSchema: Schema = new Schema({
   user: { type: Schema.Types.ObjectId, required: true },
 });
 
-export default mongoose.model<ITodo>('Todo', TodoSchema);
+export default model<ITodo>('Todo', TodoSchema);
