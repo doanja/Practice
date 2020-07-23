@@ -32,7 +32,7 @@ class App {
 
   private initializeControllers(controllers: Controller[]) {
     // TODO: add routes and then remove this
-    this.app.get('/', (req, res) => res.send('this is home'));
+    // this.app.get('/', (req, res) => res.send('this is home'));
 
     // API routes
     controllers.forEach((controller: Controller) => this.app.use('/', controller.router));
