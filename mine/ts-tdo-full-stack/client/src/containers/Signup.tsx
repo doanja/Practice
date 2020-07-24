@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -6,9 +6,7 @@ import * as yup from 'yup';
 // // redux
 // import { useSelector } from 'react-redux';
 
-import useInput from '../hooks/useInput';
 // import API
-//
 
 interface FormValues {
   email: string;
@@ -41,8 +39,17 @@ export const Signup: React.FC = ({}) => {
     confirmPassword: yup.string().required().min(8),
   });
 
-  const signup = () => {
-    console.log('signup!!');
+  const signup = (values: FormValues) => {
+    const { email, password } = values;
+
+    console.log('values :>> ', values);
+
+    // TODO: call api call, and re-route to login page
+    // API.signup(email, password)
+    //   .then(res => {
+    //     navigation.navigate('Login');
+    //   })
+    //   .catch(err => alertMsg('Error', err.response.data.error.message));
   };
 
   return (
@@ -52,7 +59,7 @@ export const Signup: React.FC = ({}) => {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
           if (checkValues(values)) {
-            signup();
+            signup(values);
             actions.resetForm();
           }
         }}>
@@ -110,7 +117,7 @@ export const Signup: React.FC = ({}) => {
               </Form.Text>
             </Form.Group>
 
-            <Button variant='dark' type='submit' onClick={() => console.log('submit')}>
+            <Button variant='dark' type='submit' onClick={props.handleSubmit}>
               Submit
             </Button>
           </div>
