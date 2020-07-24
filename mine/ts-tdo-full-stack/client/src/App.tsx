@@ -5,6 +5,7 @@ import { uuid } from 'uuidv4';
 
 import { Container } from 'react-bootstrap';
 import './styles/App.css';
+import { Signup } from './containers/Signup';
 
 const App: React.FC = ({}) => {
   const [todos, setTodos] = useState([
@@ -30,11 +31,12 @@ const App: React.FC = ({}) => {
 
   return (
     <Container>
-      <h1 className='text-center'>To Do List</h1>
+      {/* <h1 className='text-center'>To Do List</h1>
       <TodoForm addTodo={addTodo} />
 
       <hr />
-      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} /> */}
+      <Signup />
     </Container>
   );
 };
