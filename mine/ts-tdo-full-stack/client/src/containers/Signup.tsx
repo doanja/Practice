@@ -15,15 +15,17 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export const Signup: React.FC = ({}) => {
+export const Signup: React.FC = () => {
   const checkValues = (values: FormValues) => {
     const { email, confirmEmail, password, confirmPassword } = values;
 
     if (email !== confirmEmail) {
+      // TODO: render modal
       //   alertMsg('There was a problem with your email address.', 'Emails addresses must match');
       console.log('There was a problem with your email address.', 'Emails addresses must match');
       return false;
     } else if (password !== confirmPassword) {
+      // TODO: render modal
       //   alertMsg('There was a problem with your password.', 'Passwords must match.');
       console.log('There was a problem with your password.', 'Passwords must match.');
       return false;
@@ -42,7 +44,8 @@ export const Signup: React.FC = ({}) => {
   const signup = (values: FormValues) => {
     const { email, password } = values;
 
-    console.log('values :>> ', values);
+    console.log('email :>> ', email);
+    console.log('password :>> ', password);
 
     // TODO: call api call, and re-route to login page
     // API.signup(email, password)
@@ -77,7 +80,7 @@ export const Signup: React.FC = ({}) => {
               <Form.Text className='text-danger'>{props.touched.email && props.errors.email ? 'email address is required' : null}</Form.Text>
             </Form.Group>
 
-            <Form.Group controlId='email'>
+            <Form.Group controlId='confirmEmail'>
               <Form.Label>Confirm Email address</Form.Label>
               <Form.Control
                 type='email'
@@ -103,7 +106,7 @@ export const Signup: React.FC = ({}) => {
               <Form.Text className='text-danger'>{props.touched.password && props.errors.password ? 'password is required' : null}</Form.Text>
             </Form.Group>
 
-            <Form.Group controlId='password'>
+            <Form.Group controlId='confirmPassword'>
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
                 type='password'
