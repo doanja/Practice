@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -17,6 +18,7 @@ interface FormValues {
 
 const Login: React.FC = () => {
   const api = new AuthService();
+  const history = useHistory();
 
   const checkValues = (values: FormValues) => {
     const { email, confirmEmail, password, confirmPassword } = values;
@@ -50,10 +52,11 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
-        // navigation.navigate('Login');
+        history.push('/');
       })
       .catch(err => {
         // alertMsg('Error', err.response.data.error.message);
+        console.log('err', err);
       });
   };
 

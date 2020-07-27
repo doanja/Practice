@@ -3,7 +3,7 @@ import { TodoForm, TodoList } from '../components';
 
 import { uuid } from 'uuidv4';
 
-const TodoHome: React.FC = ({}) => {
+const TodoHome: React.FC = () => {
   const [todos, setTodos] = useState([
     { id: uuid(), text: 'wash car', done: false },
     { id: uuid(), text: 'wash clothes', done: false },
