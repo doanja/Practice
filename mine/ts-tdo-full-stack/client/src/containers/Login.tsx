@@ -15,7 +15,7 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export const Login: React.FC = () => {
+const Login: React.FC = () => {
   const api = new AuthService();
 
   const checkValues = (values: FormValues) => {
@@ -103,3 +103,5 @@ export const Login: React.FC = () => {
     </Form>
   );
 };
+
+export default Login;

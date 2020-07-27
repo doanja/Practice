@@ -1,42 +1,21 @@
 import React, { useState } from 'react';
-import TodoList from './components/TodoList';
-import TodoForm from './components/TodoForm';
-import { uuid } from 'uuidv4';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { Container } from 'react-bootstrap';
 import './styles/App.css';
-import { Signup } from './containers/Signup';
+
+import { TodoHome, Login, Signup } from './containers/';
 
 const App: React.FC = ({}) => {
-  const [todos, setTodos] = useState([
-    { id: uuid(), text: 'wash car', done: false },
-    { id: uuid(), text: 'wash clothes', done: false },
-    { id: uuid(), text: 'wash wash dishes', done: false },
-  ]);
-
-  const deleteTodo: DeleteTodo = id => setTodos(todos.filter(todo => todo.id !== id));
-
-  const toggleTodo: ToggleTodo = id => {
-    setTodos(
-      todos.map(todo => {
-        if (todo.id === id) {
-          todo.done = !todo.done;
-        }
-        return todo;
-      })
-    );
-  };
-
-  const addTodo: AddTodo = text => setTodos([...todos, { id: uuid(), text, done: false }]);
-
   return (
     <Container>
-      {/* <h1 className='text-center'>To Do List</h1>
-      <TodoForm addTodo={addTodo} />
-
-      <hr />
-      <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} /> */}
-      <Signup />
+      <Router>
+        <Switch>
+          <Route exact path='/' component={TodoHome} />
+          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/login' component={Login} />
+        </Switch>
+      </Router>
     </Container>
   );
 };
