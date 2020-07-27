@@ -6,7 +6,7 @@ import * as yup from 'yup';
 // // redux
 // import { useSelector } from 'react-redux';
 
-// import API
+import { AuthService } from '../services';
 
 interface FormValues {
   email: string;
@@ -16,6 +16,8 @@ interface FormValues {
 }
 
 export const Signup: React.FC = () => {
+  const api = new AuthService();
+
   const checkValues = (values: FormValues) => {
     const { email, confirmEmail, password, confirmPassword } = values;
 
@@ -44,15 +46,15 @@ export const Signup: React.FC = () => {
   const signup = (values: FormValues) => {
     const { email, password } = values;
 
-    console.log('email :>> ', email);
-    console.log('password :>> ', password);
-
     // TODO: call api call, and re-route to login page
-    // API.signup(email, password)
-    //   .then(res => {
-    //     navigation.navigate('Login');
-    //   })
-    //   .catch(err => alertMsg('Error', err.response.data.error.message));
+    api
+      .signup(email, password)
+      .then(res => {
+        // navigation.navigate('Login');
+      })
+      .catch(err => {
+        // alertMsg('Error', err.response.data.error.message);
+      });
   };
 
   return (

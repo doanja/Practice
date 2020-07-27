@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-export class AuthService {
-  public signup() {
-    return axios.post('/signup');
+export default class AuthService {
+  public signup(email: string, password: string) {
+    return axios.post('/signup', { email, password });
   }
 
-  public login() {
-    return axios.post('/login');
+  public login(email: string, password: string) {
+    return axios.post('/login', { email, password });
   }
 }

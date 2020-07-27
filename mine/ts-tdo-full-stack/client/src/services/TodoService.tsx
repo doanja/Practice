@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class TodoService {
+export default class TodoService {
   public getTodos() {
     return axios.get<any>('/todo');
   }
