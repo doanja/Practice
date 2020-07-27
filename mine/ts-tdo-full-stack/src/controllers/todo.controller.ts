@@ -3,10 +3,6 @@ import { ITodo } from '../types';
 import { Todo } from '../models';
 
 export const getTodos = async (req: Request, res: Response): Promise<void> => {
-  // Todo.find({ user: req.token?._id })
-  //   .then(todos => res.status(200).json(todos))
-  //   .catch(err => res.status(422).json(err));
-
   try {
     const todos: ITodo[] = await Todo.find({ user: req.token?._id });
 
@@ -17,12 +13,6 @@ export const getTodos = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const addTodo = async (req: Request, res: Response): Promise<void> => {
-  // const newTodo = { text: req.body.text, done: false, user: req.token?._id };
-
-  // Todo.create(newTodo)
-  //   .then(todos => res.status(200).json(todos))
-  //   .catch(err => res.status(422).json(err));
-
   try {
     const todo: ITodo = new Todo({
       text: req.body.text,
@@ -41,10 +31,6 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const updateTodo = async (req: Request, res: Response): Promise<void> => {
-  // Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-  //   .then(todos => res.status(200).json(todos))
-  //   .catch(err => res.status(422).json(err));
-
   try {
     const updateTodo: ITodo | null = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
 
@@ -60,8 +46,14 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-export const deleteTodo = (req: Request, res: Response) => {
-  Todo.deleteOne({ _id: req.params.id })
-    .then(todos => res.status(200).json(todos))
-    .catch(err => res.status(422).json(err));
+export const deleteTodo = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const deletedTodo: ITodo | null = await Todo.findByIdAndDelete(req.params.id);
+
+    const allTodos: ITodo[] = await Todo.find();
+
+    res.status(201).json({ message: 'Todo deleted', todo: deleteTodo, todos: allTodos });
+  } catch (error) {
+    res.status(422).json(error);
+  }
 };

@@ -15,7 +15,7 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export const Signup: React.FC = () => {
+export const Login: React.FC = () => {
   const checkValues = (values: FormValues) => {
     const { email, confirmEmail, password, confirmPassword } = values;
 
@@ -41,14 +41,14 @@ export const Signup: React.FC = () => {
     confirmPassword: yup.string().required().min(8),
   });
 
-  const signup = (values: FormValues) => {
+  const login = (values: FormValues) => {
     const { email, password } = values;
 
     console.log('email :>> ', email);
     console.log('password :>> ', password);
 
     // TODO: call api call, and re-route to login page
-    // API.signup(email, password)
+    // API.login(email, password)
     //   .then(res => {
     //     navigation.navigate('Login');
     //   })
@@ -62,7 +62,7 @@ export const Signup: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
           if (checkValues(values)) {
-            signup(values);
+            login(values);
             actions.resetForm();
           }
         }}>
@@ -80,20 +80,6 @@ export const Signup: React.FC = () => {
               <Form.Text className='text-danger'>{props.touched.email && props.errors.email ? 'email address is required' : null}</Form.Text>
             </Form.Group>
 
-            <Form.Group controlId='confirmEmail'>
-              <Form.Label>Confirm Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Confirm Email'
-                onChange={props.handleChange('confirmEmail')}
-                value={props.values.confirmEmail}
-                onBlur={props.handleBlur('confirmEmail')}
-              />
-              <Form.Text className='text-danger'>
-                {props.touched.confirmEmail && props.errors.confirmEmail ? 'email address is required' : null}
-              </Form.Text>
-            </Form.Group>
-
             <Form.Group controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
@@ -104,20 +90,6 @@ export const Signup: React.FC = () => {
                 onBlur={props.handleBlur('password')}
               />
               <Form.Text className='text-danger'>{props.touched.password && props.errors.password ? 'password is required' : null}</Form.Text>
-            </Form.Group>
-
-            <Form.Group controlId='confirmPassword'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Confirm Password'
-                onChange={props.handleChange('confirmPassword')}
-                value={props.values.confirmPassword}
-                onBlur={props.handleBlur('confirmPassword')}
-              />
-              <Form.Text className='text-danger'>
-                {props.touched.confirmPassword && props.errors.confirmPassword ? 'password is required' : null}
-              </Form.Text>
             </Form.Group>
 
             <Button variant='dark' type='submit' onClick={props.handleSubmit}>

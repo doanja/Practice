@@ -1,19 +1,20 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 export class TodoService {
   public getTodos() {
-    return axios.get<any>(``);
+    return axios.get<any>('/todo');
   }
 
   public addTodo(text: string) {
-    return axios.get<any>(``);
+    return axios.post<any>('/todo', { text });
   }
 
-  public updateTodo(id: number) {
-    return axios.get<any>(``);
+  public updateTodo(id: number, text: string, done: boolean) {
+    // TODO: check if text is undefined when not specified
+    return axios.put<any>(`/todo/${id}`, { text, done });
   }
 
   public deleteTodo(id: number) {
-    return axios.get<any>(``);
+    return axios.delete<any>(`/todo/${id}`);
   }
 }
