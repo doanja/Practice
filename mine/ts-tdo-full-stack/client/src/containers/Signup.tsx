@@ -1,37 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { CustomModal } from '../components';
 
 // // redux
 // import { useSelector } from 'react-redux';
 
 import { AuthService } from '../services';
 
-interface FormValues {
-  email: string;
-  confirmEmail: string;
-  password: string;
-  confirmPassword: string;
-}
-
 const Signup: React.FC = () => {
   const api = new AuthService();
   const history = useHistory();
 
-  const checkValues = (values: FormValues) => {
+  // modal
+  const [errorText, setErrorText] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal: ToggleModal = errorText => {
+    setErrorText(errorText);
+    setShowModal(!showModal);
+  };
+
+  const checkValues = (values: SignupFormValues) => {
     const { email, confirmEmail, password, confirmPassword } = values;
 
     if (email !== confirmEmail) {
-      // TODO: render modal
-      //   alertMsg('There was a problem with your email address.', 'Emails addresses must match');
-      console.log('There was a problem with your email address.', 'Emails addresses must match');
+      toggleModal('Emails addresses must match');
       return false;
     } else if (password !== confirmPassword) {
-      // TODO: render modal
-      //   alertMsg('There was a problem with your password.', 'Passwords must match.');
-      console.log('There was a problem with your password.', 'Passwords must match.');
+      toggleModal('Passwords must match');
       return false;
     }
 
@@ -45,23 +43,19 @@ const Signup: React.FC = () => {
     confirmPassword: yup.string().required().min(8),
   });
 
-  const signup = (values: FormValues) => {
+  const signup = (values: SignupFormValues) => {
     const { email, password } = values;
 
-    // TODO: call api call, and re-route to login page
     api
       .signup(email, password)
-      .then(res => {
-        history.push('/login');
-      })
-      .catch(err => {
-        // alertMsg('Error', err.response.data.error.message);
-        console.log('err', err);
-      });
+      .then(res => history.push('/login'))
+      .catch(err => toggleModal(err.response.data.error.message));
   };
 
   return (
     <Form>
+      <CustomModal showModal={showModal} toggleModal={toggleModal} modalHeading={'Error in Form'} modalBody={<p>{errorText}</p>} />
+
       <Formik
         initialValues={{ email: '', confirmEmail: '', password: '', confirmPassword: '' }}
         validationSchema={validationSchema}
@@ -82,7 +76,7 @@ const Signup: React.FC = () => {
                 value={props.values.email}
                 onBlur={props.handleBlur('email')}
               />
-              <Form.Text className='text-danger'>{props.touched.email && props.errors.email ? 'email address is required' : null}</Form.Text>
+              <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='confirmEmail'>
@@ -94,9 +88,7 @@ const Signup: React.FC = () => {
                 value={props.values.confirmEmail}
                 onBlur={props.handleBlur('confirmEmail')}
               />
-              <Form.Text className='text-danger'>
-                {props.touched.confirmEmail && props.errors.confirmEmail ? 'email address is required' : null}
-              </Form.Text>
+              <Form.Text className='text-danger'>{props.touched.confirmEmail && props.errors.confirmEmail}</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='password'>
@@ -108,7 +100,7 @@ const Signup: React.FC = () => {
                 value={props.values.password}
                 onBlur={props.handleBlur('password')}
               />
-              <Form.Text className='text-danger'>{props.touched.password && props.errors.password ? 'password is required' : null}</Form.Text>
+              <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='confirmPassword'>
@@ -120,13 +112,11 @@ const Signup: React.FC = () => {
                 value={props.values.confirmPassword}
                 onBlur={props.handleBlur('confirmPassword')}
               />
-              <Form.Text className='text-danger'>
-                {props.touched.confirmPassword && props.errors.confirmPassword ? 'password is required' : null}
-              </Form.Text>
+              <Form.Text className='text-danger'>{props.touched.confirmPassword && props.errors.confirmPassword}</Form.Text>
             </Form.Group>
 
             <Button variant='dark' type='submit' onClick={props.handleSubmit}>
-              Submit
+              Signup
             </Button>
           </div>
         )}

@@ -1,75 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { CustomModal } from '../components';
 
 // // redux
 // import { useSelector } from 'react-redux';
 
 import { AuthService } from '../services';
 
-interface FormValues {
-  email: string;
-  confirmEmail: string;
-  password: string;
-  confirmPassword: string;
-}
-
 const Login: React.FC = () => {
   const api = new AuthService();
   const history = useHistory();
 
-  const checkValues = (values: FormValues) => {
-    const { email, confirmEmail, password, confirmPassword } = values;
-
-    if (email !== confirmEmail) {
-      // TODO: render modal
-      //   alertMsg('There was a problem with your email address.', 'Emails addresses must match');
-      console.log('There was a problem with your email address.', 'Emails addresses must match');
-      return false;
-    } else if (password !== confirmPassword) {
-      // TODO: render modal
-      //   alertMsg('There was a problem with your password.', 'Passwords must match.');
-      console.log('There was a problem with your password.', 'Passwords must match.');
-      return false;
-    }
-
-    return true;
+  // modal
+  const [errorText, setErrorText] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal: ToggleModal = errorText => {
+    setErrorText(errorText);
+    setShowModal(!showModal);
   };
 
   const validationSchema = yup.object({
     email: yup.string().required().email(),
-    confirmEmail: yup.string().required().email(),
     password: yup.string().required().min(8),
-    confirmPassword: yup.string().required().min(8),
   });
 
-  const login = (values: FormValues) => {
+  const login = (values: LoginFormValues) => {
     const { email, password } = values;
 
-    // TODO: call api call, and re-route to user's todo page?
     api
       .login(email, password)
       .then(res => {
+        // TODO: store jwt
         history.push('/');
       })
-      .catch(err => {
-        // alertMsg('Error', err.response.data.error.message);
-        console.log('err', err);
-      });
+      .catch(err => toggleModal(err.response.data.error.message));
   };
 
   return (
     <Form>
+      <CustomModal showModal={showModal} toggleModal={toggleModal} modalHeading={'Error in Form'} modalBody={<p>{errorText}</p>} />
+
       <Formik
-        initialValues={{ email: '', confirmEmail: '', password: '', confirmPassword: '' }}
+        initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          if (checkValues(values)) {
-            login(values);
-            actions.resetForm();
-          }
+          console.log('values', values);
+          console.log('hi');
+          login(values);
+          actions.resetForm();
         }}>
         {(props: any) => (
           <div>
@@ -82,7 +63,7 @@ const Login: React.FC = () => {
                 value={props.values.email}
                 onBlur={props.handleBlur('email')}
               />
-              <Form.Text className='text-danger'>{props.touched.email && props.errors.email ? 'email address is required' : null}</Form.Text>
+              <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='password'>
@@ -94,11 +75,11 @@ const Login: React.FC = () => {
                 value={props.values.password}
                 onBlur={props.handleBlur('password')}
               />
-              <Form.Text className='text-danger'>{props.touched.password && props.errors.password ? 'password is required' : null}</Form.Text>
+              <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
             </Form.Group>
 
             <Button variant='dark' type='submit' onClick={props.handleSubmit}>
-              Submit
+              Login
             </Button>
           </div>
         )}

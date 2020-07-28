@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import db from '../models';
+import { User } from '../models';
 
 import { IUser } from '../types';
 
@@ -28,13 +28,13 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
 
 export const initSignupStrategy = (): Strategy => {
   return new Strategy({ usernameField: 'email' }, (email, password, done) => {
-    db.User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
+    User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
       if (err) return done(err);
 
       if (user) return done(null, false, { message: 'That email is already taken.' });
       else {
         const newUser = { email, password: hashSync(password, genSaltSync(8)) };
-        db.User.create(newUser);
+        User.create(newUser);
 
         return done(null, newUser);
       }
@@ -44,7 +44,7 @@ export const initSignupStrategy = (): Strategy => {
 
 export const initLoginStrategy = (): Strategy => {
   return new Strategy({ usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
-    db.User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
+    User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
       if (err) return done(err);
 
       if (!user) return done(null, false, { message: 'That email is not found.' });

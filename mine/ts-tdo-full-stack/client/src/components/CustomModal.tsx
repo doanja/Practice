@@ -1,0 +1,27 @@
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
+
+interface ModalProps {
+  toggleModal: ToggleModal;
+  showModal: boolean;
+  modalHeading: string;
+  modalBody: JSX.Element;
+}
+
+const RecipeModal: React.FC<ModalProps> = ({ toggleModal, showModal, modalHeading, modalBody }) => {
+  return (
+    <Modal show={showModal} onHide={toggleModal}>
+      <Modal.Header className='bg-dark text-light'>
+        <Modal.Title>{modalHeading}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{modalBody}</Modal.Body>
+      <Modal.Footer>
+        <Button variant='dark' type='button' onClick={toggleModal}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+export default RecipeModal;

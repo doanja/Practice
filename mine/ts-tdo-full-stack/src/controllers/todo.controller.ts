@@ -54,6 +54,6 @@ export const deleteTodo = async (req: Request, res: Response): Promise<void> => 
 
     res.status(201).json({ message: 'Todo deleted', todo: deleteTodo, todos: allTodos });
   } catch (error) {
-    res.status(422).json(error);
+    res.status(422).json({ error });
   }
 };
