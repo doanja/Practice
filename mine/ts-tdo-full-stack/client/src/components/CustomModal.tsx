@@ -4,19 +4,19 @@ import { Modal, Button } from 'react-bootstrap';
 interface ModalProps {
   toggleModal: ToggleModal;
   showModal: boolean;
-  modalHeading: string;
-  modalBody: JSX.Element;
+  title: string;
+  body: JSX.Element;
 }
 
-const RecipeModal: React.FC<ModalProps> = ({ toggleModal, showModal, modalHeading, modalBody }) => {
+const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body }) => {
   return (
-    <Modal show={showModal} onHide={toggleModal}>
+    <Modal centered show={showModal} onHide={toggleModal}>
       <Modal.Header className='bg-dark text-light'>
-        <Modal.Title>{modalHeading}</Modal.Title>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{modalBody}</Modal.Body>
+      <Modal.Body>{body}</Modal.Body>
       <Modal.Footer>
-        <Button variant='dark' type='button' onClick={toggleModal}>
+        <Button variant='dark' type='button' onClick={() => toggleModal()}>
           Close
         </Button>
       </Modal.Footer>
@@ -24,4 +24,4 @@ const RecipeModal: React.FC<ModalProps> = ({ toggleModal, showModal, modalHeadin
   );
 };
 
-export default RecipeModal;
+export default CustomModal;

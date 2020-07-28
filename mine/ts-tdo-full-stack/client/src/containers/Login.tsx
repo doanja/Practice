@@ -41,17 +41,9 @@ const Login: React.FC = () => {
 
   return (
     <Form>
-      <CustomModal showModal={showModal} toggleModal={toggleModal} modalHeading={'Error in Form'} modalBody={<p>{errorText}</p>} />
+      <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
 
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          console.log('values', values);
-          console.log('hi');
-          login(values);
-          actions.resetForm();
-        }}>
+      <Formik initialValues={{ email: '', password: '' }} validationSchema={validationSchema} onSubmit={values => login(values)}>
         {(props: any) => (
           <div>
             <Form.Group controlId='email'>

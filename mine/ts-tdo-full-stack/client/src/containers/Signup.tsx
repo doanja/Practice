@@ -54,16 +54,13 @@ const Signup: React.FC = () => {
 
   return (
     <Form>
-      <CustomModal showModal={showModal} toggleModal={toggleModal} modalHeading={'Error in Form'} modalBody={<p>{errorText}</p>} />
+      <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
 
       <Formik
         initialValues={{ email: '', confirmEmail: '', password: '', confirmPassword: '' }}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          if (checkValues(values)) {
-            signup(values);
-            actions.resetForm();
-          }
+        onSubmit={values => {
+          if (checkValues(values)) signup(values);
         }}>
         {(props: any) => (
           <div>

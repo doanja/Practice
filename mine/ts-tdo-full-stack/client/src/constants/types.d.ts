@@ -10,7 +10,7 @@ type ToggleTodo = (id: string) => void;
 
 type AddTodo = (text: string) => void;
 
-type ToggleModal = (errorText: string) => void;
+type ToggleModal = (errorText?: string) => void;
 
 type SignupFormValues = {
   email: string;
