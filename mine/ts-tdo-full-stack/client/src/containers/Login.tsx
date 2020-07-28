@@ -15,7 +15,7 @@ const Login: React.FC = () => {
   const history = useHistory();
 
   // modal
-  const [errorText, setErrorText] = useState('');
+  const [errorText, setErrorText] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const toggleModal: ToggleModal = errorText => {
     setErrorText(errorText);
