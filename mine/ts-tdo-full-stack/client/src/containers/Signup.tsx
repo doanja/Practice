@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { CustomModal } from '../components';
-
-// // redux
-// import { useSelector } from 'react-redux';
-
 import { AuthService } from '../services';
 
+// redux
+import { useSelector } from 'react-redux';
+import { RootStore } from '../redux/Store';
+
 const Signup: React.FC = () => {
+  // redux
+  const { loginStatus } = useSelector((state: RootStore) => state.auth);
+
+  useEffect(() => {
+    if (loginStatus) history.push('/');
+  }, []);
+
   const api = new AuthService();
   const history = useHistory();
 

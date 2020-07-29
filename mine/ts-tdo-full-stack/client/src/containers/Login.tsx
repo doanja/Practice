@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { CustomModal } from '../components';
-
-// // redux
-// import { useSelector } from 'react-redux';
-
 import { AuthService } from '../services';
 
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { RootStore } from '../redux/Store';
+import { setAuthToken } from '../redux/actions/authActions';
+
 const Login: React.FC = () => {
+  // redux
+  const { loginStatus, authToken } = useSelector((state: RootStore) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (loginStatus) history.push('/');
+  }, []);
+
   const api = new AuthService();
   const history = useHistory();
 
@@ -33,7 +42,9 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
-        // TODO: store jwt
+        dispatch(setAuthToken(res.data.token));
+        // todo: dispatch action to set loginstatus?
+        // todo: store token in LS?
         history.push('/');
       })
       .catch(err => toggleModal(err.response.data.error.message));
