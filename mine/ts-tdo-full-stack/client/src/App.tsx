@@ -7,8 +7,8 @@ import './styles/App.css';
 import { TodoHome, Login, Signup } from './containers/';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import { RootStore } from './redux/Store';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { RootStore } from './redux/Store';
 // import {setLoginStatus} from './redux/actions/authActions';
 
 const App: React.FC = () => {

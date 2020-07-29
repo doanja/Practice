@@ -1,9 +1,13 @@
 export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
+export const CLEAR_LOGIN_STATUS = 'CLEAR_LOGIN_STATUS';
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
-export const RESET_STATE = 'RESET_STATE';
+export const CLEAR_AUTH_TOKEN = 'CLEAR_AUTH_TOKEN';
+
+// export const RESET_STATE = 'RESET_STATE';
 
 export interface AuthState {
-  isLoggedIn: boolean;
+  loginStatus: boolean;
+  authToken: string;
 }
 
 interface SetLoginStatus {
@@ -11,4 +15,17 @@ interface SetLoginStatus {
   payload: boolean;
 }
 
-export type AuthActionTypes = SetLoginStatus;
+interface ClearLoginStatus {
+  type: typeof CLEAR_LOGIN_STATUS;
+}
+
+interface SetAuthToken {
+  type: typeof SET_AUTH_TOKEN;
+  payload: string;
+}
+
+interface ClearAuthToken {
+  type: typeof CLEAR_AUTH_TOKEN;
+}
+
+export type AuthActionTypes = SetLoginStatus | ClearLoginStatus | SetAuthToken | ClearAuthToken;
