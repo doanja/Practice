@@ -4,7 +4,7 @@ import { TodoForm, TodoList } from '../components';
 import { TodoService } from '../services';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootStore } from '../redux/Store';
 
 const TodoHome: React.FC = () => {
@@ -13,16 +13,16 @@ const TodoHome: React.FC = () => {
 
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
-  const dispatch = useDispatch();
 
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
-    if (loginStatus) history.push('/todo');
-    api
-      .getTodos()
-      .then(res => setTodos(res.data.todos))
-      .catch(err => console.log('err :>> ', err));
+    if (!loginStatus) history.push('/');
+    else
+      api
+        .getTodos()
+        .then(res => setTodos(res.data.todos))
+        .catch(err => console.log('err :>> ', err));
   }, []);
 
   const deleteTodo: DeleteTodo = id => {
@@ -40,7 +40,10 @@ const TodoHome: React.FC = () => {
   };
 
   const addTodo: AddTodo = text => {
-    //setTodos([...todos, { _id: uuid(), text, done: false }])
+    api
+      .addTodo(text)
+      .then(res => setTodos(res.data.todos))
+      .catch(err => console.log('err', err));
   };
 
   return (
