@@ -1,7 +1,10 @@
 type Todo = {
-  id: string;
+  _id: string;
   text: string;
   done: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 };
 
 type DeleteTodo = (id: string) => void;

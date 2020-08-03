@@ -1,23 +1,37 @@
-import React, { useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
 import { TodoForm, TodoList } from '../components';
-
 import { uuid } from 'uuidv4';
+import { TodoService } from '../services';
+
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { RootStore } from '../redux/Store';
 
 const TodoHome: React.FC = () => {
-  // TODO: redirect to login if loginStatus is false
+  const api = new TodoService();
+  const history = useHistory();
 
-  const [todos, setTodos] = useState([
-    { id: uuid(), text: 'wash car', done: false },
-    { id: uuid(), text: 'wash clothes', done: false },
-    { id: uuid(), text: 'wash wash dishes', done: false },
-  ]);
+  // redux
+  const { loginStatus } = useSelector((state: RootStore) => state.auth);
+  const dispatch = useDispatch();
 
-  const deleteTodo: DeleteTodo = id => setTodos(todos.filter(todo => todo.id !== id));
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    if (loginStatus) history.push('/todo');
+    api
+      .getTodos()
+      .then(res => setTodos(res.data.todos))
+      .catch(err => console.log('err :>> ', err));
+  }, []);
+
+  const deleteTodo: DeleteTodo = id => setTodos(todos.filter(todo => todo._id !== id));
 
   const toggleTodo: ToggleTodo = id => {
     setTodos(
       todos.map(todo => {
-        if (todo.id === id) {
+        if (todo._id === id) {
           todo.done = !todo.done;
         }
         return todo;
@@ -25,7 +39,9 @@ const TodoHome: React.FC = () => {
     );
   };
 
-  const addTodo: AddTodo = text => setTodos([...todos, { id: uuid(), text, done: false }]);
+  const addTodo: AddTodo = text => {
+    //setTodos([...todos, { _id: uuid(), text, done: false }])
+  };
 
   return (
     <Fragment>

@@ -13,7 +13,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, deleteTodo, toggleTodo }) =>
   return (
     <ListGroup>
       {todos.map(todo => (
-        <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+        <Todo key={todo._id} todo={todo} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
       ))}
     </ListGroup>
   );

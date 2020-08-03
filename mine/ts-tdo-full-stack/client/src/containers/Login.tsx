@@ -12,6 +12,9 @@ import { RootStore } from '../redux/Store';
 import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
 
 const Login: React.FC = () => {
+  const api = new AuthService();
+  const history = useHistory();
+
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
   const dispatch = useDispatch();
@@ -19,9 +22,6 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (loginStatus) history.push('/todo');
   }, []);
-
-  const api = new AuthService();
-  const history = useHistory();
 
   // modal
   const [errorText, setErrorText] = useState<string>();
