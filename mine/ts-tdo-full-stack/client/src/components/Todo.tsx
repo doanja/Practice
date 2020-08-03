@@ -12,11 +12,11 @@ interface TodoProps {
 const Todo: React.FC<TodoProps> = ({ todo, deleteTodo, toggleTodo }) => {
   return (
     <ListGroup.Item>
-      <p className={todo.done ? 'todo done d-inline' : 'todo d-inline'} onClick={() => toggleTodo(todo.id)}>
+      <p className={todo.done ? 'todo done d-inline' : 'todo d-inline'} onClick={() => toggleTodo(todo._id)}>
         {todo.text}
       </p>
       <span>
-        <FontAwesomeIcon icon={faTimes} size='1x' className='float-right icon' onClick={() => deleteTodo(todo.id)} />
+        <FontAwesomeIcon icon={faTimes} size='1x' className='float-right icon' onClick={() => deleteTodo(todo._id)} />
       </span>
     </ListGroup.Item>
   );

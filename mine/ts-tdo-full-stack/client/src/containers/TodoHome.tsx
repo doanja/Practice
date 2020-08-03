@@ -26,7 +26,12 @@ const TodoHome: React.FC = () => {
       .catch(err => console.log('err :>> ', err));
   }, []);
 
-  const deleteTodo: DeleteTodo = id => setTodos(todos.filter(todo => todo._id !== id));
+  const deleteTodo: DeleteTodo = id => {
+    api
+      .deleteTodo(id)
+      .then(res => setTodos(res.data.todos))
+      .catch(err => console.log('err', err));
+  };
 
   const toggleTodo: ToggleTodo = id => {
     setTodos(
