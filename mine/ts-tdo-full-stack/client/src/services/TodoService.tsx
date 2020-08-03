@@ -9,9 +9,8 @@ export default class TodoService {
     return axios.post<any>('/todo', { text });
   }
 
-  public updateTodo(id: string, text: string, done: boolean) {
-    // TODO: check if text is undefined when not specified
-    return axios.put<any>(`/todo/${id}`, { text, done });
+  public updateTodo(id: string, done: boolean) {
+    return axios.put<any>(`/todo/${id}`, { done });
   }
 
   public deleteTodo(id: string) {

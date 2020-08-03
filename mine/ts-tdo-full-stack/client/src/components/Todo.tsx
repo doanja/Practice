@@ -12,7 +12,7 @@ interface TodoProps {
 const Todo: React.FC<TodoProps> = ({ todo, deleteTodo, toggleTodo }) => {
   return (
     <ListGroup.Item>
-      <p className={todo.done ? 'todo done d-inline' : 'todo d-inline'} onClick={() => toggleTodo(todo._id)}>
+      <p className={todo.done ? 'todo done d-inline' : 'todo d-inline'} onClick={() => toggleTodo(todo._id, todo.done)}>
         {todo.text}
       </p>
       <span>

@@ -9,7 +9,7 @@ type Todo = {
 
 type DeleteTodo = (id: string) => void;
 
-type ToggleTodo = (id: string) => void;
+type ToggleTodo = (id: string, done: boolean) => void;
 
 type AddTodo = (text: string) => void;
 

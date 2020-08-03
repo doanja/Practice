@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TodoForm, TodoList } from '../components';
-import { uuid } from 'uuidv4';
 import { TodoService } from '../services';
 
 // redux
@@ -33,15 +32,11 @@ const TodoHome: React.FC = () => {
       .catch(err => console.log('err', err));
   };
 
-  const toggleTodo: ToggleTodo = id => {
-    setTodos(
-      todos.map(todo => {
-        if (todo._id === id) {
-          todo.done = !todo.done;
-        }
-        return todo;
-      })
-    );
+  const toggleTodo: ToggleTodo = (id, done) => {
+    api
+      .updateTodo(id, !done)
+      .then(res => setTodos(res.data.todos))
+      .catch(err => console.log('err', err));
   };
 
   const addTodo: AddTodo = text => {
