@@ -1,8 +1,7 @@
 import { SET_LOGIN_STATUS, AuthActionTypes, CLEAR_LOGIN_STATUS, SET_AUTH_TOKEN, CLEAR_AUTH_TOKEN } from '../types/authTypes';
 
-export const setLoginStatus = (isLoggedIn: boolean): AuthActionTypes => {
-  console.log('setLoginStatus called', isLoggedIn);
-  return { type: SET_LOGIN_STATUS, payload: isLoggedIn };
+export const setLoginStatus = (loginStatus: boolean): AuthActionTypes => {
+  return { type: SET_LOGIN_STATUS, payload: loginStatus };
 };
 
 export const clearLoginStatus = (): AuthActionTypes => {

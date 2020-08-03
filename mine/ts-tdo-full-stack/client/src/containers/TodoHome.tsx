@@ -4,6 +4,8 @@ import { TodoForm, TodoList } from '../components';
 import { uuid } from 'uuidv4';
 
 const TodoHome: React.FC = () => {
+  // TODO: redirect to login if loginStatus is false
+
   const [todos, setTodos] = useState([
     { id: uuid(), text: 'wash car', done: false },
     { id: uuid(), text: 'wash clothes', done: false },
