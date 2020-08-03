@@ -15,7 +15,7 @@ const Signup: React.FC = () => {
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
 
   useEffect(() => {
-    if (loginStatus) history.push('/');
+    if (loginStatus) history.push('/todo');
   }, []);
 
   const api = new AuthService();

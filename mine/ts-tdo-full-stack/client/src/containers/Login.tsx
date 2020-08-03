@@ -9,7 +9,7 @@ import { AuthService } from '../services';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
-import { setAuthToken } from '../redux/actions/authActions';
+import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
 
 const Login: React.FC = () => {
   // redux
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (loginStatus) history.push('/');
+    if (loginStatus) history.push('/todo');
   }, []);
 
   const api = new AuthService();
@@ -43,9 +43,8 @@ const Login: React.FC = () => {
       .login(email, password)
       .then(res => {
         dispatch(setAuthToken(res.data.token));
-        // todo: dispatch action to set loginstatus?
-        // todo: store token in LS?
-        history.push('/');
+        dispatch(setLoginStatus(true));
+        history.push('/todo');
       })
       .catch(err => toggleModal(err.response.data.error.message));
   };

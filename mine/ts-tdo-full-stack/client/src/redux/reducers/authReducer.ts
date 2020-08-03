@@ -8,9 +8,9 @@ const initialState: AuthState = {
 const authReducer = (state = initialState, action: AuthActionTypes) => {
   switch (action.type) {
     case SET_LOGIN_STATUS:
-      return { ...state, isLoggedIn: action.payload };
+      return { ...state, loginStatus: action.payload };
     case CLEAR_LOGIN_STATUS:
-      return { ...state, isLoggedIn: false };
+      return { ...state, loginStatus: false };
     case SET_AUTH_TOKEN:
       return { ...state, authToken: action.payload };
     case CLEAR_AUTH_TOKEN:

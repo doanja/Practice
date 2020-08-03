@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 function saveToLocalStorage(store: any) {
+  console.log('save to local storage');
   try {
     const serializedStore = JSON.stringify(store);
     localStorage.setItem('store', serializedStore);
@@ -14,12 +15,13 @@ function saveToLocalStorage(store: any) {
 }
 
 function loadFromLocalStorage() {
+  console.log('load from local storage');
   try {
     const serializedStore = localStorage.getItem('store');
 
     if (!serializedStore) return undefined;
 
-    const token = JSON.parse(serializedStore).login.token;
+    const token = JSON.parse(serializedStore).auth.authToken;
 
     token ? (axios.defaults.headers.common.Authorization = `Bearer ${token}`) : (axios.defaults.headers.common.Authorization = '');
 
@@ -35,7 +37,7 @@ const persistedState = loadFromLocalStorage();
 const Store = createStore(rootReducer, persistedState, composeWithDevTools(applyMiddleware(thunk)));
 
 Store.subscribe(() => {
-  console.log('Store.getState() :>> ', Store.getState());
+  console.log('------------store subscribing---------');
   saveToLocalStorage(Store.getState());
 });
 
