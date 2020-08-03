@@ -13,7 +13,7 @@ import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
 
 const Login: React.FC = () => {
   // redux
-  const { loginStatus, authToken } = useSelector((state: RootStore) => state.auth);
+  const { loginStatus } = useSelector((state: RootStore) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
