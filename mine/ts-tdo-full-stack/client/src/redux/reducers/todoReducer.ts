@@ -1,7 +1,9 @@
-import { TodoState, TodoActionTypes, GET_TODO_LIST, ADD_TODO, UPDATE_TODO, DELETE_TODO } from '../types/todoTypes';
+import { TodoListState, TodoActionTypes, GET_TODO_LIST, ADD_TODO, UPDATE_TODO, DELETE_TODO } from '../types/todoTypes';
 
-const initialState: TodoState = {
+const initialState: TodoListState = {
   todoList: [],
+  loading: false,
+  posting: false,
 };
 
 const todoReducer = (state = initialState, action: TodoActionTypes) => {

@@ -1,11 +1,15 @@
+import { Action } from 'redux';
+
 export const SET_TODO_LIST = 'SET_TODO_LIST';
 export const GET_TODO_LIST = 'GET_TODO_LIST';
 export const ADD_TODO = 'ADD_TODO';
 export const UPDATE_TODO = 'UPDATE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 
-export interface TodoState {
-  todoList: Todo[];
+export interface TodoListState {
+  readonly todoList: Todo[];
+  readonly loading: boolean;
+  readonly posting: boolean;
 }
 
 interface GetTodoList {
@@ -29,3 +33,21 @@ interface DeleteTodo {
 }
 
 export type TodoActionTypes = GetTodoList | AddTodo | UpdateTodo | DeleteTodo;
+
+// test
+
+export interface GetTodoAction extends Action<'GettingTodoList'> {}
+
+export interface GotTodoListAction extends Action<'GotTodoList'> {
+  payload: Todo[];
+}
+
+export interface PostTodoList extends Action<'PostingTodoList'> {
+  type: 'PostingTodoList';
+}
+
+export interface PostedTodoList extends Action<'PostedTodoList'> {
+  payload: Todo[];
+}
+
+export type PeopleActions = GetTodoAction | GotTodoListAction | PostTodoList | PostedTodoList;
