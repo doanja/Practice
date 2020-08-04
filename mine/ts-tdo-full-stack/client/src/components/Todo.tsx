@@ -5,7 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface TodoProps {
   todo: Todo;
-  deleteTodo: DeleteTodo;
+  deleteTodo: (id: string) => void;
   toggleTodo: ToggleTodo;
 }
 

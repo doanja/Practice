@@ -1,14 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TodoForm, TodoList } from '../components';
-import { TodoService } from '../services';
 
 // redux
 import { useSelector } from 'react-redux';
 import { RootStore } from '../redux/Store';
 
 const TodoHome: React.FC = () => {
-  const api = new TodoService();
   const history = useHistory();
 
   // redux
@@ -18,33 +16,8 @@ const TodoHome: React.FC = () => {
 
   useEffect(() => {
     if (!loginStatus) history.push('/');
-    else
-      api
-        .getTodos()
-        .then(res => setTodos(res.data.todos))
-        .catch(err => console.log('err :>> ', err));
+    else getTodos();
   }, []);
-
-  const deleteTodo: DeleteTodo = id => {
-    api
-      .deleteTodo(id)
-      .then(res => setTodos(res.data.todos))
-      .catch(err => console.log('err', err));
-  };
-
-  const toggleTodo: ToggleTodo = (id, done) => {
-    api
-      .updateTodo(id, !done)
-      .then(res => setTodos(res.data.todos))
-      .catch(err => console.log('err', err));
-  };
-
-  const addTodo: AddTodo = text => {
-    api
-      .addTodo(text)
-      .then(res => setTodos(res.data.todos))
-      .catch(err => console.log('err', err));
-  };
 
   return (
     <Fragment>

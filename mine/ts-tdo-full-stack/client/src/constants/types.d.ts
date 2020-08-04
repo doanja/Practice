@@ -7,6 +7,8 @@ type Todo = {
   __v: number;
 };
 
+type GetTodos = (cb: any) => void;
+
 type DeleteTodo = (id: string) => void;
 
 type ToggleTodo = (id: string, done: boolean) => void;
