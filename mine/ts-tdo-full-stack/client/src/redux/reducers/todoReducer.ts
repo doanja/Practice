@@ -1,4 +1,5 @@
 import { TodoListState, TodoActionTypes, GET_TODO_LIST, ADD_TODO, UPDATE_TODO, DELETE_TODO } from '../types/todoTypes';
+import { Reducer } from 'redux';
 
 const initialState: TodoListState = {
   todoList: [],

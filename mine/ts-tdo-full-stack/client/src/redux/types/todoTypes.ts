@@ -36,18 +36,22 @@ export type TodoActionTypes = GetTodoList | AddTodo | UpdateTodo | DeleteTodo;
 
 // test
 
-export interface GetTodoAction extends Action<'GettingTodoList'> {}
-
-export interface GotTodoListAction extends Action<'GotTodoList'> {
-  payload: Todo[];
+export interface Inventory {
+  id: string;
+  name: string;
+  price: string;
+  image: string;
+  description: string;
+  brand?: string;
+  currentInventory: number;
 }
-
-export interface PostTodoList extends Action<'PostingTodoList'> {
-  type: 'PostingTodoList';
+export enum InventoryActionTypes {
+  FETCH_REQUEST = '@@inventory/FETCH_REQUEST',
+  FETCH_SUCCESS = '@@inventory/FETCH_SUCCESS',
+  FETCH_ERROR = '@@inventory/FETCH_ERROR',
 }
-
-export interface PostedTodoList extends Action<'PostedTodoList'> {
-  payload: Todo[];
+export interface InventoryState {
+  readonly loading: boolean;
+  readonly data: Inventory[];
+  readonly errors?: string;
 }
-
-export type PeopleActions = GetTodoAction | GotTodoListAction | PostTodoList | PostedTodoList;
