@@ -12,8 +12,7 @@ import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'redux';
 import { TodoService } from '../../services';
-import rootReducer from '../reducers/rootReducer';
-import inventory from '../inventory';
+import { AxiosResponse } from 'axios';
 
 const api = new TodoService();
 
@@ -24,11 +23,14 @@ export const getTodoList = (todoList: Todo[]): TodoActionTypes => {
 export type AppThunk = ActionCreator<ThunkAction<void, InventoryState, null, Action<string>>>;
 
 export const fetchRequest: AppThunk = () => {
-  return (dispatch: Dispatch): Action => {
+  return async (dispatch: Dispatch) => {
     try {
+      const getTodos: AxiosResponse<Todo[]> = await api.getTodos();
+      const todos: Todo[] = getTodos.data;
+
       return dispatch({
         type: InventoryActionTypes.FETCH_SUCCESS,
-        payload: inventory,
+        payload: todos,
       });
     } catch (e) {
       return dispatch({

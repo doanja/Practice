@@ -6,7 +6,7 @@ export const getTodos = async (req: Request, res: Response): Promise<void> => {
   try {
     const todos: ITodo[] = await Todo.find({ user: req.token?._id });
 
-    res.status(200).json({ todos });
+    res.status(200).json(todos);
   } catch (error) {
     res.status(422).json(error);
   }
