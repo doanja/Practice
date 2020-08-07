@@ -39,7 +39,6 @@ export const addTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList, A
     } catch (e) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILURE,
-        // payload: null,
       });
     }
   };
@@ -58,7 +57,6 @@ export const updateTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
     } catch (e) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILURE,
-        // payload: null,
       });
     }
   };
@@ -77,24 +75,7 @@ export const deleteTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
     } catch (e) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILURE,
-        // payload: null,
       });
     }
   };
 };
-
-// export const addToCart: ActionCreator<ThunkAction<void, ApplicationState, Inventory, Action<string>>> = item => {
-//   return (dispatch: Dispatch): Action => {
-//     try {
-//       return dispatch({
-//         type: CartActionTypes.ADD_TO_CART,
-//         payload: item,
-//       });
-//     } catch (e) {
-//       return dispatch({
-//         type: CartActionTypes.ADD_TO_CART_FAILURE,
-//         payload: null,
-//       });
-//     }
-//   };
-// };

@@ -18,10 +18,8 @@ const todoReducer: Reducer<TodoListState> = (state = initialState, action) => {
     case TodoListActionTypes.REQUEST_FAILURE:
       return { ...state, loading: false, errors: action.payload };
 
-    case TodoListActionTypes.ADD_TODO: {
-      console.log('action.payload', action.payload);
+    case TodoListActionTypes.ADD_TODO:
       return { errors: state.errors, loading: state.loading, todoList: action.payload };
-    }
 
     case TodoListActionTypes.UPDATE_TODO: {
       return { errors: state.errors, loading: state.loading, todoList: action.payload };
