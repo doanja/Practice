@@ -5,15 +5,13 @@ import Todo from './Todo';
 
 interface TodoListProps {
   todos: Todo[];
-  deleteTodo: DeleteTodo;
-  toggleTodo: ToggleTodo;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, deleteTodo, toggleTodo }) => {
+const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <ListGroup>
       {todos.map(todo => (
-        <Todo key={todo._id} todo={todo} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+        <Todo key={todo._id} todo={todo} />
       ))}
     </ListGroup>
   );

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 
-interface TodoFormProps {
-  addTodo: AddTodo;
-}
+// redux
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../redux/actions/todoActions';
 
-const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
+const TodoForm: React.FC = () => {
+  // redux
+  const dispatch = useDispatch();
+
   const [text, setText] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setText(e.target.value);
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => setText(e.target.value);
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    addTodo(text);
+    dispatch(addTodo(text));
     setText('');
   };
 

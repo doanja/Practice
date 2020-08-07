@@ -9,14 +9,26 @@ const initialState: TodoListState = {
 
 const todoReducer: Reducer<TodoListState> = (state = initialState, action) => {
   switch (action.type) {
-    case TodoListActionTypes.FETCH_TODO_LIST:
+    case TodoListActionTypes.GET_TODO_LIST:
       return { ...state, loading: true };
 
-    case TodoListActionTypes.FETCH_TODO_LIST_SUCCESS:
+    case TodoListActionTypes.GET_TODO_LIST_SUCCESS:
       return { ...state, todoList: action.payload };
 
-    case TodoListActionTypes.FETCH_TODO_LIST_ERROR:
+    case TodoListActionTypes.REQUEST_FAILURE:
       return { ...state, loading: false, errors: action.payload };
+
+    case TodoListActionTypes.ADD_TODO: {
+      return { errors: state.errors, loading: state.loading, todoList: action.payload };
+    }
+
+    case TodoListActionTypes.UPDATE_TODO: {
+      return { errors: state.errors, loading: state.loading, todoList: action.payload };
+    }
+
+    case TodoListActionTypes.DELETE_TODO: {
+      return { errors: state.errors, loading: state.loading, todoList: action.payload };
+    }
 
     default:
       return state;
