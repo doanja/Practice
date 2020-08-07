@@ -9,31 +9,10 @@ export interface TodoList {
 }
 
 export enum TodoListActionTypes {
+  ADD_TO_TODO_LIST = 'ADD_TO_TODO_LIST',
+  REMOVE_FROM_TODO_LIST = ' REMOVE_FROM_TODO_LIST',
+  UPDATE_TODO_LIST = 'UPDATE_TODO_LIST',
   FETCH_TODO_LIST = 'FETCH_TODO_LIST',
   FETCH_TODO_LIST_SUCCESS = 'FETCH_TODO_LIST_SUCCESS',
   FETCH_TODO_LIST_ERROR = 'FETCH_TODO_LIST_ERROR',
-}
-
-// test
-
-export interface InventoryState {
-  readonly data: Inventory[];
-  readonly loading: boolean;
-  readonly errors?: string;
-}
-
-export interface Inventory {
-  id: string;
-  name: string;
-  price: string;
-  image: string;
-  description: string;
-  brand?: string;
-  currentInventory: number;
-}
-
-export enum InventoryActionTypes {
-  FETCH_REQUEST = '@@inventory/FETCH_REQUEST',
-  FETCH_SUCCESS = '@@inventory/FETCH_SUCCESS',
-  FETCH_ERROR = '@@inventory/FETCH_ERROR',
 }

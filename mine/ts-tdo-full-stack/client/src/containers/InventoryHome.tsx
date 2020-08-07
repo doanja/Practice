@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
-import { fetchRequest } from '../redux/actions/todoActions';
+import { getTodoList } from '../redux/actions/todoActions';
 
 const InventoryHome: React.FC = () => {
   // redux
@@ -12,7 +12,7 @@ const InventoryHome: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchRequest());
+    dispatch(getTodoList());
   }, []);
 
   return <React.Fragment></React.Fragment>;

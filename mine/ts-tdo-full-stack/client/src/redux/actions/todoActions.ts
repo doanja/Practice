@@ -1,4 +1,4 @@
-import { TodoListActionTypes, InventoryActionTypes, TodoListState, InventoryState } from '../types/todoTypes';
+import { TodoListActionTypes, TodoListState } from '../types/todoTypes';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'redux';
@@ -9,7 +9,7 @@ const api = new TodoService();
 
 export type AppThunk = ActionCreator<ThunkAction<void, TodoListState, null, Action<string>>>;
 
-export const fetchRequest: AppThunk = () => {
+export const getTodoList: AppThunk = () => {
   return async (dispatch: Dispatch) => {
     try {
       const getTodos: AxiosResponse<Todo[]> = await api.getTodos();
