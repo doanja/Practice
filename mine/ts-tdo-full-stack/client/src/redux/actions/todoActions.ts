@@ -1,13 +1,4 @@
-import {
-  GET_TODO_LIST,
-  ADD_TODO,
-  UPDATE_TODO,
-  DELETE_TODO,
-  TodoActionTypes,
-  InventoryActionTypes,
-  TodoListState,
-  InventoryState,
-} from '../types/todoTypes';
+import { TodoListActionTypes, InventoryActionTypes, TodoListState, InventoryState } from '../types/todoTypes';
 import { ActionCreator, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'redux';
@@ -16,11 +7,7 @@ import { AxiosResponse } from 'axios';
 
 const api = new TodoService();
 
-export const getTodoList = (todoList: Todo[]): TodoActionTypes => {
-  return { type: GET_TODO_LIST, payload: todoList };
-};
-
-export type AppThunk = ActionCreator<ThunkAction<void, InventoryState, null, Action<string>>>;
+export type AppThunk = ActionCreator<ThunkAction<void, TodoListState, null, Action<string>>>;
 
 export const fetchRequest: AppThunk = () => {
   return async (dispatch: Dispatch) => {
@@ -29,12 +16,12 @@ export const fetchRequest: AppThunk = () => {
       const todos: Todo[] = getTodos.data;
 
       return dispatch({
-        type: InventoryActionTypes.FETCH_SUCCESS,
+        type: TodoListActionTypes.FETCH_TODO_LIST_SUCCESS,
         payload: todos,
       });
     } catch (e) {
       return dispatch({
-        type: InventoryActionTypes.FETCH_ERROR,
+        type: TodoListActionTypes.FETCH_TODO_LIST_ERROR,
       });
     }
   };

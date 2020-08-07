@@ -1,16 +1,23 @@
-import { TodoListState, TodoActionTypes, GET_TODO_LIST, ADD_TODO, UPDATE_TODO, DELETE_TODO } from '../types/todoTypes';
+import { TodoListState, TodoListActionTypes } from '../types/todoTypes';
 import { Reducer } from 'redux';
 
 const initialState: TodoListState = {
   todoList: [],
   loading: false,
-  posting: false,
+  errors: undefined,
 };
 
-const todoReducer = (state = initialState, action: TodoActionTypes) => {
+const todoReducer: Reducer<TodoListState> = (state = initialState, action) => {
   switch (action.type) {
-    case GET_TODO_LIST:
-      return { ...state, todoLists: action.payload };
+    case TodoListActionTypes.FETCH_TODO_LIST:
+      return { ...state, loading: true };
+
+    case TodoListActionTypes.FETCH_TODO_LIST_SUCCESS:
+      return { ...state, todoList: action.payload };
+
+    case TodoListActionTypes.FETCH_TODO_LIST_ERROR:
+      return { ...state, loading: false, errors: action.payload };
+
     default:
       return state;
   }
