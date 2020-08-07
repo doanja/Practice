@@ -42,6 +42,7 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
+        // TODO: CHECK IF ASYNC: LOGIN -> REDIRECT -> FAILS WHEN REDUX IS TRYING TO LOAD TODO LIST WHEN JWT IS NOT STORED
         dispatch(setAuthToken(res.data.token));
         dispatch(setLoginStatus(true));
         history.push('/todo');
