@@ -10,17 +10,18 @@ export type AppThunk = ActionCreator<ThunkAction<void, TodoListState, null, Acti
 
 export const getTodoList: AppThunk = () => {
   return async (dispatch: Dispatch) => {
+    const getTodos: AxiosResponse<Todo[]> = await api.getTodos();
     try {
-      const getTodos: AxiosResponse<Todo[]> = await api.getTodos();
       const todos: Todo[] = getTodos.data;
 
       return dispatch({
-        type: TodoListActionTypes.GET_TODO_LIST_SUCCESS,
+        type: TodoListActionTypes.GET_TODO_LIST,
         payload: todos,
       });
-    } catch (e) {
+    } catch (error) {
       return dispatch({
-        type: TodoListActionTypes.REQUEST_FAILURE,
+        type: TodoListActionTypes.REQUEST_FAILED,
+        error: getTodos.data,
       });
     }
   };
@@ -36,9 +37,10 @@ export const addTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList, A
         type: TodoListActionTypes.ADD_TODO,
         payload: todos,
       });
-    } catch (e) {
+    } catch (error) {
       return dispatch({
-        type: TodoListActionTypes.REQUEST_FAILURE,
+        type: TodoListActionTypes.REQUEST_FAILED,
+        error,
       });
     }
   };
@@ -54,9 +56,10 @@ export const updateTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
         type: TodoListActionTypes.UPDATE_TODO,
         payload: todos,
       });
-    } catch (e) {
+    } catch (error) {
       return dispatch({
-        type: TodoListActionTypes.REQUEST_FAILURE,
+        type: TodoListActionTypes.REQUEST_FAILED,
+        error,
       });
     }
   };
@@ -64,17 +67,22 @@ export const updateTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
 
 export const deleteTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList, Action<string>>> = (id: string) => {
   return async (dispatch: Dispatch) => {
+    const deleteTodos: AxiosResponse<Todo[]> = await api.deleteTodo(id);
+    console.log('deleteTodos', deleteTodos);
     try {
-      const deleteTodos: AxiosResponse<Todo[]> = await api.deleteTodo(id);
       const todos: Todo[] = deleteTodos.data;
 
       return dispatch({
         type: TodoListActionTypes.DELETE_TODO,
         payload: todos,
       });
-    } catch (e) {
+    } catch (error) {
+      const errors: any = deleteTodos;
+      console.log('errors', errors);
+      console.log('error', error);
       return dispatch({
-        type: TodoListActionTypes.REQUEST_FAILURE,
+        type: TodoListActionTypes.REQUEST_FAILED,
+        error: 'hello world',
       });
     }
   };

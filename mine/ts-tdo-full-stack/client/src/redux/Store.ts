@@ -4,38 +4,41 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
-function saveToLocalStorage(store: any) {
+const saveToLocalStorage = (store: any): void => {
   try {
     const serializedStore = JSON.stringify(store);
+
     localStorage.setItem('store', serializedStore);
   } catch (err) {
     console.log('Error saving to local storage in store:', err);
   }
-}
+};
 
-function loadFromLocalStorage() {
+const loadFromLocalStorage = () => {
   try {
     const serializedStore = localStorage.getItem('store');
 
     if (!serializedStore) return undefined;
 
-    const token = JSON.parse(serializedStore).auth.authToken;
+    const token: string = JSON.parse(serializedStore).authToken;
 
-    token ? (axios.defaults.headers.common.Authorization = `Bearer ${token}`) : (axios.defaults.headers.common.Authorization = '');
+    const auth = { auth: JSON.parse(serializedStore) };
 
-    return JSON.parse(serializedStore);
+    token ? (axios.defaults.headers.common.Authorization = `Bearer ${token}`) : (axios.defaults.headers.common.Authorization = null);
+
+    return auth;
   } catch (err) {
     console.log('Error loading from local storage in store:', err);
     return undefined;
   }
-}
+};
 
 const persistedState = loadFromLocalStorage();
 
-const Store = createStore(rootReducer, persistedState, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, persistedState, composeWithDevTools(applyMiddleware(thunk)));
 
-Store.subscribe(() => saveToLocalStorage(Store.getState()));
+store.subscribe(() => saveToLocalStorage(store.getState().auth));
 
 export type RootStore = ReturnType<typeof rootReducer>;
 
-export default Store;
+export default store;

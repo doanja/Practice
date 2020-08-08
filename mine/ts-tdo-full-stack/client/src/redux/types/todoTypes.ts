@@ -1,7 +1,6 @@
 export interface TodoListState {
   readonly todoList: Todo[];
-  readonly loading: boolean;
-  readonly errors?: string;
+  readonly error?: string;
 }
 
 export interface TodoList {
@@ -13,6 +12,5 @@ export enum TodoListActionTypes {
   DELETE_TODO = 'DELETE_TODO',
   UPDATE_TODO = 'UPDATE_TODO',
   GET_TODO_LIST = 'GET_TODO_LIST',
-  GET_TODO_LIST_SUCCESS = 'GET_TODO_LIST_SUCCESS',
-  REQUEST_FAILURE = 'REQUEST_FAILURE',
+  REQUEST_FAILED = 'REQUEST_FAILED',
 }

@@ -3,30 +3,27 @@ import { Reducer } from 'redux';
 
 const initialState: TodoListState = {
   todoList: [],
-  loading: false,
-  errors: undefined,
+  error: undefined,
 };
 
 const todoReducer: Reducer<TodoListState> = (state = initialState, action) => {
   switch (action.type) {
     case TodoListActionTypes.GET_TODO_LIST:
-      return { ...state, loading: true };
-
-    case TodoListActionTypes.GET_TODO_LIST_SUCCESS:
-      return { ...state, todoList: action.payload };
-
-    case TodoListActionTypes.REQUEST_FAILURE:
-      return { ...state, loading: false, errors: action.payload };
+      return { ...state, error: state.error, todoList: action.payload };
 
     case TodoListActionTypes.ADD_TODO:
-      return { errors: state.errors, loading: state.loading, todoList: action.payload };
+      return { ...state, error: state.error, todoList: action.payload };
 
-    case TodoListActionTypes.UPDATE_TODO: {
-      return { errors: state.errors, loading: state.loading, todoList: action.payload };
-    }
+    case TodoListActionTypes.UPDATE_TODO:
+      return { ...state, error: state.error, todoList: action.payload };
 
-    case TodoListActionTypes.DELETE_TODO: {
-      return { errors: state.errors, loading: state.loading, todoList: action.payload };
+    case TodoListActionTypes.DELETE_TODO:
+      return { ...state, error: state.error, todoList: action.payload };
+
+    case TodoListActionTypes.REQUEST_FAILED: {
+      console.log('action', action);
+      console.log('action failed');
+      return { ...state, error: action.error };
     }
 
     default:

@@ -12,7 +12,7 @@ const TodoHome: React.FC = () => {
 
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
-  const { todoList, errors, loading } = useSelector((state: RootStore) => state.todoList);
+  const { todoList } = useSelector((state: RootStore) => state.todoList);
   const dispatch = useDispatch();
 
   useEffect(() => {
