@@ -20,11 +20,8 @@ const todoReducer: Reducer<TodoListState> = (state = initialState, action) => {
     case TodoListActionTypes.DELETE_TODO:
       return { ...state, error: state.error, todoList: action.payload };
 
-    case TodoListActionTypes.REQUEST_FAILED: {
-      console.log('action', action);
-      console.log('action failed');
+    case TodoListActionTypes.REQUEST_FAILED:
       return { ...state, error: action.error };
-    }
 
     default:
       return state;

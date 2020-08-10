@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
-const saveToLocalStorage = (store: any): void => {
+const saveToLocalStorage = (store: { loginStatus: boolean; authToken: string }): void => {
   try {
     const serializedStore = JSON.stringify(store);
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -42,7 +43,7 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
-        // TODO: CHECK IF ASYNC: LOGIN -> REDIRECT -> FAILS WHEN REDUX IS TRYING TO LOAD TODO LIST WHEN JWT IS NOT STORED
+        axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
         dispatch(setAuthToken(res.data.token));
         dispatch(setLoginStatus(true));
         history.push('/todo');
