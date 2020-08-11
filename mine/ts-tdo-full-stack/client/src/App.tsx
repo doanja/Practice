@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import { Container } from 'react-bootstrap';
-
-import { TodoHome, Login, Signup } from './containers/';
+import { TodoHome, Login, Signup, PageNotFound } from './containers/';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +12,7 @@ const App: React.FC = () => {
             <Route exact path='/' component={Signup} />
             <Route exact path='/todo' component={TodoHome} />
             <Route exact path='/login' component={Login} />
+            <Route path='*' component={PageNotFound} />
           </Switch>
         </Router>
       </Container>

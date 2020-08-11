@@ -31,9 +31,6 @@ class App {
   }
 
   private initializeRoutes(routes: Route[]) {
-    // TODO: add routes and then remove this
-    // this.app.get('/', (req, res) => res.send('this is home'));
-
     // API routes
     routes.forEach((route: Route) => this.app.use('/', route.router));
 
