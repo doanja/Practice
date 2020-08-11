@@ -1,0 +1,34 @@
+@import '_config';
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+html {
+  background-color: $primary-color;
+}
+
+.text-dark {
+  color: $dark;
+}
+
+.text-light {
+  color: $light;
+}
+
+.bg-dark {
+  background-color: $dark;
+}
+
+.bg-light {
+  background-color: $light;
+}
+
+.test {
+  border: 1px solid red;
+}
+
+.app {
+  border: 1px solid blue;
+}
+
+#root {
+  border: 1px solid green;
+}

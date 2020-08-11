@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
 
+import { Container } from 'react-bootstrap';
+
 const Login: React.FC = () => {
   const api = new AuthService();
   const history = useHistory();
@@ -52,43 +54,43 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Form>
-      <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
+    <Container className='p-5 test'>
+      <Form>
+        <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
 
-      <Formik initialValues={{ email: '', password: '' }} validationSchema={validationSchema} onSubmit={values => login(values)}>
-        {(props: any) => (
-          <div>
-            <Form.Group controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter Email'
-                onChange={props.handleChange('email')}
-                value={props.values.email}
-                onBlur={props.handleBlur('email')}
-              />
-              <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
-            </Form.Group>
+        <Formik initialValues={{ email: '', password: '' }} validationSchema={validationSchema} onSubmit={values => login(values)}>
+          {(props: any) => (
+            <div>
+              <Form.Group controlId='email'>
+                <Form.Control
+                  type='email'
+                  placeholder='Email Address'
+                  onChange={props.handleChange('email')}
+                  value={props.values.email}
+                  onBlur={props.handleBlur('email')}
+                />
+                <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
+              </Form.Group>
 
-            <Form.Group controlId='password'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Enter Password'
-                onChange={props.handleChange('password')}
-                value={props.values.password}
-                onBlur={props.handleBlur('password')}
-              />
-              <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
-            </Form.Group>
+              <Form.Group controlId='password'>
+                <Form.Control
+                  type='password'
+                  placeholder='Password'
+                  onChange={props.handleChange('password')}
+                  value={props.values.password}
+                  onBlur={props.handleBlur('password')}
+                />
+                <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
+              </Form.Group>
 
-            <Button variant='dark' type='submit' onClick={props.handleSubmit}>
-              Login
-            </Button>
-          </div>
-        )}
-      </Formik>
-    </Form>
+              <Button variant='dark' type='submit' onClick={props.handleSubmit}>
+                Login
+              </Button>
+            </div>
+          )}
+        </Formik>
+      </Form>
+    </Container>
   );
 };
 

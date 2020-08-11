@@ -2,13 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { Container } from 'react-bootstrap';
-import './styles/App.css';
 
 import { TodoHome, Login, Signup } from './containers/';
 
 const App: React.FC = () => {
   return (
-    <Container>
+    <Container className='app'>
       <Router>
         <Switch>
           <Route exact path='/' component={Signup} />

@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './redux/Store';
 
+// styles
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/main.min.css';
+import './styles/reset.min.css';
 
-import './styles/index.css';
 import App from './App';
 
 ReactDOM.render(
