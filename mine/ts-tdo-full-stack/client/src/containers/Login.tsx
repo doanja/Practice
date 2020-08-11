@@ -88,6 +88,9 @@ const Login: React.FC = () => {
               <Button className='w-100' variant='dark' type='submit' onClick={props.handleSubmit}>
                 Login
               </Button>
+              <Button className='w-100 text-center' variant='link' type='button' onClick={() => history.push('/')}>
+                Not enrolled? Sign up now.
+              </Button>
             </div>
           )}
         </Formik>
