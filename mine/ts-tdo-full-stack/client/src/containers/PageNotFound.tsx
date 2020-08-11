@@ -4,7 +4,7 @@ import { Modal } from 'react-bootstrap';
 
 const PageNotFound: React.FC = () => {
   return (
-    <Modal show={true} className='text-center' centered>
+    <Modal show={true} className='text-center' backdrop={false} centered>
       <Modal.Body className='py-5'>
         <h1>404</h1>
         <h2 className='pb-2 text-primary'>Page not Found</h2>
