@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
 
+import { Container } from 'react-bootstrap';
+
 const TodoHome: React.FC = () => {
   const history = useHistory();
 
@@ -21,13 +23,13 @@ const TodoHome: React.FC = () => {
   }, []);
 
   return (
-    <Fragment>
-      <h1 className='text-center'>To Do List</h1>
+    <Container>
+      <h1 className='text-center mt-5'>To Do List</h1>
       <TodoForm />
 
       <hr />
       <TodoList todos={todoList} />
-    </Fragment>
+    </Container>
   );
 };
 
