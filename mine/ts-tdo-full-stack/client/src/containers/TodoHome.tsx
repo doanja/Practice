@@ -8,6 +8,7 @@ import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
 
 import { Container } from 'react-bootstrap';
+import { NavigationBar } from '../components/NavigationBar';
 
 const TodoHome: React.FC = () => {
   const history = useHistory();
@@ -23,13 +24,17 @@ const TodoHome: React.FC = () => {
   }, []);
 
   return (
-    <Container className='todo-home mt-5 p-3'>
-      <h1 className='text-center text-light'>To Do List</h1>
-      <TodoForm />
+    <Fragment>
+      <NavigationBar />
 
-      <hr />
-      <TodoList todos={todoList} />
-    </Container>
+      <Container className='todo-home mt-5 p-3'>
+        <h1 className='text-center text-light'>To Do List</h1>
+        <TodoForm />
+
+        <hr />
+        <TodoList todos={todoList} />
+      </Container>
+    </Fragment>
   );
 };
 
