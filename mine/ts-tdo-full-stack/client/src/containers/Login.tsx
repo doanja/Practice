@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { useHistory, Link } from 'react-router-dom';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { CustomModal } from '../components';
@@ -11,8 +11,6 @@ import { AuthService } from '../services';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
-
-import { Container } from 'react-bootstrap';
 
 const Login: React.FC = () => {
   const api = new AuthService();
@@ -54,48 +52,51 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container className='p-5 login'>
-      <Form>
-        <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
+    <Modal show={true} className='text-center' centered>
+      <Modal.Body className='py-3'>
+        <Form>
+          <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
 
-        <h3 className='text-center pb-2 text-primary'>User Login</h3>
+          <h3 className='text-center pb-2 text-primary'>User Login</h3>
 
-        <Formik initialValues={{ email: '', password: '' }} validationSchema={validationSchema} onSubmit={values => login(values)}>
-          {(props: any) => (
-            <div>
-              <Form.Group controlId='email'>
-                <Form.Control
-                  type='email'
-                  placeholder='Email Address'
-                  onChange={props.handleChange('email')}
-                  value={props.values.email}
-                  onBlur={props.handleBlur('email')}
-                />
-                <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
-              </Form.Group>
+          <Formik initialValues={{ email: '', password: '' }} validationSchema={validationSchema} onSubmit={values => login(values)}>
+            {(props: any) => (
+              <div>
+                <Form.Group controlId='email'>
+                  <Form.Control
+                    type='email'
+                    placeholder='Email Address'
+                    onChange={props.handleChange('email')}
+                    value={props.values.email}
+                    onBlur={props.handleBlur('email')}
+                  />
+                  <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
+                </Form.Group>
 
-              <Form.Group controlId='password'>
-                <Form.Control
-                  type='password'
-                  placeholder='Password'
-                  onChange={props.handleChange('password')}
-                  value={props.values.password}
-                  onBlur={props.handleBlur('password')}
-                />
-                <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
-              </Form.Group>
+                <Form.Group controlId='password'>
+                  <Form.Control
+                    type='password'
+                    placeholder='Password'
+                    onChange={props.handleChange('password')}
+                    value={props.values.password}
+                    onBlur={props.handleBlur('password')}
+                  />
+                  <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
+                </Form.Group>
 
-              <Button className='w-100' variant='dark' type='submit' onClick={props.handleSubmit}>
-                Login
-              </Button>
-              <Button className='w-100 text-center' variant='link' type='button' onClick={() => history.push('/')}>
-                Not enrolled? Sign up now.
-              </Button>
-            </div>
-          )}
-        </Formik>
-      </Form>
-    </Container>
+                <Button className='w-100 mb-3' variant='dark' type='submit' onClick={props.handleSubmit}>
+                  Login
+                </Button>
+
+                <Link className='text-center' to='/'>
+                  Not enrolled? Sign up now.
+                </Link>
+              </div>
+            )}
+          </Formik>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
 
