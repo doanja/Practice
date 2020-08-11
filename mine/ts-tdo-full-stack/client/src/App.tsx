@@ -7,15 +7,17 @@ import { TodoHome, Login, Signup } from './containers/';
 
 const App: React.FC = () => {
   return (
-    <Container className='app'>
-      <Router>
-        <Switch>
-          <Route exact path='/' component={Signup} />
-          <Route exact path='/todo' component={TodoHome} />
-          <Route exact path='/login' component={Login} />
-        </Switch>
-      </Router>
-    </Container>
+    <div className='wrap'>
+      <Container>
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Signup} />
+            <Route exact path='/todo' component={TodoHome} />
+            <Route exact path='/login' component={Login} />
+          </Switch>
+        </Router>
+      </Container>
+    </div>
   );
 };
 

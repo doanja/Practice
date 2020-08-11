@@ -1,7 +1,8 @@
 @import '_config';
 @import '../../node_modules/bootstrap/scss/bootstrap';
 
-html {
+html,
+.wrap {
   background-color: $primary-color;
 }
 
@@ -21,14 +22,13 @@ html {
   background-color: $light;
 }
 
-.test {
-  border: 1px solid red;
-}
-
 .app {
-  border: 1px solid blue;
+  height: 100vh;
 }
 
-#root {
-  border: 1px solid green;
+.login {
+  width: 40%;
+  margin-top: 50%;
+  background-color: white;
+  box-shadow: 0 12px 14px 0 rgba(0, 0, 0, 0.85);
 }

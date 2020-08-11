@@ -54,9 +54,11 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container className='p-5 test'>
+    <Container className='p-5 login'>
       <Form>
         <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
+
+        <h3 className='text-center pb-2 text-primary'>User Login</h3>
 
         <Formik initialValues={{ email: '', password: '' }} validationSchema={validationSchema} onSubmit={values => login(values)}>
           {(props: any) => (
@@ -83,7 +85,7 @@ const Login: React.FC = () => {
                 <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
               </Form.Group>
 
-              <Button variant='dark' type='submit' onClick={props.handleSubmit}>
+              <Button className='w-100' variant='dark' type='submit' onClick={props.handleSubmit}>
                 Login
               </Button>
             </div>
