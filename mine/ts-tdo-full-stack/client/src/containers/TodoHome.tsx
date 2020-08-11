@@ -23,8 +23,8 @@ const TodoHome: React.FC = () => {
   }, []);
 
   return (
-    <Container>
-      <h1 className='text-center mt-5'>To Do List</h1>
+    <Container className='todo-home mt-5 p-3'>
+      <h1 className='text-center text-light'>To Do List</h1>
       <TodoForm />
 
       <hr />
