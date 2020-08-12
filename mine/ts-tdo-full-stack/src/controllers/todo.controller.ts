@@ -43,6 +43,7 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
 };
 
 export const deleteTodo = async (req: Request, res: Response): Promise<void> => {
+  console.log('deleteTodo');
   try {
     const deletedTodo: ITodo | null = await Todo.findByIdAndDelete(req.params.id);
 
@@ -50,6 +51,7 @@ export const deleteTodo = async (req: Request, res: Response): Promise<void> => 
 
     res.status(201).json(todos);
   } catch (error) {
+    console.log('error occured');
     res.status(422).json({ error });
   }
 };

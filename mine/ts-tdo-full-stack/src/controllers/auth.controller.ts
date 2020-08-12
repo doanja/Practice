@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { User } from '../models';
 
 import { IUser } from '../types';
@@ -21,7 +21,10 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
 
     // generate a signed son web token with the contents of user _id and return it in the response
     req.login(user, { session: false }, () => {
-      return res.status(200).json({ token: sign({ _id: user._id }, 'secret', { expiresIn: '1h' }) });
+      const token = sign({ _id: user._id }, 'secret', { expiresIn: '1h' });
+      const decoded = verify(token, 'secret') as { _id: string; iat: number; exp: number };
+
+      return res.status(200).json({ token, decoded: decoded.exp });
     });
   })(req, res, next);
 };

@@ -46,6 +46,7 @@ const Login: React.FC = () => {
         axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
         dispatch(setAuthToken(res.data.token));
         dispatch(setLoginStatus(true));
+        console.log('res.data', res.data);
         history.push('/todo');
       })
       .catch(err => toggleModal(err.response.data.error.message));
