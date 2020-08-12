@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,8 +10,6 @@ import { RootStore } from '../redux/Store';
 import { clearAuthToken, clearLoginStatus } from '../redux/actions/authActions';
 
 export const NavigationBar: React.FC = () => {
-  const history = useHistory();
-
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
   const dispatch = useDispatch();
