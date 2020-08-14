@@ -53,7 +53,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Modal show={true} className='text-center' backdrop={false} centered>
+    <Modal show={true} className='text-center' backdrop={false} animation={false} centered>
       <Modal.Body className='py-3'>
         <Form>
           <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />

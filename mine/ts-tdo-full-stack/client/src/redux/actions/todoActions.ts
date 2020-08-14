@@ -21,7 +21,7 @@ export const getTodoList: AppThunk = () => {
     } catch (error) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILED,
-        error,
+        error: error.message,
       });
     }
   };
@@ -66,10 +66,8 @@ export const updateTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
 };
 
 export const deleteTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList, Action<string>>> = (id: string) => {
-  console.log('ALKSJDFKLA;JSDF;L');
   return async (dispatch: Dispatch) => {
     try {
-      console.log('try');
       const deleteTodos: AxiosResponse<Todo[]> = await api.deleteTodo(id);
       const todos: Todo[] = deleteTodos.data;
 
@@ -78,7 +76,6 @@ export const deleteTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
         payload: todos,
       });
     } catch (error) {
-      console.log('error');
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILED,
         error,

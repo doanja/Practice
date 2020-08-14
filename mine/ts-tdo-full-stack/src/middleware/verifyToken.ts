@@ -11,21 +11,21 @@ export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
   // extract the jwt token from the Authorization header
   const token = extractTokenFromHeader(req);
 
-  let decoded: any;
+  let decodedToken: any;
 
   // try to validate the token and get data
   try {
-    decoded = verify(<string>token, 'secret');
+    decodedToken = verify(<string>token, 'secret');
   } catch (error) {
     // if token is not valid, respond with 401 (unauthorized)
-    return res.status(401).send({ error: `${error.name}: ${error.message}.` });
+    return res.status(401).json(error);
   }
 
   // refresh the token on every request by setting another 1h
-  const newToken = sign({ _id: decoded._id }, 'secret', { expiresIn: '1h' });
+  const newToken = sign({ _id: decodedToken._id }, 'secret', { expiresIn: '1h' });
   res.setHeader('Authorization', 'Bearer ' + newToken);
 
-  req.token = decoded;
+  req.token = decodedToken;
 
   next();
 };

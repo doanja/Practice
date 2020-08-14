@@ -22,9 +22,9 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
     // generate a signed son web token with the contents of user _id and return it in the response
     req.login(user, { session: false }, () => {
       const token = sign({ _id: user._id }, 'secret', { expiresIn: '1h' });
-      const decoded = verify(token, 'secret') as { _id: string; iat: number; exp: number };
+      const decodedToken = verify(token, 'secret') as { _id: string; iat: number; exp: number };
 
-      return res.status(200).json({ token, decoded: decoded.exp });
+      return res.status(200).json({ token, expiry: decodedToken.exp });
     });
   })(req, res, next);
 };

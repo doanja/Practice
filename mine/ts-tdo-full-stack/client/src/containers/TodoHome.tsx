@@ -1,6 +1,6 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TodoForm, TodoList } from '../components';
+import { TodoForm, TodoList, CustomModal } from '../components';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,23 +12,56 @@ import { NavigationBar } from '../components/NavigationBar';
 
 import axios from 'axios';
 
+import { clearAuthToken, clearLoginStatus } from '../redux/actions/authActions';
+
 const TodoHome: React.FC = () => {
   const history = useHistory();
 
   // redux
   const { loginStatus, authToken } = useSelector((state: RootStore) => state.auth);
-  const { todoList } = useSelector((state: RootStore) => state.todoList);
+  const { todoList, error } = useSelector((state: RootStore) => state.todoList);
   const dispatch = useDispatch();
+
+  // modal
+  const [errorText, setErrorText] = useState<string>();
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal: ToggleModal = errorText => {
+    setErrorText(errorText);
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     if (!loginStatus) history.push('/');
-    else dispatch(getTodoList());
-  }, []);
+
+    dispatch(getTodoList());
+  }, [todoList]);
+
+  useEffect(() => {
+    if (error === 'Request failed with status code 401') {
+      // logout
+      toggleModal(`Your session has expired. Please login again.`);
+    }
+  }, [error]);
+
+  const logout = () => {
+    dispatch(clearAuthToken());
+    dispatch(clearLoginStatus());
+    window.localStorage.removeItem('store');
+    history.push('/');
+  };
 
   return (
     <Fragment>
       <NavigationBar />
-
+      <CustomModal
+        showModal={showModal}
+        toggleModal={toggleModal}
+        title={'Session Error'}
+        body={<p>{errorText}</p>}
+        confirmButton={true}
+        confirmFunction={() => logout()}
+      />
+      ;
       <Container className='todo-home mt-5 p-3'>
         <h1 className='text-center text-light'>To Do List</h1>
         <TodoForm />
