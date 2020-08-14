@@ -58,7 +58,6 @@ const TodoHome: React.FC = () => {
         toggleModal={toggleModal}
         title={'Session Error'}
         body={<p>{errorText}</p>}
-        confirmButton={true}
         confirmFunction={() => logout()}
       />
       ;
@@ -73,7 +72,7 @@ const TodoHome: React.FC = () => {
           className='mt-3'
           variant='primary'
           onClick={() => {
-            // axios.defaults.headers.common.Authorization = '';
+            axios.defaults.headers.common.Authorization = '';
             console.log('authToken', authToken);
           }}>
           delete jwt

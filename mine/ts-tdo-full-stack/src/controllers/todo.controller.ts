@@ -50,7 +50,6 @@ export const deleteTodo = async (req: Request, res: Response): Promise<void> => 
 
     res.status(201).json(todos);
   } catch (error) {
-    console.log('error occured');
     res.status(422).json({ error });
   }
 };
