@@ -6,11 +6,9 @@ import axios from 'axios';
 
 const saveToLocalStorage = (store: { loginStatus: boolean; authToken: string }): void => {
   try {
-    const serializedStore = JSON.stringify(store);
-
-    localStorage.setItem('store', serializedStore);
+    localStorage.setItem('store', JSON.stringify(store));
   } catch (err) {
-    console.log('Error saving to local storage in store:', err);
+    return undefined;
   }
 };
 
@@ -22,20 +20,15 @@ const loadFromLocalStorage = () => {
 
     const token: string = JSON.parse(serializedStore).authToken;
 
-    const auth = { auth: JSON.parse(serializedStore) };
-
     token ? (axios.defaults.headers.common.Authorization = `Bearer ${token}`) : (axios.defaults.headers.common.Authorization = null);
 
-    return auth;
+    return { auth: JSON.parse(serializedStore) };
   } catch (err) {
-    console.log('Error loading from local storage in store:', err);
     return undefined;
   }
 };
 
-const persistedState = loadFromLocalStorage();
-
-const store = createStore(rootReducer, persistedState, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, loadFromLocalStorage(), composeWithDevTools(applyMiddleware(thunk)));
 
 store.subscribe(() => saveToLocalStorage(store.getState().auth));
 
