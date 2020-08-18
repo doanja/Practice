@@ -35,7 +35,7 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
     const updateTodo: ITodo | null = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
 
     const todos: ITodo[] = await Todo.find({ user: req.token?._id });
-
+    console.log('req.token', req.token);
     res.status(200).json(todos);
   } catch (error) {
     res.status(422).json(error);

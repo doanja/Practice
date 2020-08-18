@@ -3,9 +3,12 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
-import { User } from '../models';
 
+import { User } from '../models';
 import { IUser } from '../types';
+import { getRefreshToken } from '../middleware/getRefreshToken';
+
+const storage = new Map(); // key: user id, value: refreshTokens[]
 
 export const signup = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('local-signup', { session: false }, (err, user, info) => {
@@ -22,8 +25,15 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
     // generate a signed son web token with the contents of user _id and return it in the response
     req.login(user, { session: false }, () => {
       const token = sign({ _id: user._id }, 'secret', { expiresIn: 300 });
-      const refreshToken = sign({ _id: user._id }, 'secret', { expiresIn: 86400 });
+
+      //
+      // const refreshToken = sign({ _id: user._id }, 'secret', { expiresIn: 86400 });
+      const refreshToken = getRefreshToken(user, storage);
+
       // const decodedToken = verify(token, 'secret') as { _id: string; iat: number; exp: number };
+
+      // // add refresh token to redis
+      storage.set(user._id, refreshToken);
 
       return res.status(200).json({ token, refreshToken /*, expiry: decodedToken.exp */ });
     });

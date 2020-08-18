@@ -72,8 +72,9 @@ const TodoHome: React.FC = () => {
           className='mt-3'
           variant='primary'
           onClick={() => {
-            axios.defaults.headers.common.Authorization = '';
-            console.log('authToken', authToken);
+            // axios.defaults.headers.common.Authorization = '';
+            console.log('axios.defaults.headers.common.Authorization', axios.defaults.headers.common.Authorization);
+            // console.log('authToken', authToken);
           }}>
           delete jwt
         </Button>
