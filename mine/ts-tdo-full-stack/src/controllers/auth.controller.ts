@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
-
+import { createClient } from 'redis';
 import { User } from '../models';
 import { IUser } from '../types';
 import { getRefreshToken } from '../middleware/getRefreshToken';
