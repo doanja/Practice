@@ -5,7 +5,7 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models';
 import { IUser } from '../types';
 import { sign } from 'jsonwebtoken';
-import { createClient, RedisClient, RedisError } from 'redis';
+import { createClient, RedisClient } from 'redis';
 
 const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
@@ -24,9 +24,9 @@ export const login = (req: Request, res: Response, next: NextFunction): void => 
 
     // generate a signed son web token with the contents of user _id and return it in the response
     req.login(user, { session: false }, () => {
-      const token: string | undefined = refreshToken(user._id.toString(), client);
+      const refreshToken: string = generateRefreshToken(user._id.toString(), client);
 
-      return res.status(200).json({ refreshToken: token });
+      return res.status(200).json({ refreshToken });
     });
   })(req, res, next);
 };
@@ -65,10 +65,8 @@ export const getRefreshToken = (req: Request, res: Response, next: NextFunction)
   // token is verified, send token back as access token
   if (req.refreshToken?._id) {
     console.log('getRefreshToken():', req.refreshToken._id);
-    const token = refreshToken(req.refreshToken?._id, client);
+    const token = generateRefreshToken(req.refreshToken?._id, client);
     res.status(201).json({ refreshToken: token });
-  } else {
-    res.status(404).json({ error: 'Error refreshing token' });
   }
 };
 
@@ -78,38 +76,33 @@ export const getAccessToken = (req: Request, res: Response, next: NextFunction):
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction): void => {
-  if (req.refreshToken?._id) {
-    console.log('logout:', req.refreshToken._id);
-    clearRefreshToken(req.refreshToken._id, client)
-      ? res.status(201).json({ message: 'Logout success' })
-      : res.status(401).json({ error: 'Logout unsuccessful' });
-  }
+  if (req.refreshToken?._id && deleteRefreshToken(req.refreshToken._id, client)) {
+    // const a = deleteRefreshToken(req.refreshToken._id, client);
+    console.log('logout working');
+    res.status(201).json({ message: 'Logout success' });
+  } else res.status(401).json({ error: 'Logout unsuccessful' });
 };
 
-const refreshToken = (payload: string, client: RedisClient): string | undefined => {
+const generateRefreshToken = (payload: string, client: RedisClient): string => {
+  console.log('generateRefreshToken()');
   const expiresIn = 86400;
   const refreshToken: string = sign({ _id: payload }, 'secret', { expiresIn });
 
+  // TODO: check how to conditionally return
   client.set(payload, refreshToken, function (err, reply) {
-    console.log(reply);
     client.expire(payload, expiresIn);
-    return refreshToken;
   });
 
-  // client.get(payload, function (err, reply) {
-  //   console.log(reply);
-  // });
-
-  return undefined;
+  return refreshToken;
 };
 
-const clearRefreshToken = (payload: string, client: RedisClient): boolean => {
-  // search for token in client, if found remove and return true
-  // otherwise return false
-
+const deleteRefreshToken = (payload: string, client: RedisClient): boolean => {
+  // TODO: check how to conditionally return
   client.del(payload, function (err, reply) {
-    console.log(reply);
-    return true;
+    if (reply) {
+      console.log('deleting refresh token');
+      return true;
+    } else return false;
   });
 
   return false;

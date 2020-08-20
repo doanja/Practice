@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import Validator from '../middleware/verifyUser';
-import { signup, login, initSignupStrategy, initLoginStrategy, getRefreshToken, getAccessToken } from '../controllers/auth.controller';
+import { signup, login, initSignupStrategy, initLoginStrategy, getRefreshToken, getAccessToken, logout } from '../controllers/auth.controller';
 import { verifyRefreshToken } from '../middleware/verifyToken';
 
 export default class AuthRoute {
@@ -25,5 +25,6 @@ export default class AuthRoute {
     this.router.post('/login', [this.validator.validatePassword, this.validator.validateEmail], login);
     this.router.post('/refresh-token', verifyRefreshToken, getRefreshToken);
     this.router.post('/access-token', verifyRefreshToken, getAccessToken);
+    this.router.post('/logout', verifyRefreshToken, logout);
   }
 }

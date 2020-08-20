@@ -21,7 +21,7 @@ export const verifyAccessToken = (req: Request, res: Response, next: NextFunctio
     return res.status(401).json(error);
   }
 
-  // refresh the token on every request by setting another 1h
+  // refresh the token on every request by setting another 15m
   const newToken = sign({ _id: decodedToken._id }, 'secret', { expiresIn: 900 });
   res.setHeader('Authorization', 'Bearer ' + newToken);
 
@@ -30,6 +30,7 @@ export const verifyAccessToken = (req: Request, res: Response, next: NextFunctio
   next();
 };
 
+// TODO: check where this token is pulling from
 export const verifyRefreshToken = (req: Request, res: Response, next: NextFunction) => {
   // extract the jwt token from the Authorization header
   const token = extractTokenFromHeader(req);
@@ -44,7 +45,7 @@ export const verifyRefreshToken = (req: Request, res: Response, next: NextFuncti
     return res.status(401).json(error);
   }
 
-  // refresh the token on every request by setting another 1h
+  // refresh the token on every request by setting another 24h
   const newToken = sign({ _id: decodedToken._id }, 'secret', { expiresIn: 86400 });
   res.setHeader('Authorization', 'Bearer ' + newToken);
 
