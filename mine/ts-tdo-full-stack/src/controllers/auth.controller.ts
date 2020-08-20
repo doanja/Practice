@@ -4,8 +4,8 @@ import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models';
 import { IUser } from '../types';
-import { refreshToken, clearRefreshToken } from '../middleware/getRefreshToken';
-import { createClient, RedisClient } from 'redis';
+import { sign } from 'jsonwebtoken';
+import { createClient, RedisClient, RedisError } from 'redis';
 
 const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
@@ -24,10 +24,7 @@ export const login = (req: Request, res: Response, next: NextFunction): void => 
 
     // generate a signed son web token with the contents of user _id and return it in the response
     req.login(user, { session: false }, () => {
-      // const token = sign({ _id: user._id }, 'secret', { expiresIn: 300 });
-
-      // const refreshToken = sign({ _id: user._id }, 'secret', { expiresIn: 86400 });
-      const token: string = refreshToken(user._id, client);
+      const token: string | undefined = refreshToken(user._id.toString(), client);
 
       return res.status(200).json({ refreshToken: token });
     });
@@ -67,10 +64,11 @@ export const initLoginStrategy = (): Strategy => {
 export const getRefreshToken = (req: Request, res: Response, next: NextFunction): void => {
   // token is verified, send token back as access token
   if (req.refreshToken?._id) {
+    console.log('getRefreshToken():', req.refreshToken._id);
     const token = refreshToken(req.refreshToken?._id, client);
     res.status(201).json({ refreshToken: token });
   } else {
-    res.status(404).json({ error: 'token not found in body' });
+    res.status(404).json({ error: 'Error refreshing token' });
   }
 };
 
@@ -81,8 +79,38 @@ export const getAccessToken = (req: Request, res: Response, next: NextFunction):
 
 export const logout = (req: Request, res: Response, next: NextFunction): void => {
   if (req.refreshToken?._id) {
+    console.log('logout:', req.refreshToken._id);
     clearRefreshToken(req.refreshToken._id, client)
-      ? res.status(201).json({ message: 'logout success' })
-      : res.status(401).json({ error: 'logout unsuccessful' });
+      ? res.status(201).json({ message: 'Logout success' })
+      : res.status(401).json({ error: 'Logout unsuccessful' });
   }
+};
+
+const refreshToken = (payload: string, client: RedisClient): string | undefined => {
+  const expiresIn = 86400;
+  const refreshToken: string = sign({ _id: payload }, 'secret', { expiresIn });
+
+  client.set(payload, refreshToken, function (err, reply) {
+    console.log(reply);
+    client.expire(payload, expiresIn);
+    return refreshToken;
+  });
+
+  // client.get(payload, function (err, reply) {
+  //   console.log(reply);
+  // });
+
+  return undefined;
+};
+
+const clearRefreshToken = (payload: string, client: RedisClient): boolean => {
+  // search for token in client, if found remove and return true
+  // otherwise return false
+
+  client.del(payload, function (err, reply) {
+    console.log(reply);
+    return true;
+  });
+
+  return false;
 };
