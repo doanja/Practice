@@ -4,13 +4,14 @@ import { RedisError, RedisClient } from 'redis';
 export const refreshToken = (payload: string, client: RedisClient): string => {
   const refreshToken: string = sign({ _id: payload }, 'secret', { expiresIn: 86400 });
 
-  // client.set(payload._id, refreshToken);
+  client.set(payload, refreshToken);
 
   // client.get(_id, (error: RedisError, rep: any) => {
   //   if (error)
   //     //  return error here?
   //     return undefined;
   // });
+  console.log('client', client);
 
   return refreshToken;
 };

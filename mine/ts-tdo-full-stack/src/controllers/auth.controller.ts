@@ -7,7 +7,7 @@ import { IUser } from '../types';
 import { refreshToken, clearRefreshToken } from '../middleware/getRefreshToken';
 import { createClient, RedisClient } from 'redis';
 
-const client: RedisClient = createClient('redis://127.0.0.1');
+const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
 
 export const signup = (req: Request, res: Response, next: NextFunction): void => {
@@ -66,8 +66,8 @@ export const initLoginStrategy = (): Strategy => {
 
 export const getRefreshToken = (req: Request, res: Response, next: NextFunction): void => {
   // token is verified, send token back as access token
-  if (req.token?._id) {
-    const token = refreshToken(req.token?._id, client);
+  if (req.refreshToken?._id) {
+    const token = refreshToken(req.refreshToken?._id, client);
     res.status(201).json({ refreshToken: token });
   } else {
     res.status(404).json({ error: 'token not found in body' });
@@ -76,12 +76,12 @@ export const getRefreshToken = (req: Request, res: Response, next: NextFunction)
 
 export const getAccessToken = (req: Request, res: Response, next: NextFunction): void => {
   // refresh token is verified, send access token in response
-  res.status(201).json({ accessToken: req.token });
+  res.status(201).json({ accessToken: req.accessToken });
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction): void => {
-  if (req.token?._id) {
-    clearRefreshToken(req.token._id, client)
+  if (req.refreshToken?._id) {
+    clearRefreshToken(req.refreshToken._id, client)
       ? res.status(201).json({ message: 'logout success' })
       : res.status(401).json({ error: 'logout unsuccessful' });
   }

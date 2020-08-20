@@ -11,4 +11,5 @@ const app = new App(
   // redis_url,
   NODE_ENV
 );
+
 app.listen();

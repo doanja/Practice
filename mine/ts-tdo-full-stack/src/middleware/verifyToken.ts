@@ -7,7 +7,7 @@ const extractTokenFromHeader = (req: Request): string | undefined => {
   }
 };
 
-export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+export const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
   // extract the jwt token from the Authorization header
   const token = extractTokenFromHeader(req);
 
@@ -22,10 +22,33 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   }
 
   // refresh the token on every request by setting another 1h
-  const newToken = sign({ _id: decodedToken._id }, 'secret', { expiresIn: '1h' });
+  const newToken = sign({ _id: decodedToken._id }, 'secret', { expiresIn: 900 });
   res.setHeader('Authorization', 'Bearer ' + newToken);
 
-  req.token = decodedToken;
+  req.accessToken = decodedToken;
+
+  next();
+};
+
+export const verifyRefreshToken = (req: Request, res: Response, next: NextFunction) => {
+  // extract the jwt token from the Authorization header
+  const token = extractTokenFromHeader(req);
+
+  let decodedToken: any;
+
+  // try to validate the token and get data
+  try {
+    decodedToken = verify(<string>token, 'secret');
+  } catch (error) {
+    // if token is not valid, respond with 401 (unauthorized)
+    return res.status(401).json(error);
+  }
+
+  // refresh the token on every request by setting another 1h
+  const newToken = sign({ _id: decodedToken._id }, 'secret', { expiresIn: 86400 });
+  res.setHeader('Authorization', 'Bearer ' + newToken);
+
+  req.refreshToken = decodedToken;
 
   next();
 };
