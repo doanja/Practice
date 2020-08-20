@@ -7,7 +7,7 @@ const extractTokenFromHeader = (req: Request): string | undefined => {
   }
 };
 
-export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   // extract the jwt token from the Authorization header
   const token = extractTokenFromHeader(req);
 

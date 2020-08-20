@@ -1,33 +1,22 @@
 import { sign } from 'jsonwebtoken';
-import { IUser } from '../types';
+import { RedisError, RedisClient } from 'redis';
 
-export const getRefreshToken = (payload: IUser, storage: any) => {
-  // get all user's refresh tokens from DB
-  const userRefreshTokens = storage.get(payload._id);
+export const refreshToken = (payload: string, client: RedisClient): string => {
+  const refreshToken: string = sign({ _id: payload }, 'secret', { expiresIn: 86400 });
 
-  // if there are no refresh tokens
-  if (!userRefreshTokens) {
-    const refreshToken = sign({ _id: payload._id }, 'secret', { expiresIn: 86400 });
+  // client.set(payload._id, refreshToken);
 
-    // update storage
-    storage.set(payload._id, refreshToken);
-
-    return refreshToken;
-  }
-  // remove all refresh tokens except for one if there's 5 or mroe belonging to the user
-  else if (userRefreshTokens.length >= 5) {
-    storage.set(
-      payload._id,
-      userRefreshTokens.filter((token: string) => token !== payload._id)
-    );
-  }
-
-  // otherwise, add the user's token to storage
-  const refreshToken = sign({ _id: payload._id }, 'secret', { expiresIn: 86400 });
-
-  storage.set(payload._id, [...storage.get(payload._id), refreshToken]);
-
-  console.log('storage', storage);
+  // client.get(_id, (error: RedisError, rep: any) => {
+  //   if (error)
+  //     //  return error here?
+  //     return undefined;
+  // });
 
   return refreshToken;
+};
+
+export const clearRefreshToken = (payload: string, client: any): boolean => {
+  // search for token in client, if found remove and return true
+  // otherwise return false
+  return true;
 };

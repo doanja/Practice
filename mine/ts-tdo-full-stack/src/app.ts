@@ -3,21 +3,24 @@ import mongoose from 'mongoose';
 import path from 'path';
 import passport from 'passport';
 import { MongoConfig, Route } from './constants/interfaces';
-import { createClient, RedisClient, ClientOpts } from 'redis';
+// import { createClient, RedisClient, ClientOpts } from 'redis';
 
 class App {
   public app: Application;
   public port: number;
   public mongoConfig: MongoConfig;
-  public redis: RedisClient;
+  // public redis: RedisClient;
   public environment: string | undefined;
 
-  constructor(port: number, mongoConfig: MongoConfig, routes: Route[], redisUrl: string, environment?: string) {
+  constructor(port: number, mongoConfig: MongoConfig, routes: Route[], /* redisUrl: string | undefined, */ environment?: string) {
     this.app = express();
     this.port = port;
     this.mongoConfig = mongoConfig;
-    this.redis = createClient(redisUrl);
     this.environment = environment;
+
+    // TODO: check this
+    // if (redisUrl) this.redis = createClient(redisUrl);
+    // else this.redis = createClient();
 
     this.initializeMiddlewares();
     this.initializeRoutes(routes);

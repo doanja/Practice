@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getTodos, addTodo, updateTodo, deleteTodo } from '../controllers/todo.controller';
-import { verifyJwt } from '../middleware/verifyToken';
+import { verifyToken } from '../middleware/verifyToken';
 
 export default class TodoRoute {
   public router = Router();
@@ -10,9 +10,9 @@ export default class TodoRoute {
   }
 
   public initializeRoutes() {
-    this.router.get('/todo', [verifyJwt], getTodos);
-    this.router.post('/todo', [verifyJwt], addTodo);
-    this.router.put('/todo/:id', [verifyJwt], updateTodo);
-    this.router.delete('/todo/:id', [verifyJwt], deleteTodo);
+    this.router.get('/todo', [verifyToken], getTodos);
+    this.router.post('/todo', [verifyToken], addTodo);
+    this.router.put('/todo/:id', [verifyToken], updateTodo);
+    this.router.delete('/todo/:id', [verifyToken], deleteTodo);
   }
 }

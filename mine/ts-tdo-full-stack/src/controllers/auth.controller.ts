@@ -2,15 +2,15 @@ import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
-import { sign, verify } from 'jsonwebtoken';
-import { createClient } from 'redis';
 import { User } from '../models';
 import { IUser } from '../types';
-import { getRefreshToken } from '../middleware/getRefreshToken';
+import { refreshToken, clearRefreshToken } from '../middleware/getRefreshToken';
+import { createClient, RedisClient } from 'redis';
 
-const storage = new Map(); // key: user id, value: refreshTokens[]
+const client: RedisClient = createClient('redis://127.0.0.1');
+client.on('connect', () => console.log('REDIS CONNECTED'));
 
-export const signup = (req: Request, res: Response, next: NextFunction) => {
+export const signup = (req: Request, res: Response, next: NextFunction): void => {
   passport.authenticate('local-signup', { session: false }, (err, user, info) => {
     if (!user || err) return res.status(400).json({ error: info });
 
@@ -18,24 +18,18 @@ export const signup = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next);
 };
 
-export const login = (req: Request, res: Response, next: NextFunction) => {
+export const login = (req: Request, res: Response, next: NextFunction): void => {
   passport.authenticate('local-login', { session: false }, (err, user, info) => {
     if (!user || err) return res.status(400).json({ error: info });
 
     // generate a signed son web token with the contents of user _id and return it in the response
     req.login(user, { session: false }, () => {
-      const token = sign({ _id: user._id }, 'secret', { expiresIn: 300 });
+      // const token = sign({ _id: user._id }, 'secret', { expiresIn: 300 });
 
-      //
       // const refreshToken = sign({ _id: user._id }, 'secret', { expiresIn: 86400 });
-      const refreshToken = getRefreshToken(user, storage);
+      const token: string = refreshToken(user._id, client);
 
-      // const decodedToken = verify(token, 'secret') as { _id: string; iat: number; exp: number };
-
-      // // add refresh token to redis
-      storage.set(user._id, refreshToken);
-
-      return res.status(200).json({ token, refreshToken /*, expiry: decodedToken.exp */ });
+      return res.status(200).json({ refreshToken: token });
     });
   })(req, res, next);
 };
@@ -68,4 +62,27 @@ export const initLoginStrategy = (): Strategy => {
       return done(null, user);
     });
   });
+};
+
+export const getRefreshToken = (req: Request, res: Response, next: NextFunction): void => {
+  // token is verified, send token back as access token
+  if (req.token?._id) {
+    const token = refreshToken(req.token?._id, client);
+    res.status(201).json({ refreshToken: token });
+  } else {
+    res.status(404).json({ error: 'token not found in body' });
+  }
+};
+
+export const getAccessToken = (req: Request, res: Response, next: NextFunction): void => {
+  // refresh token is verified, send access token in response
+  res.status(201).json({ accessToken: req.token });
+};
+
+export const logout = (req: Request, res: Response, next: NextFunction): void => {
+  if (req.token?._id) {
+    clearRefreshToken(req.token._id, client)
+      ? res.status(201).json({ message: 'logout success' })
+      : res.status(401).json({ error: 'logout unsuccessful' });
+  }
 };
