@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+
+// forms
 import { Form, Button, Modal } from 'react-bootstrap';
-import { Formik } from 'formik';
-import * as yup from 'yup';
+import { useFormik } from 'formik';
+import { signupSchema } from '../components/form/formScheme';
+import { FormInput } from '../components/form/FormInput';
+
 import { CustomModal } from '../components';
 import { AuthService } from '../services';
 
@@ -29,27 +33,6 @@ const Signup: React.FC = () => {
     setShowModal(!showModal);
   };
 
-  const checkValues = (values: SignupFormValues) => {
-    const { email, confirmEmail, password, confirmPassword } = values;
-
-    if (email !== confirmEmail) {
-      toggleModal('Emails addresses must match');
-      return false;
-    } else if (password !== confirmPassword) {
-      toggleModal('Passwords must match');
-      return false;
-    }
-
-    return true;
-  };
-
-  const validationSchema = yup.object({
-    email: yup.string().required().email(),
-    confirmEmail: yup.string().required().email(),
-    password: yup.string().required().min(8),
-    confirmPassword: yup.string().required().min(8),
-  });
-
   const signup = (values: SignupFormValues) => {
     const { email, password } = values;
 
@@ -59,76 +42,67 @@ const Signup: React.FC = () => {
       .catch(err => toggleModal(err.response.data.error.message));
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      email_2: '',
+      password: '',
+      password_2: '',
+    },
+    onSubmit: values => signup(values),
+    validationSchema: signupSchema,
+  });
+
   return (
-    <Modal show={true} className='text-center' backdrop={false} animation={false} centered>
+    <Modal show={true} backdrop={false} animation={false} centered>
       <Modal.Body className='py-3'>
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
+          {/* TODO: hide form when modal is active */}
           <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
 
           <h3 className='text-center pb-2 text-primary'>User Signup</h3>
+          <FormInput
+            label='email'
+            error={formik.errors.email}
+            type='email'
+            placeholder='Email Address'
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            id='email'
+          />
+          <FormInput
+            label='email_2'
+            error={formik.errors.email_2}
+            type='email'
+            placeholder='Confirm Email Address'
+            onChange={formik.handleChange}
+            value={formik.values.email_2}
+            id='email_2'
+          />
+          <FormInput
+            label='password'
+            error={formik.errors.password}
+            type='password'
+            placeholder='Password'
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            id='password'
+          />
+          <FormInput
+            label='password_2'
+            error={formik.errors.password_2}
+            type='password'
+            placeholder='Confirm Password'
+            onChange={formik.handleChange}
+            value={formik.values.password_2}
+            id='password_2'
+          />
 
-          <Formik
-            initialValues={{ email: '', confirmEmail: '', password: '', confirmPassword: '' }}
-            validationSchema={validationSchema}
-            onSubmit={values => {
-              if (checkValues(values)) signup(values);
-            }}>
-            {(props: any) => (
-              <div>
-                <Form.Group controlId='email'>
-                  <Form.Control
-                    type='email'
-                    placeholder='Enter Email Address'
-                    onChange={props.handleChange('email')}
-                    value={props.values.email}
-                    onBlur={props.handleBlur('email')}
-                  />
-                  <Form.Text className='text-danger'>{props.touched.email && props.errors.email}</Form.Text>
-                </Form.Group>
+          <Button className='w-100 mb-3' variant='dark' type='submit'>
+            Signup
+          </Button>
 
-                <Form.Group controlId='confirmEmail'>
-                  <Form.Control
-                    type='email'
-                    placeholder='Confirm Email'
-                    onChange={props.handleChange('confirmEmail')}
-                    value={props.values.confirmEmail}
-                    onBlur={props.handleBlur('confirmEmail')}
-                  />
-                  <Form.Text className='text-danger'>{props.touched.confirmEmail && props.errors.confirmEmail}</Form.Text>
-                </Form.Group>
-
-                <Form.Group controlId='password'>
-                  <Form.Control
-                    type='password'
-                    placeholder='Enter Password'
-                    onChange={props.handleChange('password')}
-                    value={props.values.password}
-                    onBlur={props.handleBlur('password')}
-                  />
-                  <Form.Text className='text-danger'>{props.touched.password && props.errors.password}</Form.Text>
-                </Form.Group>
-
-                <Form.Group controlId='confirmPassword'>
-                  <Form.Control
-                    type='password'
-                    placeholder='Confirm Password'
-                    onChange={props.handleChange('confirmPassword')}
-                    value={props.values.confirmPassword}
-                    onBlur={props.handleBlur('confirmPassword')}
-                  />
-                  <Form.Text className='text-danger'>{props.touched.confirmPassword && props.errors.confirmPassword}</Form.Text>
-                </Form.Group>
-
-                <Button className='w-100 mb-3' variant='dark' type='submit' onClick={props.handleSubmit}>
-                  Signup
-                </Button>
-
-                <Link className='text-center' to='/login'>
-                  Already a user? Login here.
-                </Link>
-              </div>
-            )}
-          </Formik>
+          <Link to='/login'>Already a user? Login here.</Link>
         </Form>
       </Modal.Body>
     </Modal>

@@ -14,7 +14,6 @@ interface FormInputProps {
 export const FormInput: React.FC<FormInputProps> = ({ label, error, type, placeholder, onChange, value, id }) => {
   return (
     <Form.Group>
-      {/* <label htmlFor={id}>{label}</label> */}
       <Form.Control className={`${error && 'is-invalid'}`} type={type} placeholder={placeholder} onChange={e => onChange(e)} value={value} id={id} />
       <Form.Text className='text-danger'>{error}</Form.Text>
     </Form.Group>

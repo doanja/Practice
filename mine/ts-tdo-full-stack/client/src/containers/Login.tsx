@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory, Link } from 'react-router-dom';
+
+// forms
 import { Form, Button, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { loginSchema } from '../components/form/formScheme';
+import { FormInput } from '../components/form/FormInput';
+
 import { CustomModal } from '../components';
 import { AuthService } from '../services';
 
@@ -11,7 +15,6 @@ import { AuthService } from '../services';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
-import { FormInput } from '../components/form/FormInput';
 
 const Login: React.FC = () => {
   const api = new AuthService();
@@ -53,9 +56,7 @@ const Login: React.FC = () => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      email_2: '',
       password: '',
-      password_2: '',
     },
     onSubmit: values => login(values),
     validationSchema: loginSchema,
@@ -68,6 +69,7 @@ const Login: React.FC = () => {
           <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
 
           <h3 className='text-center pb-2 text-primary'>User Login</h3>
+
           <FormInput
             label='email'
             error={formik.errors.email}
@@ -77,15 +79,6 @@ const Login: React.FC = () => {
             value={formik.values.email}
             id='email'
           />
-          {/* <FormInput
-            label='email_2'
-            error={formik.errors.email_2}
-            type='email'
-            placeholder='Confirm Email Address'
-            onChange={formik.handleChange}
-            value={formik.values.email_2}
-            id='email_2'
-          /> */}
           <FormInput
             label='password'
             error={formik.errors.password}
@@ -95,15 +88,6 @@ const Login: React.FC = () => {
             value={formik.values.password}
             id='password'
           />
-          {/* <FormInput
-            label='password_2'
-            error={formik.errors.password_2}
-            type='password'
-            placeholder='Confirm Password'
-            onChange={formik.handleChange}
-            value={formik.values.password_2}
-            id='password_2'
-          /> */}
 
           <Button className='w-100 mb-3' variant='dark' type='submit'>
             Login
