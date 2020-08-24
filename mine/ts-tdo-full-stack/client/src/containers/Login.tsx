@@ -34,6 +34,8 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
+        // TODO: store refreshToken, then chain another call to get accessToken then store that
+        // TODO: update auth store to store refreshToken and accesstoken
         console.log('res.data :>> ', res.data);
         console.log('res.data.token', res.data.token);
         console.log('res.data.refreshToken', res.data.refreshToken);
@@ -43,7 +45,7 @@ const Login: React.FC = () => {
 
         history.push('/todo');
       })
-      .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error')));
+      .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error Logging In')));
   };
 
   const formik = useFormik({

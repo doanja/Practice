@@ -11,7 +11,7 @@ import { toggleModal } from './redux/actions/modalActions';
 
 const App: React.FC = () => {
   // redux
-  const { showModal, modalBody: errorText } = useSelector((state: RootStore) => state.modal);
+  const { showModal, modalBody, modalTitle } = useSelector((state: RootStore) => state.modal);
   const dispatch = useDispatch();
 
   return (
@@ -19,9 +19,9 @@ const App: React.FC = () => {
       <Container>
         <CustomModal
           showModal={showModal}
-          toggleModal={() => dispatch(toggleModal(!showModal, errorText, 'Error'))}
-          title={'Error in Form'}
-          body={<p>{errorText}</p>}
+          toggleModal={() => dispatch(toggleModal(!showModal, modalBody, 'Error'))}
+          title={modalTitle}
+          body={<p>{modalBody}</p>}
         />
         <Router>
           <Switch>

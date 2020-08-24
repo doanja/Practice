@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
     api
       .signup(email, password)
       .then(res => history.push('/login'))
-      .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error')));
+      .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error Signing Up')));
   };
 
   const formik = useFormik({

@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { clearAuthToken, clearLoginStatus } from '../redux/actions/authActions';
 
-export const NavigationBar: React.FC = () => {
+const NavigationBar: React.FC = () => {
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
   const dispatch = useDispatch();
@@ -37,3 +37,5 @@ export const NavigationBar: React.FC = () => {
     </Navbar>
   );
 };
+
+export default NavigationBar;
