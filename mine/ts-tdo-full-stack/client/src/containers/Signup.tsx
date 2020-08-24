@@ -7,12 +7,17 @@ import { useFormik } from 'formik';
 import { signupSchema } from '../components/form/formScheme';
 import { FormInput } from '../components/form/FormInput';
 
-import { CustomModal } from '../components';
+// import { CustomModal } from '../components';
 import { AuthService } from '../services';
 
 // redux
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+// import { RootStore } from '../redux/Store';
+
+// redux
+import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
+import { toggleModal } from '../redux/actions/modalActions';
 
 const Signup: React.FC = () => {
   // redux
@@ -26,12 +31,16 @@ const Signup: React.FC = () => {
   const history = useHistory();
 
   // modal
-  const [errorText, setErrorText] = useState<string>();
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal: ToggleModal = errorText => {
-    setErrorText(errorText);
-    setShowModal(!showModal);
-  };
+  // const [errorText, setErrorText] = useState<string>();
+  // const [showModal, setShowModal] = useState(false);
+  // const toggleModal: ToggleModal = errorText => {
+  //   setErrorText(errorText);
+  //   setShowModal(!showModal);
+  // };
+
+  // redux
+  const { showModal } = useSelector((state: RootStore) => state.modal);
+  const dispatch = useDispatch();
 
   const signup = (values: SignupFormValues) => {
     const { email, password } = values;
@@ -39,7 +48,12 @@ const Signup: React.FC = () => {
     api
       .signup(email, password)
       .then(res => history.push('/login'))
-      .catch(err => toggleModal(err.response.data.error.message));
+      .catch(err => {
+        console.log('error in signup', err.response.data.error.message);
+        // toggleModal(err.response.data.error.message)
+
+        dispatch(toggleModal(!showModal, err.response.data.error.message));
+      });
   };
 
   const formik = useFormik({
@@ -57,8 +71,8 @@ const Signup: React.FC = () => {
     <Modal show={true} backdrop={false} animation={false} centered>
       <Modal.Body className='py-3'>
         <Form onSubmit={formik.handleSubmit}>
-          {/* TODO: hide form when modal is active */}
-          <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
+          {/* TODO: hide form when modal is active
+          <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} /> */}
 
           <h3 className='text-center pb-2 text-primary'>User Signup</h3>
           <FormInput

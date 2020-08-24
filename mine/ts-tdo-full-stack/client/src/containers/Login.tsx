@@ -42,6 +42,7 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
+        console.log('res.data :>> ', res.data);
         console.log('res.data.token', res.data.token);
         console.log('res.data.refreshToken', res.data.refreshToken);
         axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
