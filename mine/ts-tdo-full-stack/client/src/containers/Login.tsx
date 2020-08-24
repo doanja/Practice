@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useHistory, Link } from 'react-router-dom';
+import { AuthService } from '../services';
 
 // forms
 import { Form, Button, Modal } from 'react-bootstrap';
@@ -8,13 +9,11 @@ import { useFormik } from 'formik';
 import { loginSchema } from '../components/form/formScheme';
 import { FormInput } from '../components/form/FormInput';
 
-import { CustomModal } from '../components';
-import { AuthService } from '../services';
-
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
+import { toggleModal } from '../redux/actions/modalActions';
 
 const Login: React.FC = () => {
   const api = new AuthService();
@@ -22,19 +21,12 @@ const Login: React.FC = () => {
 
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
+  const { showModal } = useSelector((state: RootStore) => state.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (loginStatus) history.push('/todo');
   }, []);
-
-  // modal
-  const [errorText, setErrorText] = useState<string>();
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal: ToggleModal = errorText => {
-    setErrorText(errorText);
-    setShowModal(!showModal);
-  };
 
   const login = (values: LoginFormValues) => {
     const { email, password } = values;
@@ -51,7 +43,7 @@ const Login: React.FC = () => {
 
         history.push('/todo');
       })
-      .catch(err => toggleModal(err.response.data.error.message));
+      .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error')));
   };
 
   const formik = useFormik({
@@ -67,8 +59,6 @@ const Login: React.FC = () => {
     <Modal show={true} backdrop={false} animation={false} centered>
       <Modal.Body className='py-3'>
         <Form onSubmit={formik.handleSubmit}>
-          <CustomModal showModal={showModal} toggleModal={toggleModal} title={'Error in Form'} body={<p>{errorText}</p>} />
-
           <h3 className='text-center pb-2 text-primary'>User Login</h3>
 
           <FormInput
