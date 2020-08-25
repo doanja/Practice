@@ -8,13 +8,13 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
-import { clearAuthToken, clearLoginStatus } from '../redux/actions/authActions';
+import { clearAccessToken, clearLoginStatus } from '../redux/actions/authActions';
 
 const TodoHome: React.FC = () => {
   const history = useHistory();
 
   // redux
-  const { loginStatus, authToken } = useSelector((state: RootStore) => state.auth);
+  const { loginStatus, accessToken } = useSelector((state: RootStore) => state.auth);
   const { todoList, error } = useSelector((state: RootStore) => state.todoList);
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const TodoHome: React.FC = () => {
   }, [error]);
 
   const logout = () => {
-    dispatch(clearAuthToken());
+    dispatch(clearAccessToken());
     dispatch(clearLoginStatus());
     window.localStorage.removeItem('store');
     history.push('/');
@@ -62,7 +62,6 @@ const TodoHome: React.FC = () => {
           onClick={() => {
             // axios.defaults.headers.common.Authorization = '';
             console.log('axios.defaults.headers.common.Authorization', axios.defaults.headers.common.Authorization);
-            // console.log('authToken', authToken);
           }}>
           delete jwt
         </Button>

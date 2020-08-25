@@ -1,8 +1,18 @@
-import { AuthState, AuthActionTypes, SET_LOGIN_STATUS, CLEAR_LOGIN_STATUS, SET_AUTH_TOKEN, CLEAR_AUTH_TOKEN } from '../types/authTypes';
+import {
+  AuthState,
+  AuthActionTypes,
+  SET_LOGIN_STATUS,
+  CLEAR_LOGIN_STATUS,
+  SET_ACCESS_TOKEN,
+  CLEAR_ACCESS_TOKEN,
+  SET_REFRESH_TOKEN,
+  CLEAR_REFRESH_TOKEN,
+} from '../types/authTypes';
 
 const initialState: AuthState = {
   loginStatus: false,
-  authToken: '',
+  accessToken: '',
+  refreshToken: '',
 };
 
 const authReducer = (state = initialState, action: AuthActionTypes) => {
@@ -11,10 +21,14 @@ const authReducer = (state = initialState, action: AuthActionTypes) => {
       return { ...state, loginStatus: action.payload };
     case CLEAR_LOGIN_STATUS:
       return { ...state, loginStatus: false };
-    case SET_AUTH_TOKEN:
-      return { ...state, authToken: action.payload };
-    case CLEAR_AUTH_TOKEN:
-      return { ...state, authToken: '' };
+    case SET_ACCESS_TOKEN:
+      return { ...state, accessToken: action.payload };
+    case CLEAR_ACCESS_TOKEN:
+      return { ...state, accessToken: '' };
+    case SET_REFRESH_TOKEN:
+      return { ...state, refreshToken: action.payload };
+    case CLEAR_REFRESH_TOKEN:
+      return { ...state, refreshToken: '' };
     default:
       return state;
   }

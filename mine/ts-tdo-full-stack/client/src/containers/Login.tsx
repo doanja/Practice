@@ -12,7 +12,7 @@ import { FormInput } from '../components/form/FormInput';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
-import { setAuthToken, setLoginStatus } from '../redux/actions/authActions';
+import { setAccessToken, setLoginStatus } from '../redux/actions/authActions';
 import { toggleModal } from '../redux/actions/modalActions';
 
 const Login: React.FC = () => {
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
         // TODO: update auth store to store refreshToken and accesstoken
         console.log('LOGIN COMPLETED');
         axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
-        dispatch(setAuthToken(res.data.token));
+        dispatch(setAccessToken(res.data.token));
         dispatch(setLoginStatus(true));
 
         history.push('/todo');

@@ -3,7 +3,7 @@ import { Form, InputGroup, Button } from 'react-bootstrap';
 
 // redux
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../redux/actions/todoActions';
+import { addTodo } from '../../redux/actions/todoActions';
 
 const TodoForm: React.FC = () => {
   // redux
