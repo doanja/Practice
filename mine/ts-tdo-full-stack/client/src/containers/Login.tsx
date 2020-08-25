@@ -36,9 +36,7 @@ const Login: React.FC = () => {
       .then(res => {
         // TODO: store refreshToken, then chain another call to get accessToken then store that
         // TODO: update auth store to store refreshToken and accesstoken
-        console.log('res.data :>> ', res.data);
-        console.log('res.data.token', res.data.token);
-        console.log('res.data.refreshToken', res.data.refreshToken);
+        console.log('LOGIN COMPLETED');
         axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
         dispatch(setAuthToken(res.data.token));
         dispatch(setLoginStatus(true));

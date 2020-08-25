@@ -1,4 +1,5 @@
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+
 export const RESET_MODAL = 'RESET_MODAL';
 
 export interface ModalState {

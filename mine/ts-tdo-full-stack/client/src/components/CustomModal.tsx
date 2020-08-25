@@ -6,10 +6,10 @@ interface ModalProps {
   showModal: boolean;
   title: string;
   body: JSX.Element;
-  confirmFunction?: Function;
 }
 
-const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body, confirmFunction }) => {
+const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body }) => {
+  console.log('toggleModal :>> ', toggleModal);
   return (
     <Modal centered show={showModal} onHide={toggleModal} backdrop={true} animation={true}>
       <Modal.Header className='bg-dark text-light'>
@@ -17,15 +17,9 @@ const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body
       </Modal.Header>
       <Modal.Body>{body}</Modal.Body>
       <Modal.Footer>
-        {confirmFunction ? (
-          <Button variant='dark' type='button' onClick={() => confirmFunction()}>
-            Close
-          </Button>
-        ) : (
-          <Button variant='dark' type='button' onClick={() => toggleModal()}>
-            Close
-          </Button>
-        )}
+        <Button variant='dark' type='button' onClick={() => toggleModal()}>
+          Close Y
+        </Button>
       </Modal.Footer>
     </Modal>
   );

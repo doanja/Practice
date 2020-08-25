@@ -1,6 +1,6 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TodoForm, TodoList, NavigationBar } from '../components';
+import { TodoForm, TodoList, NavigationBar, CustomModal } from '../components';
 import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
 import { clearAuthToken, clearLoginStatus } from '../redux/actions/authActions';
-import { toggleModal } from '../redux/actions/modalActions';
 
 const TodoHome: React.FC = () => {
   const history = useHistory();
@@ -17,8 +16,15 @@ const TodoHome: React.FC = () => {
   // redux
   const { loginStatus, authToken } = useSelector((state: RootStore) => state.auth);
   const { todoList, error } = useSelector((state: RootStore) => state.todoList);
-  const { showModal } = useSelector((state: RootStore) => state.modal);
   const dispatch = useDispatch();
+
+  // modal
+  const [errorText, setErrorText] = useState<string>();
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal: ToggleModal = errorText => {
+    setErrorText(errorText);
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     if (!loginStatus) history.push('/');
@@ -27,10 +33,7 @@ const TodoHome: React.FC = () => {
   }, [todoList]);
 
   useEffect(() => {
-    if (error === 'Request failed with status code 401') {
-      // logout
-      dispatch(toggleModal(!showModal, `Your session has expired. Please login again.`, 'Error'));
-    }
+    if (error === 'Request failed with status code 401') toggleModal(`Your session has expired. Please login again.`);
   }, [error]);
 
   const logout = () => {
@@ -43,6 +46,8 @@ const TodoHome: React.FC = () => {
   return (
     <Fragment>
       <NavigationBar />
+
+      <CustomModal showModal={showModal} toggleModal={logout} title={'Session Error'} body={<p>{errorText}</p>} />
 
       <Container className='todo-home mt-5 p-3'>
         <h1 className='text-center text-light'>To Do List</h1>
