@@ -7,7 +7,7 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
-import { clearAccessToken, clearLoginStatus } from '../redux/actions/authActions';
+import { clearAccessToken, clearLoginStatus, clearRefreshToken } from '../redux/actions/authActions';
 
 const NavigationBar: React.FC = () => {
   // redux
@@ -16,6 +16,7 @@ const NavigationBar: React.FC = () => {
 
   const logout = () => {
     dispatch(clearAccessToken());
+    dispatch(clearRefreshToken());
     dispatch(clearLoginStatus());
     window.localStorage.removeItem('store');
   };

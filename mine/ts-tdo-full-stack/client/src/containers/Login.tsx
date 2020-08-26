@@ -12,7 +12,7 @@ import { FormInput } from '../components/form/FormInput';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
-import { setAccessToken, setLoginStatus } from '../redux/actions/authActions';
+import { setAccessToken, setLoginStatus, setRefreshToken } from '../redux/actions/authActions';
 import { toggleModal } from '../redux/actions/modalActions';
 
 const Login: React.FC = () => {
@@ -28,20 +28,19 @@ const Login: React.FC = () => {
     if (loginStatus) history.push('/todo');
   }, []);
 
+  // TODO: use axios. all to chain two calls, first get refresh, then get access token
   const login = (values: LoginFormValues) => {
     const { email, password } = values;
 
     api
       .login(email, password)
       .then(res => {
-        // TODO: store refreshToken, then chain another call to get accessToken then store that
-        // TODO: update auth store to store refreshToken and accesstoken
-        console.log('LOGIN COMPLETED');
-        axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
-        dispatch(setAccessToken(res.data.token));
+        dispatch(setRefreshToken(res.data.refreshToken));
         dispatch(setLoginStatus(true));
 
-        history.push('/todo');
+        // TODO: move these to second .then to get access token
+        // axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+        // history.push('/todo');
       })
       .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error Logging In')));
   };

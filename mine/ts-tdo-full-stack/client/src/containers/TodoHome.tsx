@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
-import { clearAccessToken, clearLoginStatus } from '../redux/actions/authActions';
+import { clearAccessToken, clearLoginStatus, clearRefreshToken } from '../redux/actions/authActions';
 
 const TodoHome: React.FC = () => {
   const history = useHistory();
@@ -38,6 +38,7 @@ const TodoHome: React.FC = () => {
 
   const logout = () => {
     dispatch(clearAccessToken());
+    dispatch(clearRefreshToken());
     dispatch(clearLoginStatus());
     window.localStorage.removeItem('store');
     history.push('/');

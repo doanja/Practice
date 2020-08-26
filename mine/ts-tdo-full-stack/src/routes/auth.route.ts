@@ -23,7 +23,7 @@ export default class AuthRoute {
   public initializeRoutes() {
     this.router.post('/signup', [this.validator.validatePassword, this.validator.validateEmail], signup);
     this.router.post('/login', [this.validator.validatePassword, this.validator.validateEmail], login);
-    this.router.post('/refresh-token', verifyRefreshToken, getRefreshToken);
+    this.router.post('/refresh-token', /*verifyRefreshToken, */ getRefreshToken);
     this.router.post('/access-token', verifyRefreshToken, getAccessToken);
     this.router.post('/logout', verifyRefreshToken, logout);
   }
