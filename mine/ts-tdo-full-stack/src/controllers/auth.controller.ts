@@ -4,10 +4,10 @@ import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models';
 import { IUser } from '../types';
-import { sign, verify } from 'jsonwebtoken';
 import { createClient, RedisClient } from 'redis';
+import { verifyRefreshToken, generateRefreshToken } from '../helpers/jwt';
 
-const client: RedisClient = createClient();
+export const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
 
 export const signup = (req: Request, res: Response, next: NextFunction): void => {
@@ -61,16 +61,20 @@ export const initLoginStrategy = (): Strategy => {
   });
 };
 
-export const getRefreshToken = (req: Request, res: Response, next: NextFunction): void => {
-  const { refreshToken } = req.body;
-  console.log('verifyRefreshToken', verifyRefreshToken(req.body.refreshToken, client));
+export const getRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { refreshToken } = req.body;
 
-  // token is verified, send token back as access token
-  // if (verifyRefreshToken(refreshToken, client)) {
-  //   const token = generateRefreshToken(refreshToken._id, client);
-  //   res.status(201).json({ refreshToken: token });
-  // }
-  res.status(404).json({ test: 'this is a test' });
+    const check = await verifyRefreshToken(req.body.refreshToken, client);
+    console.log('check', check);
+    // token is verified, send token back as access token
+    if (check) {
+      const token = generateRefreshToken(refreshToken._id, client);
+      res.status(201).json({ refreshToken: token });
+    }
+  } catch (error) {
+    res.status(422).json(error);
+  }
 };
 
 export const getAccessToken = (req: Request, res: Response, next: NextFunction): void => {
@@ -89,64 +93,9 @@ export const logout = (req: Request, res: Response, next: NextFunction): void =>
   } else res.status(401).json({ error: 'Logout unsuccessful' });
 };
 
-const generateRefreshToken = (payload: string, client: RedisClient): string => {
-  const expiresIn = 86400;
-  const refreshToken: string = sign({ _id: payload }, 'secret', { expiresIn });
-
-  // client.get(payload, function (err, reply) {
-  //   console.log('before', reply);
-  // });
-
-  // TODO: check how to conditionally return
-  client.set(payload, refreshToken, function (err, reply) {
-    client.expire(payload, expiresIn);
-  });
-
-  // client.get(payload, function (err, reply) {
-  //   console.log('after', reply);
-  // });
-
-  return refreshToken;
-};
-
 // const generateAccessToken = (payload: string): string => {
 //   const expiresIn = 900;
 //   const accessToken: string = sign({ _id: payload }, 'secret', { expiresIn });
 
 //   return accessToken;
 // };
-
-const deleteRefreshToken = (payload: string, client: RedisClient): boolean => {
-  // TODO: check how to conditionally return
-  client.del(payload, function (err, reply) {
-    if (reply) {
-      console.log('deleting refresh token');
-      return true;
-    } else return false;
-  });
-
-  return false;
-};
-
-// function to verify refreshToken sent in body vs. the one in memory (redis)
-const verifyRefreshToken = async (refreshToken: any, client: RedisClient) => {
-  let decodedToken: any;
-
-  // try to validate the token and get the _id
-  try {
-    decodedToken = verify(<string>refreshToken, 'secret');
-  } catch (error) {
-    // if token is not valid, respond with 401 (unauthorized)
-    return false;
-  }
-
-  // use client.get to check if that refreshToken exists in the client, if so return true, otherwise false
-  // how to get if statements work in cb
-  let reply = await client.get(decodedToken._id); //, function (err, reply) {
-  // console.log('reply', refreshToken);
-  // console.log('reply', reply);
-
-  // });
-  if (refreshToken === reply) return true;
-  return false;
-};
