@@ -83,12 +83,21 @@ export const getAccessToken = (req: Request, res: Response, next: NextFunction):
   res.status(201).json({ accessToken: req.accessToken });
 };
 
-export const logout = (req: Request, res: Response, next: NextFunction): void => {
-  if (req.refreshToken?._id && deleteRefreshToken(req.refreshToken._id)) {
-    // const a = deleteRefreshToken(req.refreshToken._id, client);
-    console.log('logout working');
-    res.status(201).json({ message: 'Logout success' });
-  } else res.status(401).json({ error: 'Logout unsuccessful' });
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { refreshToken } = req.body;
+    console.log('refreshToken', typeof refreshToken);
+    const check = await deleteRefreshToken(refreshToken);
+
+    console.log('check', check);
+
+    if (check) res.status(201).json({ message: 'Logout success' });
+    else res.status(401).json({ error: 'Logout unsuccessful' });
+
+    // res.send('hello world');
+  } catch (error) {
+    res.status(401).json({ error: 'Logout unsuccessful' });
+  }
 };
 
 // const generateAccessToken = (payload: string): string => {
