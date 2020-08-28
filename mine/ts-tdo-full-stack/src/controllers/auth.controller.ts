@@ -5,7 +5,7 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models';
 import { IUser } from '../types';
 import { createClient, RedisClient } from 'redis';
-import { verifyRefreshToken, signRefreshToken, deleteRefreshToken } from '../helpers/jwt';
+import { verifyRefreshToken, signRefreshToken, deleteRefreshToken, signAccessToken } from '../helpers/jwt';
 
 export const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
@@ -29,6 +29,19 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
       return res.status(200).json({ refreshToken });
     });
   })(req, res, next);
+};
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { refreshToken } = req.body;
+
+    const check = await deleteRefreshToken(refreshToken);
+
+    if (check) res.status(201).json({ message: 'Logout success' });
+    else res.status(401).json({ error: 'Logout unsuccessful' });
+  } catch (error) {
+    res.status(401).json({ error: 'Logout unsuccessful' });
+  }
 };
 
 export const initSignupStrategy = (): Strategy => {
@@ -75,34 +88,16 @@ export const getRefreshToken = async (req: Request, res: Response, next: NextFun
   }
 };
 
-export const getAccessToken = (req: Request, res: Response, next: NextFunction): void => {
-  const { refreshToken } = req.body;
-  console.log('req.refreshToken', req.refreshToken);
-  // console.log('accessToken', accessToken);
-  // refresh token is verified, send access token in response
-  res.status(201).json({ accessToken: req.accessToken });
-};
-
-export const logout = async (req: Request, res: Response, next: NextFunction) => {
+export const getAccessToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { refreshToken } = req.body;
-    console.log('refreshToken', typeof refreshToken);
-    const check = await deleteRefreshToken(refreshToken);
 
-    console.log('check', check);
+    const userId: string = await verifyRefreshToken(refreshToken);
 
-    if (check) res.status(201).json({ message: 'Logout success' });
-    else res.status(401).json({ error: 'Logout unsuccessful' });
+    const accessToken = await signAccessToken(userId);
 
-    // res.send('hello world');
+    res.status(201).json({ accessToken });
   } catch (error) {
-    res.status(401).json({ error: 'Logout unsuccessful' });
+    res.status(401).json(error);
   }
 };
-
-// const generateAccessToken = (payload: string): string => {
-//   const expiresIn = 900;
-//   const accessToken: string = sign({ _id: payload }, 'secret', { expiresIn });
-
-//   return accessToken;
-// };

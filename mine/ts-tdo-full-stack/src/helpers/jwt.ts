@@ -73,11 +73,25 @@ export const deleteRefreshToken = (refreshToken: string): Promise<boolean> => {
           return;
         }
 
-        // if result is true, then the key was deleted
-        if (result) return resolve(true);
-
-        reject(createError(401, 'Unathorized'));
+        //  key was deleted
+        return resolve(true);
       });
+    });
+  });
+};
+
+// payload = userId
+export const signAccessToken = async (payload: string) => {
+  const expiresIn = 600;
+
+  return new Promise((resolve, reject) => {
+    sign({ _id: payload }, 'secret', { expiresIn }, (err: any, accessToken: any) => {
+      if (err) {
+        console.log(err.message);
+        reject(createError(500, 'Internal Server Error'));
+        return;
+      }
+      resolve(accessToken);
     });
   });
 };
