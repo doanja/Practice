@@ -1,69 +1,56 @@
-import { RedisClient } from 'redis';
 import { sign, verify } from 'jsonwebtoken';
+import { client } from '../controllers/auth.controller';
+import createError from 'http-errors';
 
 // function to verify refreshToken sent in body vs. the one in memory (redis)
-export const verifyRefreshToken = (refreshToken: any, client: RedisClient) => {
-  //   let decodedToken: any;
-
-  //   // try to validate the token and get the _id
-  //   try {
-  //     decodedToken = verify(<string>refreshToken, 'secret', (err: any, payload: any) => {
-  //       if (err) return false;
-  //       client.get(payload._id, (err, result) => {
-  //         if (err) {
-  //           console.log(err.message);
-  //           return false;
-  //         }
-  //         if (refreshToken === result) {
-  //           console.log('returning true');
-  //           return true;
-  //         }
-  //       });
-  //     });
-  //   } catch (error) {
-  //     // if token is not valid, respond with 401 (unauthorized)
-  //     return false;
-  //   }
+export const verifyRefreshToken = (refreshToken: any): Promise<string> => {
   return new Promise((resolve, reject) => {
     verify(refreshToken, 'secret', (err: any, payload: any) => {
-      if (err) return reject('err');
+      if (err) {
+        return reject(createError(401, 'Unathorized'));
+      }
       const userId = payload._id;
-      client.GET(userId, (err, result) => {
+      client.get(userId, (err, result) => {
         if (err) {
-          console.log(err.message);
-          reject('err 2');
+          reject(createError(500, 'Internal Server Error'));
           return;
         }
+
         if (refreshToken === result) return resolve(userId);
-        reject('err 3');
+
+        reject(createError(401, 'Unathorized'));
       });
     });
   });
 };
 
-// TODO: check if this works
-export const generateRefreshToken = (payload: string, client: RedisClient): string => {
-  console.log('generateRefreshToken');
+/**
+ * function to sign a refresh token, store it in Redis
+ * @param payload the user's ID
+ * @return the refreshToken string
+ */
+export const signRefreshToken = (payload: string): Promise<string> => {
   const expiresIn = 86400;
-  const refreshToken: string = sign({ _id: payload }, 'secret', { expiresIn });
 
-  // client.get(payload, function (err, reply) {
-  //   console.log('before', reply);
-  // });
+  return new Promise((resolve, reject) => {
+    sign({ _id: payload }, 'secret', { expiresIn }, (err: any, token: any) => {
+      if (err) {
+        reject(createError(500, 'Internal Server Error'));
+      }
 
-  // TODO: check how to conditionally return
-  client.set(payload, refreshToken, function (err, reply) {
-    client.expire(payload, expiresIn);
+      client.set(payload, token, (err, reply) => {
+        if (err) {
+          reject(createError(500, 'Internal Server Error'));
+          return;
+        }
+        client.expire(payload, expiresIn);
+        resolve(token);
+      });
+    });
   });
-
-  // client.get(payload, function (err, reply) {
-  //   console.log('after', reply);
-  // });
-  console.log('refreshToken', refreshToken);
-  return refreshToken;
 };
 
-export const deleteRefreshToken = (payload: string, client: RedisClient): boolean => {
+export const deleteRefreshToken = (payload: string): boolean => {
   // TODO: check how to conditionally return
   client.del(payload, function (err, reply) {
     if (reply) {

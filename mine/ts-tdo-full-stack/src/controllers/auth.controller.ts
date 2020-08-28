@@ -5,7 +5,7 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models';
 import { IUser } from '../types';
 import { createClient, RedisClient } from 'redis';
-import { verifyRefreshToken, generateRefreshToken } from '../helpers/jwt';
+import { verifyRefreshToken, signRefreshToken, deleteRefreshToken } from '../helpers/jwt';
 
 export const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
@@ -18,13 +18,13 @@ export const signup = (req: Request, res: Response, next: NextFunction): void =>
   })(req, res, next);
 };
 
-export const login = (req: Request, res: Response, next: NextFunction): void => {
+export const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('local-login', { session: false }, (err, user, info) => {
     if (!user || err) return res.status(400).json({ error: info });
 
     // generate a signed son web token with the contents of user _id and return it in the response
-    req.login(user, { session: false }, () => {
-      const refreshToken: string = generateRefreshToken(user._id.toString(), client);
+    req.login(user, { session: false }, async () => {
+      const refreshToken: string = await signRefreshToken(user._id.toString());
 
       return res.status(200).json({ refreshToken });
     });
@@ -65,15 +65,13 @@ export const getRefreshToken = async (req: Request, res: Response, next: NextFun
   try {
     const { refreshToken } = req.body;
 
-    const check = await verifyRefreshToken(req.body.refreshToken, client);
-    console.log('check', check);
-    // token is verified, send token back as access token
-    if (check) {
-      const token = generateRefreshToken(refreshToken._id, client);
-      res.status(201).json({ refreshToken: token });
-    }
+    const userId: string = await verifyRefreshToken(refreshToken);
+
+    const token = await signRefreshToken(userId);
+
+    res.status(201).json({ refreshToken: token });
   } catch (error) {
-    res.status(422).json(error);
+    res.status(401).json(error);
   }
 };
 
@@ -86,7 +84,7 @@ export const getAccessToken = (req: Request, res: Response, next: NextFunction):
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction): void => {
-  if (req.refreshToken?._id && deleteRefreshToken(req.refreshToken._id, client)) {
+  if (req.refreshToken?._id && deleteRefreshToken(req.refreshToken._id)) {
     // const a = deleteRefreshToken(req.refreshToken._id, client);
     console.log('logout working');
     res.status(201).json({ message: 'Logout success' });
