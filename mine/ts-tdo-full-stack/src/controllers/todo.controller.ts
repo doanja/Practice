@@ -5,7 +5,7 @@ import { Todo } from '../models';
 export const getTodos = async (req: Request, res: Response): Promise<void> => {
   try {
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
-
+    console.log('res', res);
     res.status(200).json(todos);
   } catch (error) {
     res.status(401).json(error);
@@ -20,7 +20,7 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
       user: req.accessToken?._id,
     });
 
-    const newTodo: ITodo = await todo.save();
+    // const newTodo: ITodo = await todo.save();
 
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
 
@@ -32,7 +32,7 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
 
 export const updateTodo = async (req: Request, res: Response): Promise<void> => {
   try {
-    const updateTodo: ITodo | null = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+    // const updateTodo: ITodo | null = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
 
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
 
@@ -44,7 +44,7 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
 
 export const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
-    const deletedTodo: ITodo | null = await Todo.findByIdAndDelete(req.params.id);
+    // const deletedTodo: ITodo | null = await Todo.findByIdAndDelete(req.params.id);
 
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
 

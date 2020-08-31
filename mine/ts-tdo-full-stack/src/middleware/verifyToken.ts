@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify, sign } from 'jsonwebtoken';
-import createError from 'http-errors';
-import { verifyRefreshToken } from '../helpers/jwt';
 
 const extractTokenFromHeader = (req: Request): string | undefined => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {

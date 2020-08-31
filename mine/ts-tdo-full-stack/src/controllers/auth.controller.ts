@@ -11,40 +11,6 @@ import createError from 'http-errors';
 export const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
 
-export const signup = (req: Request, res: Response, next: NextFunction): void => {
-  passport.authenticate('local-signup', { session: false }, (err, user, info) => {
-    if (!user || err) return res.status(400).json({ error: info });
-
-    return res.status(200).json(user);
-  })(req, res, next);
-};
-
-export const login = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('local-login', { session: false }, (err, user, info) => {
-    if (!user || err) return res.status(400).json({ error: info });
-
-    // generate a signed son web token with the contents of user _id and return it in the response
-    req.login(user, { session: false }, async () => {
-      const refreshToken: string = await signRefreshToken(user._id.toString());
-
-      return res.status(200).json({ refreshToken });
-    });
-  })(req, res, next);
-};
-
-export const logout = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { refreshToken } = req.body;
-    if (!refreshToken) throw createError(400, 'Bad Request');
-
-    const check = await deleteRefreshToken(refreshToken);
-
-    check ? res.status(201).json({ message: 'Logout success' }) : res.status(401).json({ error: 'Logout unsuccessful' });
-  } catch (error) {
-    res.status(401).json(error);
-  }
-};
-
 export const initSignupStrategy = (): Strategy => {
   return new Strategy({ usernameField: 'email' }, (email, password, done) => {
     User.findOne({ email: email.toLowerCase() }, (err, user: IUser) => {
@@ -73,6 +39,41 @@ export const initLoginStrategy = (): Strategy => {
       return done(null, user);
     });
   });
+};
+
+export const signup = (req: Request, res: Response, next: NextFunction): void => {
+  passport.authenticate('local-signup', { session: false }, (err, user, info) => {
+    if (!user || err) return res.status(400).json({ error: info });
+
+    return res.status(200).json(user);
+  })(req, res, next);
+};
+
+export const login = (req: Request, res: Response, next: NextFunction) => {
+  passport.authenticate('local-login', { session: false }, (err, user, info) => {
+    if (!user || err) return res.status(400).json({ error: info });
+
+    // generate a signed son web token with the contents of user _id and return it in the response
+    req.login(user, { session: false }, async () => {
+      const refreshToken: string = await signRefreshToken(user._id.toString());
+      const accessToken = await signAccessToken(user._id);
+
+      return res.status(200).json({ refreshToken, accessToken });
+    });
+  })(req, res, next);
+};
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) throw createError(400, 'Bad Request');
+
+    const check = await deleteRefreshToken(refreshToken);
+
+    check ? res.status(201).json({ message: 'Logout success' }) : res.status(401).json({ error: 'Logout unsuccessful' });
+  } catch (error) {
+    res.status(401).json(error);
+  }
 };
 
 export const getRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
