@@ -80,14 +80,17 @@ export const deleteRefreshToken = (refreshToken: string): Promise<boolean> => {
   });
 };
 
-// payload = userId
+/**
+ * function to sign a access token
+ * @param {string} payload the user's ID
+ * @return {string} an access token
+ */
 export const signAccessToken = async (payload: string) => {
   const expiresIn = 600;
 
   return new Promise((resolve, reject) => {
     sign({ _id: payload }, 'secret', { expiresIn }, (err: any, accessToken: any) => {
       if (err) {
-        console.log(err.message);
         reject(createError(500, 'Internal Server Error'));
         return;
       }

@@ -6,6 +6,7 @@ import { User } from '../models';
 import { IUser } from '../types';
 import { createClient, RedisClient } from 'redis';
 import { verifyRefreshToken, signRefreshToken, deleteRefreshToken, signAccessToken } from '../helpers/jwt';
+import createError from 'http-errors';
 
 export const client: RedisClient = createClient();
 client.on('connect', () => console.log('REDIS CONNECTED'));
@@ -34,13 +35,13 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
 export const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { refreshToken } = req.body;
+    if (!refreshToken) throw createError(400, 'Bad Request');
 
     const check = await deleteRefreshToken(refreshToken);
 
-    if (check) res.status(201).json({ message: 'Logout success' });
-    else res.status(401).json({ error: 'Logout unsuccessful' });
+    check ? res.status(201).json({ message: 'Logout success' }) : res.status(401).json({ error: 'Logout unsuccessful' });
   } catch (error) {
-    res.status(401).json({ error: 'Logout unsuccessful' });
+    res.status(401).json(error);
   }
 };
 
@@ -77,9 +78,9 @@ export const initLoginStrategy = (): Strategy => {
 export const getRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { refreshToken } = req.body;
+    if (!refreshToken) throw createError(400, 'Bad Request');
 
     const userId: string = await verifyRefreshToken(refreshToken);
-
     const token = await signRefreshToken(userId);
 
     res.status(201).json({ refreshToken: token });
@@ -91,10 +92,10 @@ export const getRefreshToken = async (req: Request, res: Response, next: NextFun
 export const getAccessToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { refreshToken } = req.body;
+    if (!refreshToken) throw createError(400, 'Bad Request');
 
     const userId: string = await verifyRefreshToken(refreshToken);
-
-    const accessToken = await signAccessToken(userId);
+    const accessToken /*: AccessToken*/ = await signAccessToken(userId);
 
     res.status(201).json({ accessToken });
   } catch (error) {
