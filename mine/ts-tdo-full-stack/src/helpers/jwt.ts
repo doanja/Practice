@@ -1,6 +1,9 @@
 import { sign, verify } from 'jsonwebtoken';
-import { client } from '../controllers/auth.controller';
 import createError from 'http-errors';
+import Redis from './redis';
+
+const redis = new Redis();
+const client = redis.client;
 
 /**
  * function to sign a refresh token, store it in Redis

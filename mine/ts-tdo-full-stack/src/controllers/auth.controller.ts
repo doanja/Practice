@@ -4,12 +4,8 @@ import { Strategy } from 'passport-local';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models';
 import { IUser } from '../types';
-import { createClient, RedisClient } from 'redis';
 import { verifyRefreshToken, signRefreshToken, deleteRefreshToken, signAccessToken } from '../helpers/jwt';
 import createError from 'http-errors';
-
-export const client: RedisClient = createClient();
-client.on('connect', () => console.log('REDIS CONNECTED'));
 
 export const initSignupStrategy = (): Strategy => {
   return new Strategy({ usernameField: 'email' }, (email, password, done) => {
