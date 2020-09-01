@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
-const saveToLocalStorage = (store: { loginStatus: boolean; authToken: string }): void => {
+const saveToLocalStorage = (store: { loginStatus: boolean; refreshToken: string; accessToken: string }): void => {
   try {
     localStorage.setItem('store', JSON.stringify(store));
   } catch (err) {
@@ -18,7 +18,7 @@ const loadFromLocalStorage = () => {
 
     if (!serializedStore) return undefined;
 
-    const token: string = JSON.parse(serializedStore).authToken;
+    const token: string = JSON.parse(serializedStore).accessToken;
 
     token ? (axios.defaults.headers.common.Authorization = `Bearer ${token}`) : (axios.defaults.headers.common.Authorization = null);
 

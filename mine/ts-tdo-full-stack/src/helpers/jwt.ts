@@ -2,8 +2,7 @@ import { sign, verify } from 'jsonwebtoken';
 import createError from 'http-errors';
 import Redis from './redis';
 
-const redis = new Redis();
-const client = redis.client;
+const client = new Redis().client;
 
 /**
  * function to sign a refresh token, store it in Redis

@@ -14,7 +14,7 @@ const TodoHome: React.FC = () => {
   const history = useHistory();
 
   // redux
-  const { loginStatus, accessToken } = useSelector((state: RootStore) => state.auth);
+  const { loginStatus } = useSelector((state: RootStore) => state.auth);
   const { todoList, error } = useSelector((state: RootStore) => state.todoList);
   const dispatch = useDispatch();
 
@@ -28,13 +28,12 @@ const TodoHome: React.FC = () => {
 
   useEffect(() => {
     if (!loginStatus) history.push('/');
+    else dispatch(getTodoList());
+  }, []);
 
-    dispatch(getTodoList());
-  }, [todoList]);
-
-  useEffect(() => {
-    if (error === 'Request failed with status code 401') toggleModal(`Your session has expired. Please login again.`);
-  }, [error]);
+  // useEffect(() => {
+  //   if (error === 'Request failed with status code 401') toggleModal(`Your session has expired. Please login again.`);
+  // }, [error]);
 
   const logout = () => {
     dispatch(clearAccessToken());
@@ -48,7 +47,7 @@ const TodoHome: React.FC = () => {
     <Fragment>
       <NavigationBar />
 
-      <CustomModal showModal={showModal} toggleModal={logout} title={'Session Error'} body={<p>{errorText}</p>} />
+      {/* <CustomModal showModal={showModal} toggleModal={logout} title={'Session Error'} body={<p>{errorText}</p>} /> */}
 
       <Container className='todo-home mt-5 p-3'>
         <h1 className='text-center text-light'>To Do List</h1>

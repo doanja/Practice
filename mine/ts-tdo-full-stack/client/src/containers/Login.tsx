@@ -28,23 +28,20 @@ const Login: React.FC = () => {
     if (loginStatus) history.push('/todo');
   }, []);
 
-  // TODO: use axios. all to chain two calls, first get refresh, then get access token
   const login = async (values: LoginFormValues) => {
     const { email, password } = values;
 
-    /*let first = await*/ api
+    api
       .login(email, password)
       .then(res => {
         dispatch(setRefreshToken(res.data.refreshToken));
+        dispatch(setAccessToken(res.data.accessToken));
         dispatch(setLoginStatus(true));
 
-        // TODO: move these to second .then to get access token
-        // axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
-        // history.push('/todo');
+        axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
+        history.push('/todo');
       })
       .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error Logging In')));
-
-    // let second = await api.getAccessToken;
   };
 
   const formik = useFormik({
