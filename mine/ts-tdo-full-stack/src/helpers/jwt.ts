@@ -13,13 +13,13 @@ export const signRefreshToken = (payload: string): Promise<string> => {
   const expiresIn = 86400;
 
   return new Promise((resolve, reject) => {
-    sign({ _id: payload }, 'secret', { expiresIn }, (err: any, refreshToken: any) => {
-      if (err) {
+    sign({ _id: payload }, 'refresh', { expiresIn }, (error, refreshToken: any) => {
+      if (error) {
         reject(createError(500, 'Internal Server Error'));
       }
 
-      client.set(payload, refreshToken, (err, reply) => {
-        if (err) {
+      client.set(payload, refreshToken, (error, reply) => {
+        if (error) {
           reject(createError(500, 'Internal Server Error'));
           return;
         }
@@ -37,13 +37,13 @@ export const signRefreshToken = (payload: string): Promise<string> => {
  */
 export const verifyRefreshToken = (refreshToken: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    verify(refreshToken, 'secret', (err: any, payload: any) => {
-      if (err) {
+    verify(refreshToken, 'refresh', (error, payload: any) => {
+      if (error) {
         return reject(createError(401, 'Unathorized'));
       }
       const userId = payload._id;
-      client.get(userId, (err, result) => {
-        if (err) {
+      client.get(userId, (error, result) => {
+        if (error) {
           reject(createError(500, 'Internal Server Error'));
           return;
         }
@@ -64,13 +64,13 @@ export const verifyRefreshToken = (refreshToken: string): Promise<string> => {
  */
 export const deleteRefreshToken = (refreshToken: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    verify(refreshToken, 'secret', (err: any, payload: any) => {
-      if (err) {
+    verify(refreshToken, 'refresh', (error, payload: any) => {
+      if (error) {
         return reject(createError(401, 'Unathorized'));
       }
       const userId = payload._id;
-      client.del(userId, (err, result) => {
-        if (err) {
+      client.del(userId, (error, result) => {
+        if (error) {
           reject(createError(500, 'Internal Server Error'));
           return;
         }
@@ -91,8 +91,8 @@ export const signAccessToken = async (payload: string) => {
   const expiresIn = 600;
 
   return new Promise((resolve, reject) => {
-    sign({ _id: payload }, 'secret', { expiresIn }, (err: any, accessToken: any) => {
-      if (err) {
+    sign({ _id: payload }, 'access', { expiresIn }, (error, accessToken) => {
+      if (error) {
         reject(createError(500, 'Internal Server Error'));
         return;
       }

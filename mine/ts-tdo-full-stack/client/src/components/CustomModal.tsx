@@ -9,7 +9,6 @@ interface ModalProps {
 }
 
 const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body }) => {
-  console.log('toggleModal :>> ', toggleModal);
   return (
     <Modal centered show={showModal} onHide={toggleModal} backdrop={true} animation={true}>
       <Modal.Header className='bg-dark text-light'>
@@ -18,7 +17,7 @@ const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body
       <Modal.Body>{body}</Modal.Body>
       <Modal.Footer>
         <Button variant='dark' type='button' onClick={() => toggleModal()}>
-          Close Y
+          Close
         </Button>
       </Modal.Footer>
     </Modal>

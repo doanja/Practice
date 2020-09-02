@@ -31,23 +31,23 @@ const TodoHome: React.FC = () => {
     else dispatch(getTodoList());
   }, []);
 
-  // useEffect(() => {
-  //   if (error === 'Request failed with status code 401') toggleModal(`Your session has expired. Please login again.`);
-  // }, [error]);
+  useEffect(() => {
+    if (error === 'Request failed with status code 401') toggleModal(`Your session has expired. Please login again.`);
+  }, [error]);
 
   const logout = () => {
     dispatch(clearAccessToken());
     dispatch(clearRefreshToken());
     dispatch(clearLoginStatus());
     window.localStorage.removeItem('store');
-    history.push('/');
+    history.push('/login');
   };
 
   return (
     <Fragment>
       <NavigationBar />
 
-      {/* <CustomModal showModal={showModal} toggleModal={logout} title={'Session Error'} body={<p>{errorText}</p>} /> */}
+      <CustomModal showModal={showModal} toggleModal={logout} title={'Session Error'} body={<p>{errorText}</p>} />
 
       <Container className='todo-home mt-5 p-3'>
         <h1 className='text-center text-light'>To Do List</h1>
@@ -63,7 +63,7 @@ const TodoHome: React.FC = () => {
             // axios.defaults.headers.common.Authorization = '';
             console.log('axios.defaults.headers.common.Authorization', axios.defaults.headers.common.Authorization);
           }}>
-          delete jwt
+          Console Log Auth Header
         </Button>
       </Container>
     </Fragment>
