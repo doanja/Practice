@@ -28,7 +28,8 @@ const TodoHome: React.FC = () => {
 
   useEffect(() => {
     if (!loginStatus) history.push('/');
-    else dispatch(getTodoList());
+
+    dispatch(getTodoList());
   }, []);
 
   useEffect(() => {
@@ -60,7 +61,6 @@ const TodoHome: React.FC = () => {
           className='mt-3'
           variant='primary'
           onClick={() => {
-            // axios.defaults.headers.common.Authorization = '';
             console.log('axios.defaults.headers.common.Authorization', axios.defaults.headers.common.Authorization);
           }}>
           Console Log Auth Header

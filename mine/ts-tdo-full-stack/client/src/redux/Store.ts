@@ -4,6 +4,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 
+/**
+ * function to sync the store to local storage
+ * @param {Object} store the redux store to be synced
+ * @return {undefined} returns undefined if there is an  error
+ */
 const saveToLocalStorage = (store: { loginStatus: boolean; refreshToken: string; accessToken: string }): void => {
   try {
     localStorage.setItem('store', JSON.stringify(store));
@@ -12,6 +17,11 @@ const saveToLocalStorage = (store: { loginStatus: boolean; refreshToken: string;
   }
 };
 
+/**
+ * function to load from local storage and serialize it to the redux store
+ * also sets up the access token in axios' headers
+ * @return {undefined} returns undefined if there is an error
+ */
 const loadFromLocalStorage = () => {
   try {
     const serializedStore = localStorage.getItem('store');
@@ -30,6 +40,7 @@ const loadFromLocalStorage = () => {
 
 const store = createStore(rootReducer, loadFromLocalStorage(), composeWithDevTools(applyMiddleware(thunk)));
 
+// sync store.auth to local storage
 store.subscribe(() => saveToLocalStorage(store.getState().auth));
 
 export type RootStore = ReturnType<typeof rootReducer>;

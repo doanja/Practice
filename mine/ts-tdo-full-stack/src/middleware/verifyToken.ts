@@ -21,10 +21,10 @@ export const verifyAccessToken = (req: Request, res: Response, next: NextFunctio
       const decodedToken: any = payload;
 
       // refresh the token on every request by setting another 15m
-      const newToken = sign({ _id: decodedToken._id }, 'access', { expiresIn: 900 }, (error, payload) => {
+      sign({ _id: decodedToken._id }, 'access', { expiresIn: 900 }, (error, accessToken) => {
         if (error) return res.status(401).send(error);
 
-        res.setHeader('Authorization', 'Bearer ' + newToken);
+        res.setHeader('Authorization', 'Bearer ' + accessToken);
 
         req.accessToken = decodedToken;
         next();
