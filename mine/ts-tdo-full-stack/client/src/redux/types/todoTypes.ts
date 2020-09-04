@@ -1,6 +1,7 @@
 export interface TodoListState {
   readonly todoList: Todo[];
   readonly error?: string;
+  readonly token: string;
 }
 
 export interface TodoList {

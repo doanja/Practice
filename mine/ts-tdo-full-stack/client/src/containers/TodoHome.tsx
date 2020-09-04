@@ -8,14 +8,14 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
-import { clearAccessToken, clearLoginStatus, clearRefreshToken } from '../redux/actions/authActions';
+import { clearAccessToken, clearLoginStatus, clearRefreshToken, setAccessToken } from '../redux/actions/authActions';
 
 const TodoHome: React.FC = () => {
   const history = useHistory();
 
   // redux
   const { loginStatus } = useSelector((state: RootStore) => state.auth);
-  const { todoList, error } = useSelector((state: RootStore) => state.todoList);
+  const { todoList, error, token } = useSelector((state: RootStore) => state.todoList);
   const dispatch = useDispatch();
 
   // modal
@@ -27,16 +27,26 @@ const TodoHome: React.FC = () => {
   };
 
   useEffect(() => {
+    if (error === 'Request failed with status code 401') {
+      toggleModal(`Your session has expired. Please login again.`);
+    }
+  }, [error]);
+
+  useEffect(() => {
     if (!loginStatus) history.push('/');
 
     dispatch(getTodoList());
   }, []);
 
   useEffect(() => {
-    if (error === 'Request failed with status code 401') toggleModal(`Your session has expired. Please login again.`);
-  }, [error]);
+    if (token) {
+      dispatch(setAccessToken(token));
+      axios.defaults.headers.common.Authorization = token;
+    }
+  }, [token]);
 
   const logout = () => {
+    console.log('logout()');
     dispatch(clearAccessToken());
     dispatch(clearRefreshToken());
     dispatch(clearLoginStatus());
@@ -61,7 +71,7 @@ const TodoHome: React.FC = () => {
           className='mt-3'
           variant='primary'
           onClick={() => {
-            console.log('axios.defaults.headers.common.Authorization', axios.defaults.headers.common.Authorization);
+            console.log('AXIOS HEADER:', axios.defaults.headers.common.Authorization);
           }}>
           Console Log Auth Header
         </Button>
