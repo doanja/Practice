@@ -2,7 +2,7 @@ import { TodoListActionTypes, TodoListState, TodoList } from '../types/todoTypes
 import { ActionCreator, Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { TodoService } from '../../services';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 const api = new TodoService();
 

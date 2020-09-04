@@ -6,8 +6,6 @@ export const getTodos = async (req: Request, res: Response): Promise<void> => {
   try {
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
 
-    console.log('get todo');
-
     res.status(200).json(todos);
   } catch (error) {
     res.status(401).json(error);
@@ -26,8 +24,6 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
 
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
 
-    console.log('add todo');
-
     res.status(201).json(todos);
   } catch (error) {
     res.status(401).json(error);
@@ -40,8 +36,6 @@ export const updateTodo = async (req: Request, res: Response): Promise<void> => 
 
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
 
-    console.log('update todo');
-
     res.status(200).json(todos);
   } catch (error) {
     res.status(401).json(error);
@@ -53,8 +47,6 @@ export const deleteTodo = async (req: Request, res: Response): Promise<void> => 
     const deletedTodo: ITodo | null = await Todo.findByIdAndDelete(req.params.id);
 
     const todos: ITodo[] = await Todo.find({ user: req.accessToken?._id });
-
-    console.log('dete todo');
 
     res.status(201).json(todos);
   } catch (error) {
