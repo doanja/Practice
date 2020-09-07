@@ -1,4 +1,5 @@
-import { ModalState, ModalActionTypes, TOGGLE_MODAL, RESET_MODAL } from '../types/modalTypes';
+import { ModalState, ModalActionTypes } from '../types/modalTypes';
+import { Reducer } from 'redux';
 
 const initialState: ModalState = {
   showModal: false,
@@ -6,13 +7,13 @@ const initialState: ModalState = {
   modalTitle: 'Error',
 };
 
-const modalReducer = (state = initialState, action: ModalActionTypes) => {
+const modalReducer: Reducer<ModalState> = (state = initialState, action) => {
   switch (action.type) {
-    case TOGGLE_MODAL: {
+    case ModalActionTypes.TOGGLE_MODAL: {
       const { showModal, modalBody, modalTitle } = action;
       return { ...state, showModal, modalBody, modalTitle };
     }
-    case RESET_MODAL:
+    case ModalActionTypes.RESET_MODAL:
       return { ...state, showModal: false, modalBody: '', modalTitle: 'Error' };
     default:
       return state;

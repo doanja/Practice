@@ -1,9 +1,9 @@
-import { ModalActionTypes, TOGGLE_MODAL, RESET_MODAL } from '../types/modalTypes';
+import { ModalActionTypes } from '../types/modalTypes';
 
-export const toggleModal = (showModal: boolean, modalBody: string, modalTitle: string): ModalActionTypes => {
-  return { type: TOGGLE_MODAL, showModal, modalBody, modalTitle };
+export const toggleModal = (showModal: boolean, modalBody: string, modalTitle: string) => {
+  return { type: ModalActionTypes.TOGGLE_MODAL, showModal, modalBody, modalTitle };
 };
 
-export const resetModal = (): ModalActionTypes => {
-  return { type: RESET_MODAL };
+export const resetModal = () => {
+  return { type: ModalActionTypes.RESET_MODAL };
 };
