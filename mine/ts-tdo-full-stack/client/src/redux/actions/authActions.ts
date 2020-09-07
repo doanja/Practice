@@ -1,33 +1,25 @@
-import {
-  SET_LOGIN_STATUS,
-  AuthActionTypes,
-  CLEAR_LOGIN_STATUS,
-  SET_ACCESS_TOKEN,
-  CLEAR_ACCESS_TOKEN,
-  SET_REFRESH_TOKEN,
-  CLEAR_REFRESH_TOKEN,
-} from '../types/authTypes';
+import { AuthActionTypes } from '../types/authTypes';
 
-export const setLoginStatus = (loginStatus: boolean): AuthActionTypes => {
-  return { type: SET_LOGIN_STATUS, payload: loginStatus };
+export const setLoginStatus = (loginStatus: boolean) => {
+  return { type: AuthActionTypes.SET_LOGIN_STATUS, payload: loginStatus };
 };
 
-export const clearLoginStatus = (): AuthActionTypes => {
-  return { type: CLEAR_LOGIN_STATUS };
+export const clearLoginStatus = () => {
+  return { type: AuthActionTypes.CLEAR_LOGIN_STATUS };
 };
 
-export const setAccessToken = (accessToken: string): AuthActionTypes => {
-  return { type: SET_ACCESS_TOKEN, payload: accessToken };
+export const setAccessToken = (accessToken: string) => {
+  return { type: AuthActionTypes.SET_ACCESS_TOKEN, payload: accessToken };
 };
 
-export const clearAccessToken = (): AuthActionTypes => {
-  return { type: CLEAR_ACCESS_TOKEN };
+export const clearAccessToken = () => {
+  return { type: AuthActionTypes.CLEAR_ACCESS_TOKEN };
 };
 
-export const setRefreshToken = (refreshToken: string): AuthActionTypes => {
-  return { type: SET_REFRESH_TOKEN, payload: refreshToken };
+export const setRefreshToken = (refreshToken: string) => {
+  return { type: AuthActionTypes.SET_REFRESH_TOKEN, payload: refreshToken };
 };
 
-export const clearRefreshToken = (): AuthActionTypes => {
-  return { type: CLEAR_REFRESH_TOKEN };
+export const clearRefreshToken = () => {
+  return { type: AuthActionTypes.CLEAR_REFRESH_TOKEN };
 };
