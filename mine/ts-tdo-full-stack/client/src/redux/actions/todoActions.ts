@@ -22,7 +22,7 @@ export const getTodoList: AppThunk = () => {
     } catch (error) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILED,
-        error: error.message,
+        error: error.response.data.name,
       });
     }
   };
@@ -42,7 +42,7 @@ export const addTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList, A
     } catch (error) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILED,
-        error,
+        error: error.response.data.name,
       });
     }
   };
@@ -62,7 +62,7 @@ export const updateTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
     } catch (error) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILED,
-        error,
+        error: error.response.data.name,
       });
     }
   };
@@ -82,7 +82,7 @@ export const deleteTodo: ActionCreator<ThunkAction<void, TodoListState, TodoList
     } catch (error) {
       return dispatch({
         type: TodoListActionTypes.REQUEST_FAILED,
-        error,
+        error: error.response.data.name,
       });
     }
   };

@@ -28,7 +28,7 @@ const Login: React.FC = () => {
     if (loginStatus) history.push('/todo');
   }, []);
 
-  const login = async (values: LoginFormValues) => {
+  const login = (values: LoginFormValues) => {
     const { email, password } = values;
 
     api

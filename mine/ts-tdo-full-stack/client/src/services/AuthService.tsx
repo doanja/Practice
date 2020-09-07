@@ -13,11 +13,11 @@ export default class AuthService {
     return axios.post('/logout');
   }
 
-  public getRefreshToken() {
-    return axios.post('/refresh-token');
+  public getRefreshToken(refreshToken: string) {
+    return axios.post('/refresh-token', { refreshToken });
   }
 
-  public getAccessToken() {
-    return axios.post('/access-token');
+  public getAccessToken(refreshToken: string) {
+    return axios.post('/access-token', { refreshToken });
   }
 }
