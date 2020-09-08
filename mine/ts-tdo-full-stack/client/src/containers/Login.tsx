@@ -55,7 +55,7 @@ const Login: React.FC = () => {
   });
 
   return (
-    <Modal show={true} backdrop={false} animation={false} centered>
+    <Modal className='modal-form' show={true} backdrop={false} animation={false} centered>
       <Modal.Body className='py-3'>
         <Form onSubmit={formik.handleSubmit}>
           <h3 className='text-center pb-2 text-primary'>User Login</h3>
