@@ -29,10 +29,7 @@ const TodoHome: React.FC = () => {
   };
 
   useEffect(() => {
-    if (error === 'TokenExpiredError') {
-      // TODO: need to make api request to get a new access token
-      requestAccessToken();
-    }
+    if (error === 'TokenExpiredError') requestAccessToken();
   }, [error]);
 
   useEffect(() => {
@@ -58,20 +55,15 @@ const TodoHome: React.FC = () => {
   };
 
   const requestAccessToken = () => {
-    console.log('requesting new Access Token');
     api
       .getAccessToken(refreshToken)
       .then(res => {
-        console.log('res.data.accesstoken', res.data.accessToken);
         const accessToken = `Bearer ${res.data.accessToken}`;
         dispatch(setAccessToken(accessToken));
         axios.defaults.headers.common.Authorization = accessToken;
         dispatch(getTodoList());
       })
-      .catch(err => {
-        console.log('error trying to request a new access token, refresh token probably expired');
-        toggleModal('Your session has expired. Please login again.');
-      });
+      .catch(err => toggleModal('Your session has expired. Please login again.'));
   };
 
   return (
@@ -87,20 +79,11 @@ const TodoHome: React.FC = () => {
         <hr />
         <TodoList todos={todoList} />
 
-        <Button
-          className='mt-3'
-          variant='primary'
-          onClick={() => {
-            console.log('AXIOS HEADER:', axios.defaults.headers.common.Authorization);
-          }}>
+        <Button className='mt-3' variant='primary' onClick={() => console.log('AXIOS HEADER:', axios.defaults.headers.common.Authorization)}>
+          {' '}
           Console Log Auth Header
         </Button>
-        <Button
-          className='mt-3'
-          variant='primary'
-          onClick={() => {
-            requestAccessToken();
-          }}>
+        <Button className='mt-3' variant='primary' onClick={() => requestAccessToken()}>
           Request Access Token
         </Button>
       </Container>

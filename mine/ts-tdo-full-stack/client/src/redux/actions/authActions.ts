@@ -9,7 +9,6 @@ export const clearLoginStatus = () => {
 };
 
 export const setAccessToken = (accessToken: string) => {
-  console.log('setAccessToken:', accessToken);
   return { type: AuthActionTypes.SET_ACCESS_TOKEN, payload: accessToken };
 };
 
