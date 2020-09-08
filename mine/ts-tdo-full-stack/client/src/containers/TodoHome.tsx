@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthService } from '../services';
 import { TodoForm, TodoList, NavigationBar, CustomModal } from '../components';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import axios from 'axios';
 
 // redux
@@ -78,14 +78,6 @@ const TodoHome: React.FC = () => {
 
         <hr />
         <TodoList todos={todoList} />
-
-        <Button className='mt-3' variant='primary' onClick={() => console.log('AXIOS HEADER:', axios.defaults.headers.common.Authorization)}>
-          {' '}
-          Console Log Auth Header
-        </Button>
-        <Button className='mt-3' variant='primary' onClick={() => requestAccessToken()}>
-          Request Access Token
-        </Button>
       </Container>
     </Fragment>
   );
