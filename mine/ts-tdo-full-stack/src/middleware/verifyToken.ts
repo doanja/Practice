@@ -8,7 +8,6 @@ const extractTokenFromHeader = (req: Request): string | undefined => {
 };
 
 export const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
-  console.log('verify access token');
   // extract the jwt token from the Authorization header
   const accessToken: string | undefined = extractTokenFromHeader(req);
 

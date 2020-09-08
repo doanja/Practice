@@ -88,7 +88,6 @@ export const deleteRefreshToken = (refreshToken: string): Promise<boolean> => {
  * @return {string} an access token
  */
 export const signAccessToken = async (payload: string) => {
-  console.log('sign access token');
   // TODO: set this back to 600
   const expiresIn = '5s';
 

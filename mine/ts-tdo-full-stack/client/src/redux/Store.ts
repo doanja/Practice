@@ -29,7 +29,7 @@ const loadFromLocalStorage = () => {
     if (!serializedStore) return undefined;
 
     const token: string = JSON.parse(serializedStore).accessToken;
-    console.log('token (store)', token);
+
     token ? (axios.defaults.headers.common.Authorization = token) : (axios.defaults.headers.common.Authorization = null);
 
     return { auth: JSON.parse(serializedStore) };

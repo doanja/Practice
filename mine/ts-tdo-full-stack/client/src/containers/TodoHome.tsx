@@ -66,6 +66,7 @@ const TodoHome: React.FC = () => {
         const accessToken = `Bearer ${res.data.accessToken}`;
         dispatch(setAccessToken(accessToken));
         axios.defaults.headers.common.Authorization = accessToken;
+        dispatch(getTodoList());
       })
       .catch(err => {
         console.log('error trying to request a new access token, refresh token probably expired');
