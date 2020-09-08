@@ -43,8 +43,9 @@ const TodoHome: React.FC = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(setAccessToken(token));
-      axios.defaults.headers.common.Authorization = token;
+      const accessToken = `Bearer ${token}`;
+      dispatch(setAccessToken(accessToken));
+      axios.defaults.headers.common.Authorization = accessToken;
     }
   }, [token]);
 
@@ -62,8 +63,9 @@ const TodoHome: React.FC = () => {
       .getAccessToken(refreshToken)
       .then(res => {
         console.log('res.data.accesstoken', res.data.accessToken);
-        dispatch(setAccessToken(res.data.accessToken));
-        axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
+        const accessToken = `Bearer ${res.data.accessToken}`;
+        dispatch(setAccessToken(accessToken));
+        axios.defaults.headers.common.Authorization = accessToken;
       })
       .catch(err => {
         console.log('error trying to request a new access token, refresh token probably expired');
@@ -84,19 +86,22 @@ const TodoHome: React.FC = () => {
         <hr />
         <TodoList todos={todoList} />
 
-        {/* <Button
+        <Button
           className='mt-3'
           variant='primary'
           onClick={() => {
-            // console.log('AXIOS HEADER:', axios.defaults.headers.common.Authorization);
-            console.log('token set');
-            let token =
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI4OGU5NmRmMGQxMjU3ZTQxMjU2MjgiLCJpYXQiOjE1OTkxNjU1NzQsImV4cCI6MTU5OTE2NjQ3NH0.I_5mah49a78hX4cHG_9rt0VvG4G2iVj81AvtLoFGIbY';
-            dispatch(setAccessToken(token));
-            axios.defaults.headers.common.Authorization = token;
+            console.log('AXIOS HEADER:', axios.defaults.headers.common.Authorization);
           }}>
           Console Log Auth Header
-        </Button> */}
+        </Button>
+        <Button
+          className='mt-3'
+          variant='primary'
+          onClick={() => {
+            requestAccessToken();
+          }}>
+          Request Access Token
+        </Button>
       </Container>
     </Fragment>
   );

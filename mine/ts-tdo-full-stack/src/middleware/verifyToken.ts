@@ -8,6 +8,7 @@ const extractTokenFromHeader = (req: Request): string | undefined => {
 };
 
 export const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
+  console.log('verify access token');
   // extract the jwt token from the Authorization header
   const accessToken: string | undefined = extractTokenFromHeader(req);
 
@@ -21,10 +22,10 @@ export const verifyAccessToken = (req: Request, res: Response, next: NextFunctio
       const decodedToken: any = payload;
 
       // refresh the token on every request by setting another 15m
-      sign({ _id: decodedToken._id }, 'access', { expiresIn: 900 }, (error, accessToken) => {
+      sign({ _id: decodedToken._id }, 'access', { expiresIn: '5s' }, (error, accessToken) => {
         if (error) return res.status(401).send(error);
 
-        res.setHeader('Authorization', 'Bearer ' + accessToken);
+        res.setHeader('Authorization', <string>accessToken);
 
         req.accessToken = decodedToken;
         next();

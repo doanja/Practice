@@ -34,11 +34,12 @@ const Login: React.FC = () => {
     api
       .login(email, password)
       .then(res => {
+        const accessToken = `Bearer ${res.data.accessToken}`;
         dispatch(setRefreshToken(res.data.refreshToken));
-        dispatch(setAccessToken(res.data.accessToken));
+        dispatch(setAccessToken(accessToken));
         dispatch(setLoginStatus(true));
 
-        axios.defaults.headers.common.Authorization = `Bearer ${res.data.accessToken}`;
+        axios.defaults.headers.common.Authorization = accessToken;
         history.push('/todo');
       })
       .catch(err => dispatch(toggleModal(!showModal, err.response.data.error.message, 'Error Logging In')));
