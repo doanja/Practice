@@ -29,7 +29,7 @@ const NavigationBar: React.FC = () => {
       {loginStatus ? (
         <Navbar.Collapse className='justify-content-end'>
           <Navbar.Text>
-            <a href='/' onClick={() => logout()}>
+            <a href='/login' onClick={() => logout()}>
               Logout
             </a>
           </Navbar.Text>

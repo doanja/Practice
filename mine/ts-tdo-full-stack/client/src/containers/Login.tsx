@@ -7,7 +7,7 @@ import { AuthService } from '../services';
 import { Form, Button, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { loginSchema } from '../components/form/formScheme';
-import { FormInput } from '../components/form/FormInput';
+import { CustomInput } from '../components/form/CustomInput';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -56,27 +56,28 @@ const Login: React.FC = () => {
 
   return (
     <Modal className='modal-form' show={true} backdrop={false} animation={false} centered>
-      <Modal.Body className='py-3'>
+      <Modal.Body className='py-4'>
         <Form onSubmit={formik.handleSubmit}>
-          <h3 className='text-center pb-2 text-primary'>User Login</h3>
+          <h3 className='text-center pb-2 text-primary'>Login</h3>
 
-          <FormInput
-            label='email'
-            error={formik.errors.email}
+          <CustomInput
+            id='email'
             type='email'
             placeholder='Email Address'
-            onChange={formik.handleChange}
+            name='username'
+            error={formik.errors.email}
             value={formik.values.email}
-            id='email'
+            onChange={formik.handleChange}
           />
-          <FormInput
-            label='password'
-            error={formik.errors.password}
+
+          <CustomInput
+            id='password'
             type='password'
             placeholder='Password'
-            onChange={formik.handleChange}
+            name='current-password'
+            error={formik.errors.password}
             value={formik.values.password}
-            id='password'
+            onChange={formik.handleChange}
           />
 
           <Button className='w-100 mb-3' variant='dark' type='submit'>
