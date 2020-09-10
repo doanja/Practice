@@ -51,23 +51,3 @@ html,
 .modal-form {
   z-index: 1;
 }
-
-//@at-root
-
-.pass-wrapper {
-  position: relative;
-  display: flex;
-
-  border: 1px solid red;
-}
-
-i {
-  position: absolute;
-  top: 45%;
-  right: 10%;
-}
-
-i:hover {
-  color: #777;
-  cursor: pointer;
-}
