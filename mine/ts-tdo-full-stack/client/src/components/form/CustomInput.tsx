@@ -15,9 +15,7 @@ interface CustomInputProps {
 
 export const CustomInput: React.FC<CustomInputProps> = ({ id, type, placeholder, name, error, value, onChange }) => {
   const [passwordShown, setPasswordShown] = useState(false);
-  const togglePasswordVisiblity = () => {
-    setPasswordShown(passwordShown ? false : true);
-  };
+  const togglePasswordVisiblity = () => setPasswordShown(!passwordShown);
 
   return (
     <Form.Group>
@@ -45,8 +43,8 @@ export const CustomInput: React.FC<CustomInputProps> = ({ id, type, placeholder,
             onChange={e => onChange(e)}
           />
           <InputGroup.Append>
-            <Button variant='outline-secondary'>
-              <FontAwesomeIcon icon={faEye} onClick={togglePasswordVisiblity} />
+            <Button variant='outline-secondary' onClick={togglePasswordVisiblity}>
+              <FontAwesomeIcon icon={faEye} />
             </Button>
           </InputGroup.Append>
         </InputGroup>
