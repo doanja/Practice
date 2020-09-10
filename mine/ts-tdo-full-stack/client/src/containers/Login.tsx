@@ -84,7 +84,9 @@ const Login: React.FC = () => {
             Login
           </Button>
 
-          <Link to='/'>Not enrolled? Sign up now.</Link>
+          <div className='text-center'>
+            <Link to='/'>Not enrolled? Sign up now.</Link>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

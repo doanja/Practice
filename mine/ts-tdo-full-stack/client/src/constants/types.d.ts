@@ -19,7 +19,6 @@ type ToggleModal = (errorText?: string) => void;
 
 type SignupFormValues = {
   email: string;
-  email_2: string;
   password: string;
   password_2: string;
 };

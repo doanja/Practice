@@ -38,7 +38,6 @@ const Signup: React.FC = () => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      email_2: '',
       password: '',
       password_2: '',
     },
@@ -59,15 +58,6 @@ const Signup: React.FC = () => {
             name='username'
             error={formik.errors.email}
             value={formik.values.email}
-            onChange={formik.handleChange}
-          />
-
-          <CustomInput
-            id='email_2'
-            type='email'
-            placeholder='Confirm Email Address'
-            error={formik.errors.email_2}
-            value={formik.values.email_2}
             onChange={formik.handleChange}
           />
 
@@ -94,7 +84,9 @@ const Signup: React.FC = () => {
             Signup
           </Button>
 
-          <Link to='/login'>Already a user? Login here.</Link>
+          <div className='text-center'>
+            <Link to='/login'>Already a user? Login here.</Link>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

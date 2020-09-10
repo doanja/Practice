@@ -1,19 +1,14 @@
 import * as Yup from 'yup';
 
 export const loginSchema = Yup.object({
-  email: Yup.string().required('Required').email('Invalid email'),
-  password: Yup.string().required('Required').min(8, 'have at least 8 chars'),
+  email: Yup.string().required('Email is required.').email('Must be a valid email.'),
+  password: Yup.string().required('Password is required.'),
 });
 
 export const signupSchema = Yup.object({
-  email: Yup.string().required('Required').email('Invalid email'),
-  email_2: Yup.string().when('email', {
-    is: val => (val && val.length > 0 ? true : false),
-    then: Yup.string().oneOf([Yup.ref('email')], 'Email does not match'),
-  }),
-  password: Yup.string().required('Required').min(8, 'have at least 8 chars'),
-  password_2: Yup.string().when('password', {
-    is: val => (val && val.length > 0 ? true : false),
-    then: Yup.string().oneOf([Yup.ref('password')], 'Password does not match'),
-  }),
+  email: Yup.string().required('Email is equired').email('Invalid email.'),
+  password: Yup.string().required('Password is required.').min(8, 'Password must be at least 8 characters long.'),
+  password_2: Yup.string()
+    .required('Must confirm password.')
+    .oneOf([Yup.ref('password'), 'null'], 'Passwords must match.'),
 });
