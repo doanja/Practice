@@ -1,5 +1,7 @@
-import React from 'react';
-import { Form } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 interface CustomInputProps {
   id: string;
@@ -12,19 +14,43 @@ interface CustomInputProps {
 }
 
 export const CustomInput: React.FC<CustomInputProps> = ({ id, type, placeholder, name, error, value, onChange }) => {
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
+
   return (
     <Form.Group>
       <Form.Label>{placeholder}</Form.Label>
-      <Form.Control
-        className={`${error && 'is-invalid'}`}
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        autoFocus={id === 'email' ? true : false}
-        autoComplete={name}
-        onChange={e => onChange(e)}
-      />
+      {id === 'email' ? (
+        <Form.Control
+          className={`${error && 'is-invalid'}`}
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          autoFocus={true}
+          autoComplete={name}
+          onChange={e => onChange(e)}
+        />
+      ) : (
+        <InputGroup className='mb-3'>
+          <FormControl
+            className={`${error && 'is-invalid'}`}
+            id={id}
+            type={passwordShown ? 'text' : type}
+            placeholder={placeholder}
+            value={value}
+            autoComplete={name}
+            onChange={e => onChange(e)}
+          />
+          <InputGroup.Append>
+            <Button variant='outline-secondary'>
+              <FontAwesomeIcon icon={faEye} onClick={togglePasswordVisiblity} />
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      )}
       <Form.Text className='text-danger'>{error}</Form.Text>
     </Form.Group>
   );
