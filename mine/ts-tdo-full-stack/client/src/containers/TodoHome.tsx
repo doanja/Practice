@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthService } from '../services';
 import { TodoForm, TodoList, NavigationBar, CustomModal } from '../components';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 // redux
@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
 import { clearAccessToken, clearLoginStatus, clearRefreshToken, setAccessToken } from '../redux/actions/authActions';
+import { isExpired } from '../helper';
 
 const TodoHome: React.FC = () => {
   const api = new AuthService();
@@ -78,6 +79,19 @@ const TodoHome: React.FC = () => {
 
         <hr />
         <TodoList todos={todoList} />
+
+        <Button
+          variant='dark'
+          onClick={() => {
+            console.log(
+              isExpired(
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI4OGU5NmRmMGQxMjU3ZTQxMjU2MjgiLCJpYXQiOjE1OTk1OTI0MTIsImV4cCI6MTU5OTU5MjQyN30.DPrVP53EHnucccaE-CFvfUcgX1pVrcXgcWFi8VenfCg'
+              )
+            );
+          }}>
+          {' '}
+          click me
+        </Button>
       </Container>
     </Fragment>
   );
