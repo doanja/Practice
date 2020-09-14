@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../redux/Store';
 import { getTodoList } from '../redux/actions/todoActions';
 import { clearAccessToken, clearLoginStatus, clearRefreshToken, setAccessToken } from '../redux/actions/authActions';
-import { isExpired } from '../helper';
+import { checkTokenExp } from '../helper';
 
 const TodoHome: React.FC = () => {
   const api = new AuthService();
@@ -56,15 +56,23 @@ const TodoHome: React.FC = () => {
   };
 
   const requestAccessToken = () => {
-    api
-      .getAccessToken(refreshToken)
-      .then(res => {
-        const accessToken = `Bearer ${res.data.accessToken}`;
-        dispatch(setAccessToken(accessToken));
-        axios.defaults.headers.common.Authorization = accessToken;
-        dispatch(getTodoList());
-      })
-      .catch(err => toggleModal('Your session has expired. Please login again.'));
+    // check refresh token expiry
+    const token = axios.defaults.headers.common.Authorization.split(' ')[1];
+
+    if (!checkTokenExp(token)) {
+      toggleModal('Your session has expired. Please login again.');
+    } else {
+      api
+        .getAccessToken(refreshToken)
+        .then(res => {
+          console.log('refreshToken :>> ', refreshToken);
+          const accessToken = `Bearer ${res.data.accessToken}`;
+          dispatch(setAccessToken(accessToken));
+          axios.defaults.headers.common.Authorization = accessToken;
+          dispatch(getTodoList());
+        })
+        .catch(err => toggleModal('Your session has expired. Please login again.'));
+    }
   };
 
   return (
@@ -81,16 +89,16 @@ const TodoHome: React.FC = () => {
         <TodoList todos={todoList} />
 
         <Button
-          variant='dark'
+          className='mt-3'
+          variant='light'
           onClick={() => {
-            console.log(
-              isExpired(
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI4OGU5NmRmMGQxMjU3ZTQxMjU2MjgiLCJpYXQiOjE1OTk1OTI0MTIsImV4cCI6MTU5OTU5MjQyN30.DPrVP53EHnucccaE-CFvfUcgX1pVrcXgcWFi8VenfCg'
-              )
-            );
+            console.log('debug');
+            const accessToken =
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI4OGU5NmRmMGQxMjU3ZTQxMjU2MjgiLCJpYXQiOjE1OTk1OTI0MTIsImV4cCI6MTU5OTU5MjQyN30.DPrVP53EHnucccaE-CFvfUcgX1pVrcXgcWFi8VenfCg';
+            setAccessToken(accessToken);
+            axios.defaults.headers.common.Authorization = accessToken;
           }}>
-          {' '}
-          click me
+          Debug
         </Button>
       </Container>
     </Fragment>
