@@ -1,5 +1,7 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface ModalProps {
   toggleModal: ToggleModal;
@@ -13,13 +15,9 @@ const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body
     <Modal show={showModal} onHide={toggleModal} backdrop={true} animation={true}>
       <Modal.Header className='bg-dark text-light'>
         <Modal.Title>{title}</Modal.Title>
+        <FontAwesomeIcon className='icon float-right' icon={faTimes} size='2x' onClick={() => toggleModal()} />
       </Modal.Header>
       <Modal.Body>{body}</Modal.Body>
-      <Modal.Footer>
-        <Button variant='outline-dark' type='button' onClick={() => toggleModal()}>
-          Close
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 };

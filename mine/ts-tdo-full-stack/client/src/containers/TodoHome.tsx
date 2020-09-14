@@ -79,7 +79,6 @@ const TodoHome: React.FC = () => {
       <CustomModal showModal={showModal} toggleModal={logout} title={'Session Error'} body={<p>{errorText}</p>} />
 
       <Container className='todo-home mt-5 p-3'>
-        <h1 className='text-center text-light'>To Do List</h1>
         <TodoForm />
 
         <hr />
