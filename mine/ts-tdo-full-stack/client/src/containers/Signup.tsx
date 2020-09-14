@@ -54,7 +54,7 @@ const Signup: React.FC = () => {
           <CustomInput
             id='email'
             type='email'
-            placeholder='Email Address'
+            label='Email Address'
             name='username'
             error={formik.errors.email}
             value={formik.values.email}
@@ -64,7 +64,7 @@ const Signup: React.FC = () => {
           <CustomInput
             id='password'
             type='password'
-            placeholder='Password'
+            label='Password'
             name='new-password'
             error={formik.errors.password}
             value={formik.values.password}
@@ -74,7 +74,7 @@ const Signup: React.FC = () => {
           <CustomInput
             id='password_2'
             type='password'
-            placeholder='Confirm Password'
+            label='Confirm Password'
             error={formik.errors.password_2}
             value={formik.values.password_2}
             onChange={formik.handleChange}

@@ -63,7 +63,7 @@ const Login: React.FC = () => {
           <CustomInput
             id='email'
             type='email'
-            placeholder='Email Address'
+            label='Email Address'
             name='username'
             error={formik.errors.email}
             value={formik.values.email}
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
           <CustomInput
             id='password'
             type='password'
-            placeholder='Password'
+            label='Password'
             name='current-password'
             error={formik.errors.password}
             value={formik.values.password}

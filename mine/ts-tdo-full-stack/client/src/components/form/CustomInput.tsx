@@ -6,26 +6,25 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 interface CustomInputProps {
   id: string;
   type: string;
-  placeholder: string;
+  label: string;
   name?: string;
   error: string | undefined;
   value: string;
   onChange: (newValue: any) => void;
 }
 
-export const CustomInput: React.FC<CustomInputProps> = ({ id, type, placeholder, name, error, value, onChange }) => {
+export const CustomInput: React.FC<CustomInputProps> = ({ id, type, label, name, error, value, onChange }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown(!passwordShown);
 
   return (
     <Form.Group>
-      <Form.Label>{placeholder}</Form.Label>
+      <Form.Label>{label}</Form.Label>
       {id === 'email' ? (
         <Form.Control
           className={`${error && 'is-invalid'}`}
           id={id}
           type={type}
-          placeholder={placeholder}
           value={value}
           autoFocus={true}
           autoComplete={name}
@@ -37,7 +36,6 @@ export const CustomInput: React.FC<CustomInputProps> = ({ id, type, placeholder,
             className={`${error && 'is-invalid'}`}
             id={id}
             type={passwordShown ? 'text' : type}
-            placeholder={placeholder}
             value={value}
             autoComplete={name}
             onChange={e => onChange(e)}
