@@ -51,3 +51,7 @@ html,
 .modal-form {
   z-index: 1;
 }
+
+.form-control:focus {
+  border-color: $dark;
+}

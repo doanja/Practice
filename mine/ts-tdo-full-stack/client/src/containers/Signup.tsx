@@ -49,7 +49,7 @@ const Signup: React.FC = () => {
     <Modal className='modal-form' show={true} backdrop={false} animation={false} centered>
       <Modal.Body className='py-4'>
         <Form onSubmit={formik.handleSubmit}>
-          <h3 className='text-center pb-2 text-dark'>Signup</h3>
+          <h3 className='text-center pb-2 text-dark'>SIGNUP</h3>
 
           <CustomInput
             id='email'

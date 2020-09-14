@@ -24,7 +24,7 @@ const NavigationBar: React.FC = () => {
   return (
     <Navbar bg='dark' variant='dark'>
       <Navbar.Brand href='/'>
-        <FontAwesomeIcon icon={faPencilAlt} size='1x' /> Typescript To Do List
+        <FontAwesomeIcon icon={faPencilAlt} size='1x' /> To Do List
       </Navbar.Brand>
       {loginStatus ? (
         <Navbar.Collapse className='justify-content-end'>
