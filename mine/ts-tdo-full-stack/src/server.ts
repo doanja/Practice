@@ -8,7 +8,6 @@ const app = new App(
   4000,
   { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_PATH },
   [new TodoRoute(), new UserRoute(), new AuthRoute()],
-
   NODE_ENV
 );
 

@@ -24,7 +24,7 @@ const TodoForm: React.FC = () => {
       <InputGroup className='mt-3'>
         <Form.Control type='text' placeholder='Enter a todo' value={text} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)} />
         <InputGroup.Append>
-          <Button variant='primary' type='submit' onClick={handleSubmit}>
+          <Button className='bg-light' variant='outline-secondary' type='submit' onClick={handleSubmit}>
             Add Todo
           </Button>
         </InputGroup.Append>

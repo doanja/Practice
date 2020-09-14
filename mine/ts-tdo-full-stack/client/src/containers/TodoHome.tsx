@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthService } from '../services';
 import { TodoForm, TodoList, NavigationBar, CustomModal } from '../components';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import axios from 'axios';
 
 // redux
@@ -57,15 +57,12 @@ const TodoHome: React.FC = () => {
 
   const requestAccessToken = () => {
     // check refresh token expiry
-    const token = axios.defaults.headers.common.Authorization.split(' ')[1];
-
-    if (!checkTokenExp(token)) {
+    if (!checkTokenExp(refreshToken)) {
       toggleModal('Your session has expired. Please login again.');
     } else {
       api
         .getAccessToken(refreshToken)
         .then(res => {
-          console.log('refreshToken :>> ', refreshToken);
           const accessToken = `Bearer ${res.data.accessToken}`;
           dispatch(setAccessToken(accessToken));
           axios.defaults.headers.common.Authorization = accessToken;
@@ -87,19 +84,6 @@ const TodoHome: React.FC = () => {
 
         <hr />
         <TodoList todos={todoList} />
-
-        <Button
-          className='mt-3'
-          variant='light'
-          onClick={() => {
-            console.log('debug');
-            const accessToken =
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI4OGU5NmRmMGQxMjU3ZTQxMjU2MjgiLCJpYXQiOjE1OTk1OTI0MTIsImV4cCI6MTU5OTU5MjQyN30.DPrVP53EHnucccaE-CFvfUcgX1pVrcXgcWFi8VenfCg';
-            setAccessToken(accessToken);
-            axios.defaults.headers.common.Authorization = accessToken;
-          }}>
-          Debug
-        </Button>
       </Container>
     </Fragment>
   );

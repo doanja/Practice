@@ -11,7 +11,7 @@ interface ModalProps {
 const CustomModal: React.FC<ModalProps> = ({ toggleModal, showModal, title, body }) => {
   return (
     <Modal show={showModal} onHide={toggleModal} backdrop={true} animation={true}>
-      <Modal.Header className='bg-primary text-light'>
+      <Modal.Header className='bg-dark text-light'>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{body}</Modal.Body>

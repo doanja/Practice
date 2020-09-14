@@ -58,7 +58,7 @@ const Login: React.FC = () => {
     <Modal className='modal-form' show={true} backdrop={false} animation={false} centered>
       <Modal.Body className='py-4'>
         <Form onSubmit={formik.handleSubmit}>
-          <h3 className='text-center pb-2 text-primary'>Login</h3>
+          <h3 className='text-center pb-2 text-dark'>Login</h3>
 
           <CustomInput
             id='email'
@@ -85,7 +85,9 @@ const Login: React.FC = () => {
           </Button>
 
           <div className='text-center'>
-            <Link to='/'>Not enrolled? Sign up now.</Link>
+            <Link className='text-dark' to='/'>
+              Not enrolled? Sign up now.
+            </Link>
           </div>
         </Form>
       </Modal.Body>
