@@ -1,7 +1,7 @@
 import { createClient, RedisClient } from 'redis';
 
 export default class Redis {
-  public client: RedisClient = createClient();
+  public client: RedisClient = createClient({ host: process.env.REDIS_URL });
 
   constructor() {
     this.initializeRedis();
