@@ -1,0 +1,4 @@
+- index.tsx and about.tsx are pages and can be visited by going to http://localhost:3000/ and http://localhost:3000/about
+- _document.tsx is optional to override the document, more info: https://nextjs.org/docs/advanced-features/custom-document
+- _app is the default page that wraps all components
+    - the example has app wrapped with the Layout component to include a nav and header
