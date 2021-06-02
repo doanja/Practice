@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "doanja/teact-testing",
+  "pipelineDirectory": "teact-testing",
+  "workspaceDirectory": "teact-testing\\teact-testing",
+  "repositories": {
+    "doanja/teact-testing": {
+      "repositoryPath": "teact-testing\\teact-testing",
+      "lastRunOn": "04/26/2021 16:12:54 -07:00"
+    }
+  },
+  "lastRunOn": "05/07/2021 12:46:34 -07:00"
+}

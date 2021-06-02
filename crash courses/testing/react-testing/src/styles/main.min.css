@@ -1,0 +1,25 @@
+.done {
+  text-decoration: line-through;
+}
+
+.icon:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.todo:hover {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #eee;
+}
+
+.container-fluid {
+  background-color: rgb(46, 46, 51);
+  height: 100vh;
+}
+
+h1 {
+  color: white;
+}

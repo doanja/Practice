@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "DESKTOP-HG1VHAM",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelines.actions.githubusercontent.com/WMUQsHGFeXOAxLYWn7JJEJboJHlz6kKhJQqE7fNodU2x9AMO24",
+  "gitHubUrl": "https://github.com/doanja/teact-testing",
+  "workFolder": "_work"
+}
